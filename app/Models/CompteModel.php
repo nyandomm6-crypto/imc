@@ -113,4 +113,12 @@ class CompteModel extends Model
             ->where('utilisateur_id', $utilisateur_id)
             ->update(['status' => 'suspended']);
     }
+      public function topUsersBySolde($limit = 5)
+    {
+        return $this->select('utilisateurs.nom, comptes.solde')
+            ->join('utilisateurs', 'utilisateurs.id = comptes.utilisateur_id')
+            ->orderBy('comptes.solde', 'DESC')
+            ->limit($limit)
+            ->findAll();
+    }
 }

@@ -29,5 +29,6 @@ $routes->get('/porte-monnaie', 'front\PorteMonnaieController::index');
 // });
 
 
-    $routes->get('huhu', 'back\AdminDashboardController::index');
-
+$routes->group('admin', ['filter' => 'admin'], function($routes) {
+    $routes->get('add', 'back\AdminDashboardController::index');
+});
