@@ -34,45 +34,66 @@ Stack trace:
 #7 /home/huhu/Documents/web/imc/public/index.php(59): CodeIgniter\Boot::bootWeb()
 #8 /home/huhu/Documents/web/imc/system/rewrite.php(44): require_once('...')
 #9 {main}
-ERROR - 2026-05-09 07:38:42 --> Error connecting to the database: Error: Call to undefined function CodeIgniter\Database\Postgre\pg_connect() in /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/Postgre/Connection.php:78
-Stack trace:
-#0 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/BaseConnection.php(555): CodeIgniter\Database\Postgre\Connection->connect()
-#1 /home/miora/Documents/4IHM/Mr Rojo/imc/app/Controllers/Home.php(17): CodeIgniter\Database\BaseConnection->initialize()
-#2 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(951): App\Controllers\Home->dbTest()
-#3 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
-#4 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
-#5 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
-#6 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
-#7 /home/miora/Documents/4IHM/Mr Rojo/imc/public/index.php(59): CodeIgniter\Boot::bootWeb()
-#8 /home/miora/Documents/4IHM/Mr Rojo/imc/system/rewrite.php(44): require_once('...')
-#9 {main}
-ERROR - 2026-05-09 07:42:24 --> Error connecting to the database: ErrorException: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user &quot;postgres&quot;
-connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user &quot;postgres&quot; in /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/Postgre/Connection.php:78
-Stack trace:
-#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
-#1 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/Postgre/Connection.php(78): pg_connect()
-#2 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/BaseConnection.php(555): CodeIgniter\Database\Postgre\Connection->connect()
-#3 /home/miora/Documents/4IHM/Mr Rojo/imc/app/Controllers/Home.php(17): CodeIgniter\Database\BaseConnection->initialize()
-#4 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(951): App\Controllers\Home->dbTest()
-#5 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
-#6 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
-#7 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
-#8 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
-#9 /home/miora/Documents/4IHM/Mr Rojo/imc/public/index.php(59): CodeIgniter\Boot::bootWeb()
-#10 /home/miora/Documents/4IHM/Mr Rojo/imc/system/rewrite.php(44): require_once('...')
-#11 {main}
-ERROR - 2026-05-09 07:42:25 --> Error connecting to the database: ErrorException: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user &quot;postgres&quot;
-connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user &quot;postgres&quot; in /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/Postgre/Connection.php:78
-Stack trace:
-#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
-#1 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/Postgre/Connection.php(78): pg_connect()
-#2 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/BaseConnection.php(555): CodeIgniter\Database\Postgre\Connection->connect()
-#3 /home/miora/Documents/4IHM/Mr Rojo/imc/app/Controllers/Home.php(17): CodeIgniter\Database\BaseConnection->initialize()
-#4 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(951): App\Controllers\Home->dbTest()
-#5 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
-#6 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
-#7 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
-#8 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
-#9 /home/miora/Documents/4IHM/Mr Rojo/imc/public/index.php(59): CodeIgniter\Boot::bootWeb()
-#10 /home/miora/Documents/4IHM/Mr Rojo/imc/system/rewrite.php(44): require_once('...')
-#11 {main}
+CRITICAL - 2026-05-09 14:11:02 --> ErrorException: Declaration of App\Models\RegimeModel::delete($id, bool $purge = false): bool must be compatible with CodeIgniter\BaseModel::delete($id = null, bool $purge = false)
+[Method: GET, Route: dashboard]
+in APPPATH/Models/RegimeModel.php on line 111.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-05-09 14:16:13 --> TypeError: App\Controllers\front\DashboardController::buildDashboardData(): Argument #1 ($utilisateurId) must be of type int, null given, called in /home/huhu/Documents/web/imc/app/Controllers/front/DashboardController.php on line 44
+[Method: GET, Route: dashboard]
+in APPPATH/Controllers/front/DashboardController.php on line 64.
+ 1 APPPATH/Controllers/front/DashboardController.php(44): App\Controllers\front\DashboardController->buildDashboardData()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 14:16:42 --> TypeError: App\Controllers\front\DashboardController::buildDashboardData(): Argument #1 ($utilisateurId) must be of type int, null given, called in /home/huhu/Documents/web/imc/app/Controllers/front/DashboardController.php on line 44
+[Method: GET, Route: dashboard]
+in APPPATH/Controllers/front/DashboardController.php on line 64.
+ 1 APPPATH/Controllers/front/DashboardController.php(44): App\Controllers\front\DashboardController->buildDashboardData()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 14:17:43 --> TypeError: App\Controllers\front\DashboardController::buildDashboardData(): Argument #1 ($utilisateurId) must be of type int, null given, called in /home/huhu/Documents/web/imc/app/Controllers/front/DashboardController.php on line 44
+[Method: GET, Route: dashboard]
+in APPPATH/Controllers/front/DashboardController.php on line 64.
+ 1 APPPATH/Controllers/front/DashboardController.php(44): App\Controllers\front\DashboardController->buildDashboardData()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 15:41:38 --> ParseError: syntax error, unexpected token "=>"
+[Method: GET, Route: dashboard]
+in APPPATH/Views/front/dashboard/index.php on line 108.
+ 1 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 3 APPPATH/Controllers/front/DashboardController.php(44): view()
+ 4 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 5 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+10 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 15:41:39 --> ParseError: syntax error, unexpected token "=>"
+[Method: GET, Route: dashboard]
+in APPPATH/Views/front/dashboard/index.php on line 108.
+ 1 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 3 APPPATH/Controllers/front/DashboardController.php(44): view()
+ 4 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 5 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+10 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')

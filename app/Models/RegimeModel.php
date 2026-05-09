@@ -103,14 +103,14 @@ class RegimeModel extends Model
 		return $this->insert($data);
 	}
 
-	public function update($id, $data)
+	public function update($id = null, $row = null): bool
 	{
-		return parent::update($id, $data);
+		return parent::update($id, $row);
 	}
 
-	public function delete($id)
+	public function delete($id = null, bool $purge = false): bool
 	{
-		return parent::delete($id);
+		return parent::delete($id, $purge);
 	}
 
 	public function getPrixAvecDuree($regime_id, $duree_jours): float
