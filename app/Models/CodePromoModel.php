@@ -109,4 +109,20 @@ class CodePromoModel extends Model
     {
         return (bool) $this->db->table('codes_promo')->where('id', $id)->update(['status' => 'active']);
     }
+     public function countByStatus(string $status)
+    {
+        return $this->db->table('codes_promo')->where('status', $status)->countAllResults();
+    }
+
+    public function codesRecemmentUtilises($limit = 10)
+    {
+        return $this->db->table('utilisateurs_codes uc')
+            ->select('uc.date_utilisation, c.code, c.status, u.nom')
+            ->join('codes_promo c', 'c.id = uc.code_id')
+            ->join('utilisateurs u', 'u.id = uc.utilisateur_id')
+            ->orderBy('uc.date_utilisation', 'DESC')
+            ->limit($limit)
+            ->get()
+            ->getResultArray();
+    }
 }
