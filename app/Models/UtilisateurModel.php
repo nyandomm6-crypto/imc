@@ -57,4 +57,23 @@ class UtilisateurModel extends Model
     {
         return parent::delete($id);
     }
+
+    public function getUsers()
+    {
+        return $this->db->table('utilisateurs')->where('role_id', 2)->findAll();
+    }
+
+    public function countByRole(int $roleId)
+    {
+        return $this->db->table('utilisateurs')->where('role_id', $roleId)->countAllResults();
+    }
+
+    public function inscriptionsParMois()
+    {
+        return $this->select("DATE_TRUNC('month', date_creation) AS mois, COUNT(*) AS total")
+                    ->groupBy("mois")
+                    ->orderBy("mois", "ASC")
+                    ->findAll();
+    }    
+
 }
