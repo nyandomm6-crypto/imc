@@ -41,6 +41,6 @@ class OffreModel extends Model
   
     public function delete($id = null, bool $purge = false)
     {
-        return parent::delete($id, $purge);
+        return $this->db->table('offres')->where('id', $id)->delete();
     }
 }
