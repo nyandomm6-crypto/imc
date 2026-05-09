@@ -6,6 +6,7 @@
 /** @var array<int, array<string, mixed>>|null $objectifs */
 /** @var array<int, array<string, mixed>>|null $regimes */
 /** @var array<int, array<string, mixed>>|null $sports */
+/** @var array<int, array<string, mixed>>|null $transactions */
 /** @var float|int|null $imc */
 /** @var int|float|null $imcProgression */
 /** @var float|int|null $soldeCompte */
@@ -22,6 +23,7 @@ $mesure = is_array($mesure ?? null) ? $mesure : null;
 $objectifs = is_array($objectifs ?? null) ? $objectifs : [];
 $regimes = is_array($regimes ?? null) ? $regimes : [];
 $sports = is_array($sports ?? null) ? $sports : [];
+$transactions = is_array($transactions ?? null) ? $transactions : [];
 
 $nom = $asString($utilisateur['nom'] ?? null, 'Utilisateur');
 $imc = is_numeric($imc ?? null) ? (float) $imc : null;
@@ -281,9 +283,36 @@ $activeNav = 'dashboard';
                                 Dernières transactions
                             </div>
                             <div id="tx-list">
-                                <div class="tx-item" style="color:var(--muted);font-size:12px">
-                                    Aucune transaction récente.
-                                </div>
+                                <?php if (!empty($transactions)): ?>
+                                    <?php foreach ($transactions as $tx): ?>
+                                        <?php
+                                            $txType = $tx['type'] ?? '';
+                                            $txClass = $txType === 'income' ? 'tx-plus' : 'tx-minus';
+                                            $txSign = $txType === 'income' ? '+' : '-';
+                                            $txDesc = $tx['description'] ?? 'Transaction';
+                                            $txAmount = number_format((float) ($tx['montant'] ?? 0), 2);
+                                            $txDate = $tx['date_transaction'] ?? '';
+                                            $txDateLabel = $txDate ? date('d/m/Y', strtotime($txDate)) : '';
+                                        ?>
+                                        <div class="tx-item" style="font-size:12px">
+                                            <span style="color:var(--text);flex:1">
+                                                <?= esc($asString($txDesc, 'Transaction')) ?>
+                                            </span>
+                                            <?php if ($txDateLabel !== ''): ?>
+                                                <span style="color:var(--muted);font-size:11px">
+                                                    <?= esc($txDateLabel) ?>
+                                                </span>
+                                            <?php endif; ?>
+                                            <span class="tx-amount <?= $txClass ?>">
+                                                <?= $txSign ?><?= $txAmount ?> €
+                                            </span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <div class="tx-item" style="color:var(--muted);font-size:12px">
+                                        Aucune transaction récente.
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -333,7 +362,9 @@ function validerCode() {
             const txList = document.getElementById('tx-list');
             const item = document.createElement('div');
             item.className = 'tx-item';
-            item.innerHTML = `<span style="font-size:12px;color:var(--text);flex:1">Code ${code}</span><span class="tx-amount tx-plus">+${parseFloat(data.montant ?? 0).toFixed(2)} €</span>`;
+            const now = new Date();
+            const dateLabel = now.toLocaleDateString('fr-FR');
+            item.innerHTML = `<span style="font-size:12px;color:var(--text);flex:1">Code ${code}</span><span style="color:var(--muted);font-size:11px">${dateLabel}</span><span class="tx-amount tx-plus">+${parseFloat(data.montant ?? 0).toFixed(2)} €</span>`;
             txList.prepend(item);
         } else {
             msg.textContent = '✗ ' + data.message;

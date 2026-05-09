@@ -9,6 +9,7 @@ use App\Models\MesureModel;
 use App\Models\ObjectifModel;
 use App\Models\RegimeModel;
 use App\Models\SportModel;
+use App\Models\TransactionModel;
 use App\Models\UtilisateurModel;
 
 class DashboardController extends BaseController
@@ -20,6 +21,7 @@ class DashboardController extends BaseController
 	private RegimeModel $regimeModel;
 	private SportModel $sportModel;
 	private CompteModel $compteModel;
+	private TransactionModel $transactionModel;
 
 	public function __construct()
 	{
@@ -30,6 +32,7 @@ class DashboardController extends BaseController
 		$this->regimeModel = new RegimeModel();
 		$this->sportModel = new SportModel();
 		$this->compteModel = new CompteModel();
+		$this->transactionModel = new TransactionModel();
 	}
 
 	public function index()
@@ -111,8 +114,12 @@ class DashboardController extends BaseController
 		$sports = $this->sportModel->getSportsRecommandes($objectifId, $imc);
 		$compte = $this->compteModel->getByUtilisateur($utilisateurId);
 		$statutCompte = 'inactive';
+		$transactions = [];
 		if ($compte !== null && isset($compte['status'])) {
 			$statutCompte = $compte['status'];
+		}
+		if ($compte !== null && isset($compte['id'])) {
+			$transactions = $this->transactionModel->getLatestByCompte((int) $compte['id'], 5);
 		}
 
 		return [
@@ -126,6 +133,7 @@ class DashboardController extends BaseController
 			'sports' => $sports,
 			'soldeCompte' => $this->compteModel->getSolde($utilisateurId),
 			'compteStatut' => $statutCompte,
+			'transactions' => $transactions,
 		];
 	}
 
@@ -154,6 +162,7 @@ class DashboardController extends BaseController
 			'sports' => [],
 			'soldeCompte' => 0.0,
 			'compteStatut' => 'inactive',
+			'transactions' => [],
 		];
 	}
 }

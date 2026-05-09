@@ -20,3 +20,4 @@ $routes->post('/api/code-promo', 'back\AdminCodeController::apiCode');
 
 $routes->get('/profil', 'front\ProfilController::index');
 $routes->get('/profil/objectifs', 'front\ProfilController::objectifs');
+$routes->get('/porte-monnaie', 'front\PorteMonnaieController::index');

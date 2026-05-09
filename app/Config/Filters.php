@@ -34,6 +34,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'auth'          => 'App\\Filters\\AuthFilter',
     ];
 
     /**
@@ -106,5 +107,17 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'auth' => [
+            'before' => [
+                'dashboard',
+                'profil',
+                'profil/*',
+                'regimes',
+                'sports',
+                'porte-monnaie',
+                'api/code-promo',
+            ],
+        ],
+    ];
 }
