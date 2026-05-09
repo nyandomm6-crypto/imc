@@ -14,6 +14,7 @@ $routes->get('/logout', 'front\AuthController::logout');
 $routes->get('/inscription', 'front\AuthController::inscriptionEtape1');
 $routes->post('/inscription', 'front\AuthController::inscriptionEtape1Store');
 $routes->get('/inscription/etape-2', 'front\AuthController::inscriptionEtape2');
+$routes->post('/inscription/etape-2', 'front\AuthController::inscriptionEtape2Store');
 
 $routes->get('/profil', 'front\ProfilController::index');
 $routes->get('/profil/objectifs', 'front\ProfilController::objectifs');

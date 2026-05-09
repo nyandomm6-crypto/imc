@@ -3,6 +3,7 @@
 namespace App\Controllers\front;
 
 use App\Controllers\BaseController;
+use App\Models\MesureModel;
 use App\Models\RoleModel;
 use App\Models\UtilisateurModel;
 
@@ -10,11 +11,13 @@ class AuthController extends BaseController
 {
     private UtilisateurModel $utilisateurModel;
     private RoleModel $roleModel;
+    private MesureModel $mesureModel;
 
     public function __construct()
     {
         $this->utilisateurModel = new UtilisateurModel();
         $this->roleModel = new RoleModel();
+        $this->mesureModel = new MesureModel();
     }
 
     public function login()
@@ -32,12 +35,12 @@ class AuthController extends BaseController
         $nom = trim((string) $this->request->getPost('nom'));
         $email = trim((string) $this->request->getPost('email'));
         $dateNaissance = (string) $this->request->getPost('date_naissance');
-        $genreId = $this->roleModel->getIdUser();
-        $roleId = (int) $this->request->getPost('role_id');
+        $genreId =(int) $this->request->getPost('genre_id');
+        $roleId =  $this->roleModel->getIdUser();
         $motDePasse = (string) $this->request->getPost('mot_de_passe');
         $confirmation = (string) $this->request->getPost('confirmation_mot_de_passe');
 
-        if ($nom === '' || $email === '' || $dateNaissance === '' || $genreId <= 0 || $roleId <= 0) {
+        if ($nom === '' || $email === '' || $dateNaissance === '' || $genreId <= 0 ) {
             return redirect()->to(site_url('/inscription'))
                 ->withInput()
                 ->with('error', 'Tous les champs sont requis.');
@@ -79,6 +82,52 @@ class AuthController extends BaseController
     public function inscriptionEtape2()
     {
         return view('front/auth/inscription_etape2');
+    }
+
+    public function inscriptionEtape2Store()
+    {
+        $utilisateurId = (int) session()->get('inscription_user_id');
+        if ($utilisateurId <= 0) {
+            return redirect()->to(site_url('/inscription'))
+                ->with('error', 'Session inscription expirée, recommencez.');
+        }
+
+        $action = (string) $this->request->getPost('action');
+        if ($action !== 'skip') {
+            $poids = (string) $this->request->getPost('poids_kg');
+            $taille = (string) $this->request->getPost('taille_m');
+            $dateMesure = (string) $this->request->getPost('date_mesure');
+
+            if ($poids === '' || $taille === '' || ! is_numeric($poids) || ! is_numeric($taille)) {
+                return redirect()->to(site_url('/inscription/etape-2'))
+                    ->withInput()
+                    ->with('error', 'Veuillez renseigner un poids et une taille valides.');
+            }
+
+            $dateMesure = $dateMesure !== '' ? $dateMesure : date('Y-m-d');
+
+            $inserted = $this->mesureModel->insert([
+                'utilisateur_id' => $utilisateurId,
+                'poids_kg' => (float) $poids,
+                'taille_m' => (float) $taille,
+                'date_mesure' => $dateMesure,
+            ]);
+
+            if (! $inserted) {
+                return redirect()->to(site_url('/inscription/etape-2'))
+                    ->withInput()
+                    ->with('error', 'Impossible d\'enregistrer la mesure, reessayez.');
+            }
+        }
+
+        $session = session();
+        $session->set([
+            'utilisateur_id' => $utilisateurId,
+            'user_id' => $utilisateurId,
+        ]);
+        $session->remove('inscription_user_id');
+
+        return redirect()->to('/dashboard');
     }
 
     public function authenticate()
