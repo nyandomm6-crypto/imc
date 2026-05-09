@@ -38,19 +38,19 @@ class AuthController extends BaseController
         $confirmation = (string) $this->request->getPost('confirmation_mot_de_passe');
 
         if ($nom === '' || $email === '' || $dateNaissance === '' || $genreId <= 0 || $roleId <= 0) {
-            return redirect()->to('/inscription')
+            return redirect()->to(site_url('/inscription'))
                 ->withInput()
                 ->with('error', 'Tous les champs sont requis.');
         }
 
         if ($motDePasse === '' || $motDePasse !== $confirmation) {
-            return redirect()->to('/inscription')
+            return redirect()->to(site_url('/inscription'))
                 ->withInput()
                 ->with('error', 'Les mots de passe ne correspondent pas.');
         }
 
         if ($this->utilisateurModel->getByEmail($email)) {
-            return redirect()->to('/inscription')
+            return redirect()->to(site_url('/inscription'))
                 ->withInput()
                 ->with('error', 'Cet email est deja utilise.');
         }
@@ -66,7 +66,7 @@ class AuthController extends BaseController
         ], true);
 
         if (! $utilisateurId) {
-            return redirect()->to('/inscription')
+            return redirect()->to(site_url('/inscription'))
                 ->withInput()
                 ->with('error', 'Inscription impossible, reessayez.');
         }
@@ -87,7 +87,7 @@ class AuthController extends BaseController
         $motDePasse = (string) $this->request->getPost('mot_de_passe');
 
         if ($email === '' || $motDePasse === '') {
-            return redirect()->to('/login')
+            return redirect()->to(site_url('/login'))
                 ->withInput()
                 ->with('error', 'Email et mot de passe requis.');
         }
@@ -95,7 +95,7 @@ class AuthController extends BaseController
         $utilisateur = $this->utilisateurModel->getByEmail($email);
 
         if (! $utilisateur || empty($utilisateur['mot_de_passe'])) {
-            return redirect()->to('/login')
+            return redirect()->to(site_url('/login'))
                 ->withInput()
                 ->with('error', 'Identifiants invalides.');
         }
@@ -107,7 +107,7 @@ class AuthController extends BaseController
         }
 
         if (! $motDePasseOk) {
-            return redirect()->to('/login')
+            return redirect()->to(site_url('/login'))
                 ->withInput()
                 ->with('error', 'Identifiants invalides.');
         }
@@ -125,7 +125,7 @@ class AuthController extends BaseController
     {
         session()->destroy();
 
-        return redirect()->to('/login');
+        return redirect()->to(site_url('/login'));
     }
 
     private function getInscriptionOptions(): array
