@@ -1,0 +1,36 @@
+ERROR - 2026-05-09 07:08:08 --> Error connecting to the database: Error: Call to undefined function CodeIgniter\Database\Postgre\pg_connect() in /home/huhu/Documents/web/imc/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 /home/huhu/Documents/web/imc/system/Database/BaseConnection.php(555): CodeIgniter\Database\Postgre\Connection->connect()
+#1 /home/huhu/Documents/web/imc/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/huhu/Documents/web/imc/system/Database/BaseConnection.php(1706): CodeIgniter\Database\BaseConnection->query()
+#3 /home/huhu/Documents/web/imc/system/Commands/Database/ShowTableInfo.php(121): CodeIgniter\Database\BaseConnection->listTables()
+#4 /home/huhu/Documents/web/imc/system/CLI/Commands.php(74): CodeIgniter\Commands\Database\ShowTableInfo->run()
+#5 /home/huhu/Documents/web/imc/system/CLI/Console.php(47): CodeIgniter\CLI\Commands->run()
+#6 /home/huhu/Documents/web/imc/system/Boot.php(442): CodeIgniter\CLI\Console->run()
+#7 /home/huhu/Documents/web/imc/system/Boot.php(166): CodeIgniter\Boot::runCommand()
+#8 /home/huhu/Documents/web/imc/spark(87): CodeIgniter\Boot::bootSpark()
+#9 {main}
+CRITICAL - 2026-05-09 07:08:08 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [Postgre]: Call to undefined function CodeIgniter\Database\Postgre\pg_connect()
+[Method: CLI, Route: db:table]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseConnection.php(1706): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Commands/Database/ShowTableInfo.php(121): CodeIgniter\Database\BaseConnection->listTables()
+ 4 SYSTEMPATH/CLI/Commands.php(74): CodeIgniter\Commands\Database\ShowTableInfo->run()
+ 5 SYSTEMPATH/CLI/Console.php(47): CodeIgniter\CLI\Commands->run()
+ 6 SYSTEMPATH/Boot.php(442): CodeIgniter\CLI\Console->run()
+ 7 SYSTEMPATH/Boot.php(166): CodeIgniter\Boot::runCommand()
+ 8 ROOTPATH/spark(87): CodeIgniter\Boot::bootSpark()
+ERROR - 2026-05-09 07:11:24 --> Error connecting to the database: Error: Call to undefined function CodeIgniter\Database\Postgre\pg_connect() in /home/huhu/Documents/web/imc/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 /home/huhu/Documents/web/imc/system/Database/BaseConnection.php(555): CodeIgniter\Database\Postgre\Connection->connect()
+#1 /home/huhu/Documents/web/imc/app/Controllers/Home.php(17): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/huhu/Documents/web/imc/system/CodeIgniter.php(951): App\Controllers\Home->dbTest()
+#3 /home/huhu/Documents/web/imc/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#4 /home/huhu/Documents/web/imc/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#5 /home/huhu/Documents/web/imc/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#6 /home/huhu/Documents/web/imc/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#7 /home/huhu/Documents/web/imc/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#8 /home/huhu/Documents/web/imc/system/rewrite.php(44): require_once('...')
+#9 {main}

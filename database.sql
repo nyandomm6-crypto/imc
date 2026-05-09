@@ -83,6 +83,7 @@ CREATE TABLE utilisateurs (
     date_naissance DATE NOT NULL,
     genre_id INT REFERENCES genres (id),
     role_id INT REFERENCES roles (id),
+    mot_de_passe VARCHAR(255) NOT NULL,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
