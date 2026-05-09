@@ -10,7 +10,6 @@
 <body>
 
     <?php $genres = $genres ?? []; ?>
-    <?php $roles = $roles ?? []; ?>
 
     <h1>Inscription</h1>
 
@@ -70,20 +69,6 @@
             </select>
         </div>
 
-        <div>
-            <label for="role_id">Rôle</label>
-            <select id="role_id" name="role_id" required>
-                <option value="">-- Choisir --</option>
-
-                <?php foreach ($roles as $role): ?>
-                    <option
-                        value="<?= esc((string) ($role['id'] ?? '')) ?>"
-                        <?= old('role_id') == ($role['id'] ?? null) ? 'selected' : '' ?>>
-                        <?= esc((string) ($role['nom'] ?? '')) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
 
         <div>
             <label for="mot_de_passe">Mot de passe</label>
