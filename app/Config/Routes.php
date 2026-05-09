@@ -24,10 +24,10 @@ $routes->post('/profil/mesure', 'front\ProfilController::addMesure');
 $routes->get('/profil/objectifs', 'front\ProfilController::objectifs');
 $routes->get('/porte-monnaie', 'front\PorteMonnaieController::index');
 
-$routes->group('', ['filter' => 'auth'], function($routes) {
-    $routes->get('dashboard', 'front\DashboardController::index');
-});
+// $routes->group('', ['filter' => 'auth'], function($routes) {
+//     $routes->get('dashboard', 'front\DashboardController::index');
+// });
 
-$routes->group('admin', ['filter' => 'admin'], function($routes) {
-    $routes->get('dashboard', 'back\AdminDashboardController::index');
-});
+
+    $routes->get('huhu', 'back\AdminDashboardController::index');
+

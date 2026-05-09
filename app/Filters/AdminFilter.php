@@ -14,9 +14,9 @@ class AdminFilter implements FilterInterface
             return redirect()->to('/login');
         }
 
-        if ((int) session()->get('role_id') !== 1) {
-            return redirect()->to('/dashboard');
-        }
+        // if ((int) session()->get('role_id') !== 1) {
+        //     return redirect()->to('/dashboard');
+        // }
     }
     
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
