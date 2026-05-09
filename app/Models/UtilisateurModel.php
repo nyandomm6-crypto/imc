@@ -15,6 +15,7 @@ class UtilisateurModel extends Model
         'date_naissance',
         'genre_id',
         'role_id',
+        'mot_de_passe',
         'date_creation'
     ];
 
@@ -23,6 +24,7 @@ class UtilisateurModel extends Model
         'email' => 'required|valid_email|max_length[150]',
         'date_naissance' => 'required|valid_date[Y-m-d]',
         'genre_id' => 'required|integer',
+        'mot_de_passe' => 'required|min_length[8]'
     ];
 
     public function getAll(): array
