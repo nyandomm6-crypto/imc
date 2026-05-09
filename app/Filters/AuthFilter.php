@@ -2,32 +2,25 @@
 
 namespace App\Filters;
 
-use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Filters\FilterInterface;
 
 class AuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        $session = session();
-        $id = $session->get('utilisateur_id') ?? $session->get('user_id');
-
-        if (is_numeric($id) && (int) $id > 0) {
-            return null;
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to('/login');
         }
 
-        if (strtolower((string) $request->getHeaderLine('X-Requested-With')) === 'xmlhttprequest') {
-            return service('response')
-                ->setStatusCode(401)
-                ->setJSON(['success' => false, 'message' => 'Authentification requise.']);
+        if ((int) session()->get('role_id') !== 2) {
+            return redirect()->to('/admin/dashboard');
         }
-
-        return redirect()->to('/login');
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        return null;
+        // rien
     }
 }
