@@ -7,7 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/db-test', 'Home::dbTest');
-$routes->get('/dashboard', 'front\DashboardController::index');
+// $routes->get('/dashboard', 'front\DashboardController::index');
 $routes->get('/login', 'front\AuthController::login');
 $routes->post('/login', 'front\AuthController::authenticate');
 $routes->get('/logout', 'front\AuthController::logout');
@@ -16,3 +16,11 @@ $routes->post('/inscription', 'front\AuthController::inscriptionEtape1Store');
 $routes->get('/inscription/etape-2', 'front\AuthController::inscriptionEtape2');
 
 $routes->get('/profil', 'front\ProfilController::index');
+
+$routes->group('', ['filter' => 'auth'], function($routes) {
+    $routes->get('dashboard', 'front\DashboardController::index');
+});
+
+$routes->group('admin', ['filter' => 'admin'], function($routes) {
+    $routes->get('dashboard', 'back\AdminDashboardController::index');
+});

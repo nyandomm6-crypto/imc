@@ -114,8 +114,10 @@ class AuthController extends BaseController
 
         $session = session();
         $session->set([
+            'isLoggedIn' => true,
             'utilisateur_id' => (int) $utilisateur['id'],
             'user_id' => (int) $utilisateur['id'],
+            'role_id' => (int) $utilisateur['role_id'] ,
         ]);
 
         return redirect()->to('/dashboard');
