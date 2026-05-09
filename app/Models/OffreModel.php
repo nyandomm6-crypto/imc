@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
-use Override;
 
 class OffreModel extends Model
 {
@@ -38,9 +37,8 @@ class OffreModel extends Model
         return $this->insert($data);
     }
 
-  
-    public function delete($id = null, bool $purge = false)
+    public function delete($id = null): bool
     {
-        return $this->db->table('offres')->where('id', $id)->delete();
+        return (bool) parent::delete($id);
     }
 }
