@@ -15,61 +15,70 @@ use App\Models\CodePromoModel;
 class AdminDashboardController extends BaseController
 {
     private UtilisateurModel $utilisateurModel;
-    private MesureModel      $mesureModel;
-    private ImcModel         $imcModel;
-    private ObjectifModel    $objectifModel;
-    private RegimeModel      $regimeModel;
-    private SportModel       $sportModel;
-    private CompteModel      $compteModel;
-    private CodePromoModel   $codePromoModel;
+    private MesureModel $mesureModel;
+    private ImcModel $imcModel;
+    private ObjectifModel $objectifModel;
+    private RegimeModel $regimeModel;
+    private SportModel $sportModel;
+    private CompteModel $compteModel;
+    private CodePromoModel $codePromoModel;
 
     public function __construct()
     {
         $this->utilisateurModel = new UtilisateurModel();
-        $this->mesureModel      = new MesureModel();
-        $this->imcModel         = new ImcModel();
-        $this->objectifModel    = new ObjectifModel();
-        $this->regimeModel      = new RegimeModel();
-        $this->sportModel       = new SportModel();
-        $this->compteModel      = new CompteModel();
-        $this->codePromoModel   = new CodePromoModel();
+        $this->mesureModel = new MesureModel();
+        $this->imcModel = new ImcModel();
+        $this->objectifModel = new ObjectifModel();
+        $this->regimeModel = new RegimeModel();
+        $this->sportModel = new SportModel();
+        $this->compteModel = new CompteModel();
+        $this->codePromoModel = new CodePromoModel();
     }
 
     public function index()
-{
-    $data = [];
+    {
+        $data['total_users'] = $this->utilisateurModel->countByRole(2);
+        $data['total_regimes'] = $this->regimeModel->countAllRegimes();
+        $data['total_codes_actifs'] = $this->codePromoModel->countByStatus("active");
 
-    // ── Scalaires (int uniquement)
-    $data['total_users']        = (int) ($this->utilisateurModel->countByRole(2)          ?? 0);
-    $data['total_regimes']      = (int) ($this->regimeModel->countAllRegimes()             ?? 0);
-    $data['total_codes_actifs'] = (int) ($this->codePromoModel->countByStatus('active')   ?? 0);
+        // Graph inscriptions par mois
+        $inscriptions = $this->utilisateurModel->inscriptionsParMois();
 
-    // ── Charts : JSON strings (pas des tableaux)
-    $inscriptions = (array) ($this->utilisateurModel->inscriptionsParMois() ?? []);
-    $data['chart_labels'] = json_encode(array_column($inscriptions, 'mois'))  ?: '[]';
-    $data['chart_data']   = json_encode(array_column($inscriptions, 'total')) ?: '[]';
+        $labels = [];
+        $values = [];
 
-    $objectifs = (array) ($this->objectifModel->repartitionObjectifs() ?? []);
-    $data['objectif_labels'] = json_encode(array_column($objectifs, 'libelle')) ?: '[]';
-    $data['objectif_data']   = json_encode(array_column($objectifs, 'total'))   ?: '[]';
+        foreach ($inscriptions as $row) {
+            $labels[] = $row['mois'];
+            $values[] = $row['total'];
+        }
 
-    // ── Top users : JSON string
-    $topUsers = (array) ($this->compteModel->topUsersBySolde(5) ?? []);
-    $data['top_users_json'] = json_encode(array_map(fn($u) => [
-        'nom'    => (string) ($u['nom']    ?? ''),
-        'solde'  => (float)  ($u['solde']  ?? 0),
-        'status' => (string) ($u['status'] ?? 'inactive'),
-    ], $topUsers)) ?: '[]';
+        $data['chart_labels'] = $labels;
+        $data['chart_data'] = $values;
 
-    // ── Codes récents : JSON string
-    $codes = (array) ($this->codePromoModel->codesRecemmentUtilises(10) ?? []);
-    $data['codes_recents_json'] = json_encode(array_map(fn($c) => [
-        'code'             => (string) ($c['code']             ?? ''),
-        'nom'              => (string) ($c['nom']              ?? ''),
-        'date_utilisation' => (string) ($c['date_utilisation'] ?? ''),
-        'status'           => (string) ($c['status']           ?? ''),
-    ], $codes)) ?: '[]';
+        // camember
+        $objectifs = $this->objectifModel->repartitionObjectifs();
 
-    return view('back/dashboard/index', $data);
-}
+        $labelsObj = [];
+        $dataObj = [];
+
+        foreach ($objectifs as $row) {
+            $labelsObj[] = $row['libelle'];
+            $dataObj[] = $row['total'];
+        }
+
+        $data['objectif_labels'] = $labelsObj;
+        $data['objectif_data'] = $dataObj;
+
+        // top 5 utilisateurs par solde 
+        $topUsers = $this->compteModel->topUsersBySolde(5);
+
+        $data['top_users'] = $topUsers;
+
+        $codesUtilises = $this->codePromoModel->codesRecemmentUtilises(10);
+
+        $data['codes_recents'] = $codesUtilises;
+
+        
+        return view('back/dashboard/index', $data);
+    }
 }
