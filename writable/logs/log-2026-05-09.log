@@ -34,3 +34,45 @@ Stack trace:
 #7 /home/huhu/Documents/web/imc/public/index.php(59): CodeIgniter\Boot::bootWeb()
 #8 /home/huhu/Documents/web/imc/system/rewrite.php(44): require_once('...')
 #9 {main}
+ERROR - 2026-05-09 07:38:42 --> Error connecting to the database: Error: Call to undefined function CodeIgniter\Database\Postgre\pg_connect() in /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/BaseConnection.php(555): CodeIgniter\Database\Postgre\Connection->connect()
+#1 /home/miora/Documents/4IHM/Mr Rojo/imc/app/Controllers/Home.php(17): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(951): App\Controllers\Home->dbTest()
+#3 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#4 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#5 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#6 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#7 /home/miora/Documents/4IHM/Mr Rojo/imc/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#8 /home/miora/Documents/4IHM/Mr Rojo/imc/system/rewrite.php(44): require_once('...')
+#9 {main}
+ERROR - 2026-05-09 07:42:24 --> Error connecting to the database: ErrorException: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user &quot;postgres&quot;
+connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user &quot;postgres&quot; in /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/Postgre/Connection.php(78): pg_connect()
+#2 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/BaseConnection.php(555): CodeIgniter\Database\Postgre\Connection->connect()
+#3 /home/miora/Documents/4IHM/Mr Rojo/imc/app/Controllers/Home.php(17): CodeIgniter\Database\BaseConnection->initialize()
+#4 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(951): App\Controllers\Home->dbTest()
+#5 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#6 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#7 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#8 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#9 /home/miora/Documents/4IHM/Mr Rojo/imc/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#10 /home/miora/Documents/4IHM/Mr Rojo/imc/system/rewrite.php(44): require_once('...')
+#11 {main}
+ERROR - 2026-05-09 07:42:25 --> Error connecting to the database: ErrorException: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user &quot;postgres&quot;
+connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user &quot;postgres&quot; in /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/Postgre/Connection.php(78): pg_connect()
+#2 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Database/BaseConnection.php(555): CodeIgniter\Database\Postgre\Connection->connect()
+#3 /home/miora/Documents/4IHM/Mr Rojo/imc/app/Controllers/Home.php(17): CodeIgniter\Database\BaseConnection->initialize()
+#4 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(951): App\Controllers\Home->dbTest()
+#5 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#6 /home/miora/Documents/4IHM/Mr Rojo/imc/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#7 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#8 /home/miora/Documents/4IHM/Mr Rojo/imc/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#9 /home/miora/Documents/4IHM/Mr Rojo/imc/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#10 /home/miora/Documents/4IHM/Mr Rojo/imc/system/rewrite.php(44): require_once('...')
+#11 {main}
