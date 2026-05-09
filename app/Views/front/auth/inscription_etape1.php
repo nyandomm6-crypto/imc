@@ -111,6 +111,7 @@
         <button type="submit">S'inscrire</button>
 
     </form>
+    <a href="<?= site_url('login') ?>">Déjà inscrit ? Se connecter</a>
 
 </body>
 

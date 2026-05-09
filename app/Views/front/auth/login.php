@@ -44,6 +44,7 @@
 
 			<button type="submit">Se connecter</button>
 		</form>
+       <a href="<?= site_url('inscription') ?>">S'inscrire</a>
 	</main>
 </body>
 </html>
