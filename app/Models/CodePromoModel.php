@@ -11,6 +11,7 @@ class CodePromoModel extends Model
     protected $returnType = 'array';
     protected $allowedFields = [
         'code',
+        'prix',
         'status',
         'date_expiration',
     ];
@@ -86,6 +87,10 @@ class CodePromoModel extends Model
         $row = $this->getByCode($code);
         if (! $row) {
             return null;
+        }
+
+        if (array_key_exists('prix', $row)) {
+            return (float) $row['prix'];
         }
 
         if (array_key_exists('montant', $row)) {

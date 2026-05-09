@@ -271,7 +271,7 @@ $activeNav = 'dashboard';
                             <div class="wallet-solde"><?= $solde ?> €</div>
                             <div style="font-size:11px;color:var(--muted);margin-bottom:8px">Entrer un code promo</div>
                             <div class="code-wrap">
-                                <input type="text" id="code-input" placeholder="ex: PROMO10" class="code-input">
+                                <input type="text" id="codePromotion" placeholder="ex: PROMO10" class="code-input">
                                 <button onclick="validerCode()" class="code-btn">Valider</button>
                             </div>
                             <div id="code-msg" style="font-size:11px;margin-top:8px;min-height:16px"></div>
@@ -295,10 +295,11 @@ $activeNav = 'dashboard';
 <?= $this->section('scripts') ?>
 <script>
 function validerCode() {
-    const code = document.getElementById('code-input').value.trim();
+    const code = document.getElementById('codePromotion').value.trim();
     const msg  = document.getElementById('code-msg');
+    const idUser = <?= (int) ($utilisateur['id'] ?? 0) ?>;
 
-    if (!code) {
+    if (!code || !idUser) {
         msg.textContent = '⚠ Veuillez entrer un code.';
         msg.style.color = 'var(--amber)';
         return;
@@ -307,13 +308,14 @@ function validerCode() {
     msg.textContent = 'Vérification…';
     msg.style.color = 'var(--muted2)';
 
-    fetch('/porte-monnaie/code', {
+    fetch('/api/code-promo', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
         },
         body: JSON.stringify({
+            id_user: idUser,
             code: code,
             <?= csrf_token() ?>: '<?= csrf_hash() ?>'
         })
@@ -337,7 +339,7 @@ function validerCode() {
             msg.textContent = '✗ ' + data.message;
             msg.style.color = 'var(--red)';
         }
-        document.getElementById('code-input').value = '';
+        document.getElementById('codePromotion').value = '';
     })
     .catch(() => {
         msg.textContent = '✗ Erreur réseau, réessayez.';

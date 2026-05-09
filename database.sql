@@ -127,6 +127,7 @@ CREATE TABLE recettes (
 CREATE TABLE codes_promo (
     id SERIAL PRIMARY KEY,
     code VARCHAR(100) NOT NULL UNIQUE,
+    prix NUMERIC(10, 2) NOT NULL DEFAULT 0,
     status code_status_enum DEFAULT 'active',
     date_expiration TIMESTAMP
 );

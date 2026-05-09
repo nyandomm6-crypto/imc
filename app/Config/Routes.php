@@ -16,5 +16,7 @@ $routes->post('/inscription', 'front\AuthController::inscriptionEtape1Store');
 $routes->get('/inscription/etape-2', 'front\AuthController::inscriptionEtape2');
 $routes->post('/inscription/etape-2', 'front\AuthController::inscriptionEtape2Store');
 
+$routes->post('/api/code-promo', 'back\AdminCodeController::apiCode');
+
 $routes->get('/profil', 'front\ProfilController::index');
 $routes->get('/profil/objectifs', 'front\ProfilController::objectifs');
