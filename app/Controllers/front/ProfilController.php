@@ -15,4 +15,10 @@ class ProfilController extends BaseController
 
         return view('front/profil/index');
     }
+
+    public function objectifs()
+    {
+
+        return view('front/profil/objectifs');
+    }
 }
