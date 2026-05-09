@@ -157,4 +157,5 @@ class DashboardController extends BaseController
 			'compteStatut' => 'inactive',
 		];
 	}
+}
 
