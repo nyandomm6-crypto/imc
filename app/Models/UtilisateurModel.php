@@ -60,7 +60,11 @@ class UtilisateurModel extends Model
 
     public function getUsers()
     {
-        return $this->db->table('utilisateurs')->where('role_id', 2)->findAll();
+        return $this->db
+            ->table('utilisateurs')
+            ->where('role_id', 2)
+            ->get()
+            ->getResult();
     }
 
     public function countByRole(int $roleId)
@@ -71,9 +75,8 @@ class UtilisateurModel extends Model
     public function inscriptionsParMois()
     {
         return $this->select("DATE_TRUNC('month', date_creation) AS mois, COUNT(*) AS total")
-                    ->groupBy("mois")
-                    ->orderBy("mois", "ASC")
-                    ->findAll();
-    }    
-
+            ->groupBy("mois")
+            ->orderBy("mois", "ASC")
+            ->findAll();
+    }
 }
