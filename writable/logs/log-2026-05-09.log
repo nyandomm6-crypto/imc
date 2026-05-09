@@ -602,3 +602,14 @@ in SYSTEMPATH/Filters/Filters.php on line 590.
  6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
  7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
  8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 23:19:05 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\RoleModel::isAdmin
+[Method: POST, Route: login]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/front/AuthController.php(169): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->authenticate()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')

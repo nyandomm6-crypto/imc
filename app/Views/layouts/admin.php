@@ -125,7 +125,7 @@ if ($activeNav === '') {
                 </div>
                 <div class="user-role">Administrateur</div>
             </div>
-            <a href="<?= base_url('admin/logout') ?>" title="Déconnexion">⏻</a>
+            <a href="<?= base_url('/logout') ?>" title="Déconnexion">⏻</a>
         </div>
     </aside>
 

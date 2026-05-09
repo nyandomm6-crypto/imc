@@ -35,12 +35,12 @@ class AuthController extends BaseController
         $nom = trim((string) $this->request->getPost('nom'));
         $email = trim((string) $this->request->getPost('email'));
         $dateNaissance = (string) $this->request->getPost('date_naissance');
-        $genreId =(int) $this->request->getPost('genre_id');
+        $genreId = (int) $this->request->getPost('genre_id');
         $roleId =  $this->roleModel->getIdUser();
         $motDePasse = (string) $this->request->getPost('mot_de_passe');
         $confirmation = (string) $this->request->getPost('confirmation_mot_de_passe');
 
-        if ($nom === '' || $email === '' || $dateNaissance === '' || $genreId <= 0 ) {
+        if ($nom === '' || $email === '' || $dateNaissance === '' || $genreId <= 0) {
             return redirect()->to(site_url('/inscription'))
                 ->withInput()
                 ->with('error', 'Tous les champs sont requis.');
@@ -127,7 +127,7 @@ class AuthController extends BaseController
         ]);
         $session->remove('inscription_user_id');
 
-        return redirect()->to('/dashboard');
+        return redirect()->to(site_url('/'));
     }
 
     public function authenticate()
@@ -166,8 +166,10 @@ class AuthController extends BaseController
             'utilisateur_id' => (int) $utilisateur['id'],
             'user_id' => (int) $utilisateur['id'],
         ]);
-
-        return redirect()->to('/dashboard');
+        if ($utilisateur['role_id']==1) {
+            return redirect()->to(site_url('admin/dashboard'));
+        }
+        return redirect()->to(site_url('dashboard'));
     }
 
     public function logout()
