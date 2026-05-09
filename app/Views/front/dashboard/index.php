@@ -4,6 +4,17 @@ $escape = static function ($value): string {
 	return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 };
 
+$imc = $imc ?? null;
+$objectifs = $objectifs ?? [];
+$imcProgression = $imcProgression ?? 0;
+$mesure = $mesure ?? [];
+$utilisateur = $utilisateur ?? [];
+$regimes = $regimes ?? [];
+$sports = $sports ?? [];
+$soldeCompte = $soldeCompte ?? 0.0;
+$compteStatut = $compteStatut ?? 'inactive';
+$categorieImc = $categorieImc ?? 'Inconnue';
+
 $imcTexte = $imc !== null ? number_format((float) $imc, 2, ',', ' ') : 'N/A';
 $taille   = isset($mesure['taille_m'])  ? number_format((float) $mesure['taille_m'],  2, ',', ' ') : 'N/A';
 $poids    = isset($mesure['poids_kg'])  ? number_format((float) $mesure['poids_kg'],  2, ',', ' ') : 'N/A';
