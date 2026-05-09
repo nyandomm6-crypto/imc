@@ -1,9 +1,4 @@
 <?= $this->extend('layouts/main') ?>
-<?= $this->section('content') ?>
-<!-- --style.css -->
-<link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
-
-
 
 <?php
 /** @var array<string, mixed>|null $utilisateur */
@@ -22,24 +17,21 @@ $asString = static function ($value, string $fallback = ''): string {
     return $fallback;
 };
 
-$utilisateur    = is_array($utilisateur ?? null) ? $utilisateur : [];
-$mesure         = is_array($mesure ?? null) ? $mesure : null;
-$objectifs      = is_array($objectifs ?? null) ? $objectifs : [];
-$regimes        = is_array($regimes ?? null) ? $regimes : [];
-$sports         = is_array($sports ?? null) ? $sports : [];
+$utilisateur = is_array($utilisateur ?? null) ? $utilisateur : [];
+$mesure = is_array($mesure ?? null) ? $mesure : null;
+$objectifs = is_array($objectifs ?? null) ? $objectifs : [];
+$regimes = is_array($regimes ?? null) ? $regimes : [];
+$sports = is_array($sports ?? null) ? $sports : [];
 
-$nom       = $asString($utilisateur['nom'] ?? null, 'Utilisateur');
-$parts     = explode(' ', trim($nom));
-$initiales = strtoupper(substr($parts[0], 0, 1) . (isset($parts[1]) ? substr($parts[1], 0, 1) : ''));
-
-$imc            = is_numeric($imc ?? null) ? (float) $imc : null;
-$categorieImc   = $asString($categorieImc ?? null, 'Inconnue');
-$imcVal         = $imc !== null ? number_format($imc, 1) : '--';
-$progression    = is_numeric($imcProgression ?? null) ? (int) $imcProgression : 0;
-$poids          = $asString($mesure['poids_kg'] ?? null, '--');
-$taille         = $asString($mesure['taille_m'] ?? null, '--');
-$solde          = number_format((float) ($soldeCompte ?? 0), 2);
-$nbObj          = count($objectifs);
+$nom = $asString($utilisateur['nom'] ?? null, 'Utilisateur');
+$imc = is_numeric($imc ?? null) ? (float) $imc : null;
+$categorieImc = $asString($categorieImc ?? null, 'Inconnue');
+$imcVal = $imc !== null ? number_format($imc, 1) : '--';
+$progression = is_numeric($imcProgression ?? null) ? (int) $imcProgression : 0;
+$poids = $asString($mesure['poids_kg'] ?? null, '--');
+$taille = $asString($mesure['taille_m'] ?? null, '--');
+$solde = number_format((float) ($soldeCompte ?? 0), 2);
+$nbObj = count($objectifs);
 
 $catStyle = match(true) {
     $imc !== null && $imc < 18.5 => ['color' => 'var(--blue)',  'bg' => 'var(--blue-bg)'],
@@ -51,69 +43,13 @@ $catStyle = match(true) {
 
 $sportIcons = ['🏃','🏊','🚴','🧘','🏋️','⛹️','🤸','🥊'];
 $regimeIcons = ['🥗','🐟','🥦','🍗','🫐','🥑'];
+
+$pageTitle = 'Tableau de bord';
+$pageSubtitle = 'Bonjour, ' . $nom . ' 👋';
+$activeNav = 'dashboard';
 ?>
 
-<div class="layout">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <div class="logo-icon">💪</div>
-            <span class="logo-text">FitIMC</span>
-        </div>
-
-        <nav class="sidebar-nav">
-            <div class="nav-section">Principal</div>
-            <a class="nav-item active" href="/dashboard">
-                <span class="ni">⊞</span> Dashboard
-            </a>
-            <a class="nav-item" href="/profil">
-                <span class="ni">◎</span> Mon profil
-            </a>
-            <a class="nav-item" href="/profil/objectifs">
-                <span class="ni">◈</span> Objectifs
-            </a>
-
-            <div class="nav-section">Nutrition</div>
-            <a class="nav-item" href="/regimes">
-                <span class="ni">🥗</span> Régimes
-            </a>
-            <a class="nav-item" href="/sports">
-                <span class="ni">🏃</span> Sports
-            </a>
-
-            <div class="nav-section">Compte</div>
-            <a class="nav-item" href="/porte-monnaie">
-                <span class="ni">◈</span> Porte-monnaie
-            </a>
-            <a class="nav-item" href="/gold">
-                <span class="ni">★</span> Passer Gold
-            </a>
-        </nav>
-
-        <div class="sidebar-user">
-            <div class="user-avatar"><?= esc($initiales) ?></div>
-            <div>
-                <div class="user-name"><?= esc(strlen($nom) > 14 ? substr($nom,0,14).'…' : $nom) ?></div>
-                <div class="user-role">Membre</div>
-            </div>
-            <a href="/logout" title="Déconnexion">⏻</a>
-        </div>
-    </aside>
-
-    <!-- MAIN -->
-    <div class="main">
-
-        <!-- TOPBAR -->
-        <div class="topbar">
-            <div>
-                <div class="topbar-title">Tableau de bord</div>
-                <div class="topbar-sub">Bonjour, <?= esc($nom) ?> 👋</div>
-            </div>
-            <a href="/gold" class="btn-gold">★ Option Gold — 15% de remise</a>
-        </div>
-
-        <div class="content">
+<?= $this->section('content') ?>
 
             <!-- ALERTE COMPTE INACTIF -->
             <?php if (($compteStatut ?? 'inactive') === 'inactive'): ?>
@@ -354,10 +290,9 @@ $regimeIcons = ['🥗','🐟','🥦','🍗','🫐','🥑'];
                 </div>
             </div>
 
-        </div><!-- /content -->
-    </div><!-- /main -->
-</div><!-- /layout -->
+<?= $this->endSection() ?>
 
+<?= $this->section('scripts') ?>
 <script>
 function validerCode() {
     const code = document.getElementById('code-input').value.trim();
@@ -419,5 +354,4 @@ window.addEventListener('load', () => {
     }
 });
 </script>
-
 <?= $this->endSection() ?>

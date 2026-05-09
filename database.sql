@@ -225,5 +225,4 @@ VALUES (0, 18.49, 'maigreur'),
 
 
 INSERT INTO utilisateurs (nom, email, date_naissance, genre_id, role_id, mot_de_passe)
-VALUES ('Alice Dupont', 'alice.dupont@example.com', '1990-01-01', 2, 2, '123456789'),
-       ('Bob Martin', 'bob.martin@example.com', '1985-05-15', 1, 2, '987654321');
+VALUES ('Alice Dupont', 'alice.dupont@example.com', '1990-01-01', 2, 2, '123456789');
