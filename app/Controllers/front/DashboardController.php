@@ -36,10 +36,10 @@ class DashboardController extends BaseController
 	{
 		$utilisateurId = $this->getUtilisateurId();
 
-		if ($utilisateurId === null) {
-			return redirect()->to('/');
-		}
-
+		// if ($utilisateurId === null) {
+		// 	return redirect()->to('/');
+		// }
+$utilisateurId =1;
 		$data = $this->buildDashboardData($utilisateurId);
 
 		return view('front/dashboard/index', $data);

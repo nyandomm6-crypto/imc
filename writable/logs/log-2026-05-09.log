@@ -34,3 +34,40 @@ Stack trace:
 #7 /home/huhu/Documents/web/imc/public/index.php(59): CodeIgniter\Boot::bootWeb()
 #8 /home/huhu/Documents/web/imc/system/rewrite.php(44): require_once('...')
 #9 {main}
+CRITICAL - 2026-05-09 14:11:02 --> ErrorException: Declaration of App\Models\RegimeModel::delete($id, bool $purge = false): bool must be compatible with CodeIgniter\BaseModel::delete($id = null, bool $purge = false)
+[Method: GET, Route: dashboard]
+in APPPATH/Models/RegimeModel.php on line 111.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-05-09 14:16:13 --> TypeError: App\Controllers\front\DashboardController::buildDashboardData(): Argument #1 ($utilisateurId) must be of type int, null given, called in /home/huhu/Documents/web/imc/app/Controllers/front/DashboardController.php on line 44
+[Method: GET, Route: dashboard]
+in APPPATH/Controllers/front/DashboardController.php on line 64.
+ 1 APPPATH/Controllers/front/DashboardController.php(44): App\Controllers\front\DashboardController->buildDashboardData()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 14:16:42 --> TypeError: App\Controllers\front\DashboardController::buildDashboardData(): Argument #1 ($utilisateurId) must be of type int, null given, called in /home/huhu/Documents/web/imc/app/Controllers/front/DashboardController.php on line 44
+[Method: GET, Route: dashboard]
+in APPPATH/Controllers/front/DashboardController.php on line 64.
+ 1 APPPATH/Controllers/front/DashboardController.php(44): App\Controllers\front\DashboardController->buildDashboardData()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 14:17:43 --> TypeError: App\Controllers\front\DashboardController::buildDashboardData(): Argument #1 ($utilisateurId) must be of type int, null given, called in /home/huhu/Documents/web/imc/app/Controllers/front/DashboardController.php on line 44
+[Method: GET, Route: dashboard]
+in APPPATH/Controllers/front/DashboardController.php on line 64.
+ 1 APPPATH/Controllers/front/DashboardController.php(44): App\Controllers\front\DashboardController->buildDashboardData()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
