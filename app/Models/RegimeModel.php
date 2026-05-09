@@ -173,5 +173,9 @@ class RegimeModel extends Model
 
 		return $columns;
 	}
+		public function countAllRegimes()
+	{
+		return $this->countAllResults();
+	}
 }
 
