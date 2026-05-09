@@ -19,5 +19,7 @@ $routes->post('/inscription/etape-2', 'front\AuthController::inscriptionEtape2St
 $routes->post('/api/code-promo', 'back\AdminCodeController::apiCode');
 
 $routes->get('/profil', 'front\ProfilController::index');
+$routes->post('/profil/update', 'front\ProfilController::updateProfil');
+$routes->post('/profil/mesure', 'front\ProfilController::addMesure');
 $routes->get('/profil/objectifs', 'front\ProfilController::objectifs');
 $routes->get('/porte-monnaie', 'front\PorteMonnaieController::index');
