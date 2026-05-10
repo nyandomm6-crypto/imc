@@ -18,29 +18,12 @@ $asString = static function ($value, string $fallback = ''): string {
     return $fallback;
 };
 
-$imcTexte = 'N/A';
-if ($imc !== null) {
-	$imcTexte = number_format((float) $imc, 2, ',', ' ');
-}
-
-$taille = 'N/A';
-if (isset($mesure['taille_m'])) {
-	$taille = number_format((float) $mesure['taille_m'], 2, ',', ' ');
-}
-
-$poids = 'N/A';
-if (isset($mesure['poids_kg'])) {
-	$poids = number_format((float) $mesure['poids_kg'], 2, ',', ' ');
-}
-
-$imcClass = 'chip';
-$imcIcon  = '✦';
-if ($imc !== null) {
-	if ($imc < 18.5)       { $imcClass = 'chip chip-warn'; $imcIcon = '▽'; }
-	elseif ($imc < 25)     { $imcClass = 'chip';           $imcIcon = '✔'; }
-	elseif ($imc < 30)     { $imcClass = 'chip chip-warn'; $imcIcon = '△'; }
-	else                   { $imcClass = 'chip chip-warn'; $imcIcon = '▲'; }
-}
+$utilisateur = is_array($utilisateur ?? null) ? $utilisateur : [];
+$mesure = is_array($mesure ?? null) ? $mesure : null;
+$objectifs = is_array($objectifs ?? null) ? $objectifs : [];
+$regimes = is_array($regimes ?? null) ? $regimes : [];
+$sports = is_array($sports ?? null) ? $sports : [];
+$transactions = is_array($transactions ?? null) ? $transactions : [];
 
 $nom = $asString($utilisateur['nom'] ?? null, 'Utilisateur');
 $imc = is_numeric($imc ?? null) ? (float) $imc : null;
@@ -67,276 +50,341 @@ $pageTitle = 'Tableau de bord';
 $pageSubtitle = 'Bonjour, ' . $nom . ' 👋';
 $activeNav = 'dashboard';
 ?>
-<!doctype html>
-<html lang="fr">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Tableau de bord nutrition personnalise — IMC, regimes et sports recommandes.">
-	<title>NutriDash · Tableau de bord</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-	<main class="container">
 
-		<section class="hero">
-			<div>
-				<p class="eyebrow">Tableau de bord nutrition</p>
-				<?php
-				$utilisateurNom = 'utilisateur';
-				if (isset($utilisateur['nom'])) {
-					$utilisateurNom = $utilisateur['nom'];
-				}
-				?>
-				<h1>Bonjour, <em><?= $escape($utilisateurNom) ?></em></h1>
-				<p class="lead">
-					Voici vos indicateurs de sante, vos objectifs actifs et vos recommandations
-					personnalisees en matière de regime et d'activite physique.
-				</p>
+<?= $this->section('content') ?>
 
-				<div class="stats-row">
-					<div class="stat">
-						<span class="stat-val"><?= $taille ?> m</span>
-						<span class="stat-lbl">Taille</span>
-					</div>
-					<div class="stat">
-						<span class="stat-val"><?= $poids ?> kg</span>
-						<span class="stat-lbl">Poids</span>
-					</div>
-					<div class="stat">
-						<span class="stat-val"><?= count($objectifs) ?></span>
-						<span class="stat-lbl">Objectifs actifs</span>
-					</div>
-				</div>
-			</div>
+            <!-- ALERTE COMPTE INACTIF -->
+            <?php if (($compteStatut ?? 'inactive') === 'inactive'): ?>
+            <div class="alert alert-amber">
+                ⚠ Votre compte est inactif — ajoutez un code promo pour l'activer.
+            </div>
+            <?php endif; ?>
 
-			<div class="actions">
-				<a class="button secondary" href="/">← Retour accueil</a>
-				<a class="button primary"    href="/profil">Mon profil</a>
-			</div>
-		</section>
+            <!-- MÉTRIQUES -->
+            <div class="metrics">
+                <div class="metric m-purple">
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-val"><?= $imcVal ?></div>
+                    <div class="metric-label">IMC actuel</div>
+                    <span class="metric-badge" style="background:<?= $catStyle['bg'] ?>;color:<?= $catStyle['color'] ?>">
+                        <?= esc($categorieImc) ?>
+                    </span>
+                </div>
+                <div class="metric m-green">
+                    <div class="metric-icon">⚖️</div>
+                    <div class="metric-val"><?= esc($poids) ?></div>
+                    <div class="metric-label">Poids (kg) · <?= esc($taille) ?> m</div>
+                </div>
+                <div class="metric m-amber">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-val"><?= $solde ?> <span style="font-size:16px;font-weight:400">€</span></div>
+                    <div class="metric-label">Solde porte-monnaie</div>
+                </div>
+                <div class="metric m-blue">
+                    <div class="metric-icon">🎯</div>
+                    <div class="metric-val"><?= $nbObj ?><span style="font-size:16px;font-weight:400;color:var(--muted)">/3</span></div>
+                    <div class="metric-label">Objectifs actifs</div>
+                </div>
+            </div>
 
-		<!-- Suggestion personalisee -->
-		<?php if (isset($suggestion) && $suggestion !== null) : ?>
-		<article class="card full" aria-label="Suggestion personnalisee">
-			<div class="section-label">Suggestion personnalisee</div>
-			<div class="list">
-				<div class="item">
-					<div class="item-icon">💡</div>
-					<div class="item-body">
-						<?php
-						if (isset($suggestion['regime']) && $suggestion['regime'] !== null && isset($suggestion['regime']['libelle'])) {
-							echo '<p class="item-title">' . $escape($suggestion['regime']['libelle']) . '</p>';
-						} else {
-							echo '<p class="item-title">Regime recommande</p>';
-						}
+            <!-- IMC + OBJECTIFS -->
+            <div class="row2">
 
-						if (isset($suggestion['prix'])) {
-							$prixAff = number_format((float) $suggestion['prix'], 2, ',', ' ');
-							echo '<p class="item-desc">Prix pour la duree proposee&nbsp;: ' . $prixAff . ' FCFA</p>';
-						} else {
-							echo '<p class="item-desc">Prix non disponible</p>';
-						}
+                <!-- Jauge IMC -->
+                <div class="card">
+                    <div class="card-head">
+                        <span class="card-title">
+                            <span class="ct-icon" style="background:rgba(124,110,245,0.15)">📈</span>
+                            Indice de masse corporelle
+                        </span>
+                        <span style="font-size:11px;color:var(--muted)">Dernière mesure</span>
+                    </div>
+                    <div class="card-body">
+                        <?php if ($imc !== null): ?>
+                        <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:4px">
+                            <span class="imc-big" style="color:<?= $catStyle['color'] ?>"><?= $imcVal ?></span>
+                            <span class="badge" style="background:<?= $catStyle['bg'] ?>;color:<?= $catStyle['color'] ?>;margin-bottom:8px">
+                                <?= esc($categorieImc) ?>
+                            </span>
+                        </div>
+                        <div class="imc-track">
+                            <div class="imc-fill"></div>
+                            <div class="imc-needle" id="imc-needle" style="left:<?= $progression ?>%"></div>
+                        </div>
+                        <div class="imc-zones">
+                            <span>Maigreur</span>
+                            <span>Normal</span>
+                            <span>Surpoids</span>
+                            <span>Obésité</span>
+                        </div>
+                        <div class="imc-stats">
+                            <div>
+                                <div class="imc-stat-label">Poids actuel</div>
+                                <div class="imc-stat-val"><?= esc($poids) ?> kg</div>
+                            </div>
+                            <div>
+                                <div class="imc-stat-label">Taille</div>
+                                <div class="imc-stat-val"><?= esc($taille) ?> m</div>
+                            </div>
+                            <div>
+                                <div class="imc-stat-label">IMC idéal</div>
+                                <div class="imc-stat-val" style="color:var(--green)">22.0</div>
+                            </div>
+                        </div>
+                        <?php else: ?>
+                        <div style="text-align:center;padding:24px 0;color:var(--muted)">
+                            <div style="font-size:32px;margin-bottom:8px">📏</div>
+                            <div style="font-size:13px;margin-bottom:12px">Aucune mesure enregistrée</div>
+                            <a href="/profil/mesure" style="color:var(--accent2);font-size:12px;text-decoration:none">
+                                + Ajouter ma mesure →
+                            </a>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
 
-						if (isset($suggestion['estimation']) && $suggestion['estimation'] === true) {
-							if (isset($suggestion['raison'])) {
-								echo '<p class="muted">Note&nbsp;: prix estime — ' . $escape($suggestion['raison']) . '</p>';
-							} else {
-								echo '<p class="muted">Note&nbsp;: prix estime</p>';
-							}
-						} else {
-							if (isset($suggestion['raison'])) {
-								echo '<p class="muted">' . $escape($suggestion['raison']) . '</p>';
-							} else {
-								echo '<p class="muted">Information complementaire non disponible</p>';
-							}
-						}
-						?>
-					</div>
-				</div>
-			</div>
-		</article>
-		<?php endif; ?>
+                <!-- Objectifs -->
+                <div class="card">
+                    <div class="card-head">
+                        <span class="card-title">
+                            <span class="ct-icon" style="background:var(--amber-bg)">🎯</span>
+                            Mes objectifs
+                        </span>
+                        <a href="/profil/objectifs" class="card-link">Modifier →</a>
+                    </div>
+                    <div class="card-body">
+                        <?php foreach ($objectifs as $obj): ?>
+                        <div class="obj-item">
+                            <div class="obj-dot" style="background:var(--green)"></div>
+                            <span class="obj-label">
+                                <?= esc($asString($obj['libelle'] ?? $obj['objectif_libelle'] ?? null, 'Objectif')) ?>
+                            </span>
+                            <span class="badge badge-green">Actif</span>
+                        </div>
+                        <?php endforeach; ?>
 
-		<section class="grid" aria-label="Vue d'ensemble">
+                        <?php for ($i = count($objectifs); $i < 3; $i++): ?>
+                        <div class="obj-item">
+                            <div class="obj-dot" style="background:var(--muted)"></div>
+                            <span class="obj-label obj-empty">Emplacement libre</span>
+                            <span class="badge badge-muted">Vide</span>
+                        </div>
+                        <?php endfor; ?>
 
-			<!-- IMC -->
-			<article class="card metric" aria-label="IMC actuel">
-				<h2>IMC actuel</h2>
-				<p class="metric-value"><?= $imcTexte ?></p>
-				<div class="<?= $imcClass ?>"><?= $imcIcon ?> <?= $escape($categorieImc) ?></div>
-				<div class="progress" role="progressbar" aria-valuenow="<?= (int) $imcProgression ?>" aria-valuemin="0" aria-valuemax="100">
-					<span style="width:<?= (int) $imcProgression ?>%;"></span>
-				</div>
-				<p class="muted" style="margin-top:14px;">
-					Indice de masse corporelle calcule à partir de votre taille et poids actuels.
-				</p>
-			</article>
+                        <a href="/profil/objectifs" style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;font-size:11px;color:var(--accent2);text-decoration:none;padding:8px;border:1px dashed rgba(124,110,245,0.3);border-radius:8px;transition:all 0.2s" onmouseover="this.style.background='rgba(124,110,245,0.05)'" onmouseout="this.style.background='transparent'">
+                            + Gérer mes objectifs
+                        </a>
+                    </div>
+                </div>
 
-			<!-- Portefeuille -->
-			<article class="card metric" aria-label="Solde porte-monnaie">
-				<h2>Solde porte-monnaie</h2>
-				<p class="metric-value">
-					<?= number_format((float) $soldeCompte, 2, ',', ' ') ?>
-					<small>FCFA</small>
-				</p>
-				<div class="chip chip-neutral"><?= $escape($compteStatut) ?></div>
-				<p class="muted">Accedez aux transactions et codes promo depuis le porte-monnaie.</p>
-			</article>
+            </div>
 
-			<!-- Objectifs selectionnes -->
-			<article class="card wide" aria-label="Objectifs selectionnes">
-				<div class="section-label">Objectifs selectionnes</div>
-				<div class="list">
-					<?php if (!empty($objectifs)) : ?>
-						<?php foreach ($objectifs as $objectif) : ?>
-							<div class="item">
-								<div class="item-icon">🎯</div>
-								<div class="item-body">
-									<p class="item-title">
-										<?php
-										if (isset($objectif['libelle'])) {
-											echo $escape($objectif['libelle']);
-										} else {
-											echo 'Objectif';
-										}
-										?>
-									</p>
-									<p class="item-desc">
-										<?php
-										if (isset($objectif['valeur_cible']) && $objectif['valeur_cible'] !== null) {
-											echo 'Cible&nbsp;: ' . $escape($objectif['valeur_cible']);
-										} else {
-											echo 'Objectif actif — aucune valeur cible precisee.';
-										}
-										?>
-									</p>
-								</div>
-							</div>
-						<?php endforeach; ?>
-					<?php else : ?>
-						<div class="item">
-							<div class="item-icon">⊕</div>
-							<div class="item-body">
-								<p class="item-title">Aucun objectif selectionne</p>
-								<p class="item-desc">Rendez-vous dans votre profil pour definir vos priorites.</p>
-							</div>
-						</div>
-					<?php endif; ?>
-				</div>
-			</article>
+            <!-- RÉGIMES + SPORTS -->
+            <div class="row3">
 
-			<!-- Regimes suggeres -->
-			<article class="card full" aria-label="Regimes suggeres">
-				<div class="section-label">Regimes suggeres</div>
-				<div class="list">
-					<?php if (!empty($regimes)) : ?>
-						<?php foreach ($regimes as $regime) : ?>
-							<div class="item">
-								<?php
-								if (isset($regime['libelle'])) {
-									$regimeLibelle = $regime['libelle'];
-								} else {
-									$regimeLibelle = '';
-								}
-								?>
-								<div class="item-icon"><?= $getRegimeEmoji($regimeLibelle) ?></div>
-								<div class="item-body">
-									<p class="item-title">
-										<?php
-										if (isset($regime['libelle'])) {
-											echo $escape($regime['libelle']);
-										} else {
-											echo 'Regime';
-										}
-										?>
-									</p>
-									<p class="item-desc">
-										<?php
-										if (isset($regime['description'])) {
-											echo $escape($regime['description']);
-										} else {
-											echo 'Suggestion personnalisee basee sur votre profil et votre IMC.';
-										}
-										?>
-									</p>
-								</div>
-								<?php if (isset($regime['niveau'])) : ?>
-									<span class="item-badge"><?= $escape($regime['niveau']) ?></span>
-								<?php endif; ?>
-							</div>
-						<?php endforeach; ?>
-					<?php else : ?>
-						<div class="item">
-							<div class="item-icon">🥦</div>
-							<div class="item-body">
-								<p class="item-title">Aucun regime disponible</p>
-								<p class="item-desc">Ajoutez des regimes dans la base de donnees pour les voir apparaître ici.</p>
-							</div>
-						</div>
-					<?php endif; ?>
-				</div>
-			</article>
+                <!-- Régimes -->
+                <div class="card">
+                    <div class="card-head">
+                        <span class="card-title">
+                            <span class="ct-icon" style="background:var(--green-bg)">🥗</span>
+                            Régimes suggérés
+                        </span>
+                        <a href="/regimes" class="card-link">Voir tout →</a>
+                    </div>
+                    <div class="card-body">
+                        <?php if (!empty($regimes)): ?>
+                            <?php foreach ($regimes as $i => $regime): ?>
+                            <div class="regime-item">
+                                <div class="ri-icon"><?= $regimeIcons[$i % count($regimeIcons)] ?></div>
+                                <div style="flex:1;min-width:0">
+                                    <div class="ri-name">
+                                        <?= esc($asString($regime['libelle'] ?? $regime['nom'] ?? null, 'Régime')) ?>
+                                    </div>
+                                    <div class="ri-sub">
+                                        <?php if (isset($regime['duree_jours'])): ?>
+                                            <?= esc($asString($regime['duree_jours'])) ?> jours
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                                <?php if (isset($regime['prix'])): ?>
+                                <span class="ri-price"><?= number_format((float)$regime['prix'], 2) ?> €</span>
+                                <?php endif; ?>
+                            </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div style="text-align:center;padding:20px 0;color:var(--muted);font-size:12px">
+                                Aucun régime disponible
+                            </div>
+                        <?php endif; ?>
+                        <a href="/regimes/pdf" class="pdf-btn">
+                            📄 Exporter mon plan nutritionnel en PDF
+                        </a>
+                    </div>
+                </div>
 
-			<!-- Sports recommandes -->
-			<article class="card full" aria-label="Sports recommandes">
-				<div class="section-label">Sports recommandes</div>
-				<div class="list">
-					<?php if (!empty($sports)) : ?>
-						<?php foreach ($sports as $sport) : ?>
-							<div class="item">
-								<?php
-								if (isset($sport['nom'])) {
-									$sportNom = $sport['nom'];
-								} else {
-									$sportNom = '';
-								}
-								?>
-								<div class="item-icon"><?= $getSportEmoji($sportNom) ?></div>
-								<div class="item-body">
-									<p class="item-title"><?php
-										if (isset($sport['nom'])) {
-											echo $escape($sport['nom']);
-										} else {
-											echo 'Sport';
-										}
-										?></p>
-									<p class="item-desc">
-										<?php
-										if (isset($sport['description'])) {
-											echo $escape($sport['description']);
-										} else {
-											echo 'Activite recommandee en coherence avec vos objectifs.';
-										}
-										?>
-									</p>
-								</div>
-								<span class="item-badge">
-									<?php
-									if (isset($sport['calories_par_heure'])) {
-										echo $escape($sport['calories_par_heure']);
-									} else {
-										echo '—';
-									}
-									?> kcal/h
-								</span>
-							</div>
-						<?php endforeach; ?>
-					<?php else : ?>
-						<div class="item">
-							<div class="item-icon">🏅</div>
-							<div class="item-body">
-								<p class="item-title">Aucun sport disponible</p>
-								<p class="item-desc">Ajoutez des sports dans la base de donnees pour alimenter cette section.</p>
-							</div>
-						</div>
-					<?php endif; ?>
-				</div>
-			</article>
+                <!-- Sports -->
+                <div class="card">
+                    <div class="card-head">
+                        <span class="card-title">
+                            <span class="ct-icon" style="background:rgba(124,110,245,0.12)">🏃</span>
+                            Sports recommandés
+                        </span>
+                        <a href="/sports" class="card-link">Voir tout →</a>
+                    </div>
+                    <div class="card-body">
+                        <?php if (!empty($sports)): ?>
+                            <?php foreach ($sports as $i => $sport): ?>
+                            <div class="sport-item">
+                                <div class="si-icon"><?= $sportIcons[$i % count($sportIcons)] ?></div>
+                                <div style="flex:1">
+                                    <div style="font-size:13px;font-weight:500">
+                                        <?= esc($asString($sport['nom'] ?? null)) ?>
+                                    </div>
+                                    <div style="font-size:11px;color:var(--muted)">Activité cardio</div>
+                                </div>
+                                <span class="si-cal">
+                                    <?= esc($asString($sport['calories_par_heure'] ?? null)) ?> kcal/h
+                                </span>
+                            </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div style="text-align:center;padding:20px 0;color:var(--muted);font-size:12px">
+                                Aucun sport disponible
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
 
-		</section>
-	</main>
-</body>
-</html>
+            </div>
+
+            <!-- PORTE-MONNAIE -->
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-title">
+                        <span class="ct-icon" style="background:var(--amber-bg)">💰</span>
+                        Porte-monnaie
+                    </span>
+                    <a href="/porte-monnaie" class="card-link">Historique complet →</a>
+                </div>
+                <div class="card-body">
+                    <div class="wallet-grid">
+                        <div>
+                            <div style="font-size:11px;color:var(--muted);margin-bottom:2px">Solde disponible</div>
+                            <div class="wallet-solde"><?= $solde ?> €</div>
+                            <div style="font-size:11px;color:var(--muted);margin-bottom:8px">Entrer un code promo</div>
+                            <div class="code-wrap">
+                                <input type="text" id="codePromotion" placeholder="ex: PROMO10" class="code-input">
+                                <button onclick="validerCode()" class="code-btn">Valider</button>
+                            </div>
+                            <div id="code-msg" style="font-size:11px;margin-top:8px;min-height:16px"></div>
+                        </div>
+                        <div>
+                            <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em">
+                                Dernières transactions
+                            </div>
+                            <div id="tx-list">
+                                <?php if (!empty($transactions)): ?>
+                                    <?php foreach ($transactions as $tx): ?>
+                                        <?php
+                                            $txType = $tx['type'] ?? '';
+                                            $txClass = $txType === 'income' ? 'tx-plus' : 'tx-minus';
+                                            $txSign = $txType === 'income' ? '+' : '-';
+                                            $txDesc = $tx['description'] ?? 'Transaction';
+                                            $txAmount = number_format((float) ($tx['montant'] ?? 0), 2);
+                                            $txDate = $tx['date_transaction'] ?? '';
+                                            $txDateLabel = $txDate ? date('d/m/Y', strtotime($txDate)) : '';
+                                        ?>
+                                        <div class="tx-item" style="font-size:12px">
+                                            <span style="color:var(--text);flex:1">
+                                                <?= esc($asString($txDesc, 'Transaction')) ?>
+                                            </span>
+                                            <?php if ($txDateLabel !== ''): ?>
+                                                <span style="color:var(--muted);font-size:11px">
+                                                    <?= esc($txDateLabel) ?>
+                                                </span>
+                                            <?php endif; ?>
+                                            <span class="tx-amount <?= $txClass ?>">
+                                                <?= $txSign ?><?= $txAmount ?> €
+                                            </span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <div class="tx-item" style="color:var(--muted);font-size:12px">
+                                        Aucune transaction récente.
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
+<script>
+function validerCode() {
+    const code = document.getElementById('codePromotion').value.trim();
+    const msg  = document.getElementById('code-msg');
+    const idUser = <?= (int) ($utilisateur['id'] ?? 0) ?>;
+
+    if (!code || !idUser) {
+        msg.textContent = '⚠ Veuillez entrer un code.';
+        msg.style.color = 'var(--amber)';
+        return;
+    }
+
+    msg.textContent = 'Vérification…';
+    msg.style.color = 'var(--muted2)';
+
+    fetch('/api/code-promo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+            id_user: idUser,
+            code: code,
+            <?= csrf_token() ?>: '<?= csrf_hash() ?>'
+        })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            msg.textContent = '✓ ' + data.message;
+            msg.style.color = 'var(--green)';
+            // Mettre à jour le solde affiché
+            document.querySelectorAll('.wallet-solde, .metric.m-amber .metric-val').forEach(el => {
+                el.textContent = parseFloat(data.nouveau_solde).toFixed(2) + ' €';
+            });
+            // Ajouter la transaction dans la liste
+            const txList = document.getElementById('tx-list');
+            const item = document.createElement('div');
+            item.className = 'tx-item';
+            const now = new Date();
+            const dateLabel = now.toLocaleDateString('fr-FR');
+            item.innerHTML = `<span style="font-size:12px;color:var(--text);flex:1">Code ${code}</span><span style="color:var(--muted);font-size:11px">${dateLabel}</span><span class="tx-amount tx-plus">+${parseFloat(data.montant ?? 0).toFixed(2)} €</span>`;
+            txList.prepend(item);
+        } else {
+            msg.textContent = '✗ ' + data.message;
+            msg.style.color = 'var(--red)';
+        }
+        document.getElementById('codePromotion').value = '';
+    })
+    .catch(() => {
+        msg.textContent = '✗ Erreur réseau, réessayez.';
+        msg.style.color = 'var(--red)';
+    });
+}
+
+// Animation entrée aiguille IMC
+window.addEventListener('load', () => {
+    const needle = document.getElementById('imc-needle');
+    if (needle) {
+        needle.style.left = '0%';
+        setTimeout(() => { needle.style.left = '<?= $progression ?>%'; }, 300);
+    }
+});
+</script>
+<?= $this->endSection() ?>

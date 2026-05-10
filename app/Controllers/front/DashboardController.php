@@ -76,17 +76,8 @@ class DashboardController extends BaseController
 		$imcProgression = 0;
 
 		if ($mesure !== null) {
-			if (isset($mesure['poids_kg'])) {
-				$poids = (float) $mesure['poids_kg'];
-			} else {
-				$poids = 0.0;
-			}
-
-			if (isset($mesure['taille_m'])) {
-				$taille = (float) $mesure['taille_m'];
-			} else {
-				$taille = 0.0;
-			}
+			$poids = (float) ($mesure['poids_kg'] ?? 0);
+			$taille = (float) ($mesure['taille_m'] ?? 0);
 			$imc = $this->imcModel->calculerIMC($poids, $taille);
 			$categorie = $this->imcModel->getCategorie($imc);
 			if ($categorie !== null) {
@@ -131,20 +122,6 @@ class DashboardController extends BaseController
 			$transactions = $this->transactionModel->getLatestByCompte((int) $compte['id'], 5);
 		}
 
-		if (isset($mesure['poids_kg'])) {
-			$poidsUtilisateur = (float) $mesure['poids_kg'];
-		} else {
-			$poidsUtilisateur = 0.0;
-		}
-
-		if (isset($utilisateur['genre_id'])) {
-			$genreId = (int) $utilisateur['genre_id'];
-		} else {
-			$genreId = null;
-		}
-
-		$suggestion = $this->regimeModel->suggestRegimeForUser($genreId, (float)$poidsUtilisateur, $objectifId, 30);
-
 		return [
 			'utilisateur' => $utilisateur,
 			'imc' => $imc,
@@ -153,7 +130,6 @@ class DashboardController extends BaseController
 			'mesure' => $mesure,
 			'objectifs' => $objectifs,
 			'regimes' => $regimes,
-			'suggestion' => $suggestion,
 			'sports' => $sports,
 			'soldeCompte' => $this->compteModel->getSolde($utilisateurId),
 			'compteStatut' => $statutCompte,
@@ -183,7 +159,6 @@ class DashboardController extends BaseController
 			'mesure' => null,
 			'objectifs' => [],
 			'regimes' => [],
-			'suggestion' => null,
 			'sports' => [],
 			'soldeCompte' => 0.0,
 			'compteStatut' => 'inactive',
