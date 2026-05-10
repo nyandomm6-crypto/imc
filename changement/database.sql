@@ -227,7 +227,12 @@ VALUES ('prise de masse'),
 
 INSERT INTO
     imc_categories (imc_min, imc_max, categorie)
-VALUES (0, 18.49, 'maigreur');
+VALUES (0, 18.49, 'maigreur'),
     (18.50, 24.99, 'normal'),
     (25.00, 29.99, 'surpoids'),
     (30.00, 100, 'obesite');
+
+
+
+INSERT INTO utilisateurs (nom, email, date_naissance, genre_id, role_id, mot_de_passe)
+VALUES ('Alice Dupont', 'alice.dupont@example.com', '1990-01-01', 2, 2, '123456789');

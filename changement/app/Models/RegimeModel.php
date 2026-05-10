@@ -21,21 +21,7 @@ class RegimeModel extends Model
 
 	public function getAll(): array
 	{
-		$regimes = $this->orderBy('libelle', 'ASC')->findAll();
-
-		// Charger les offres pour chaque régime
-		foreach ($regimes as &$regime) {
-			if (! empty($regime['offre_id'])) {
-				$regime['offre'] = $this->db->table('offres')
-					->where('id', $regime['offre_id'])
-					->get()
-					->getRowArray();
-			} else {
-				$regime['offre'] = null;
-			}
-		}
-
-		return $regimes;
+		return $this->orderBy('libelle', 'ASC')->findAll();
 	}
 
 	public function getById($id)
@@ -68,34 +54,16 @@ class RegimeModel extends Model
 
 	public function getRegimesParObjectif($objectif_id): array
 	{
-		$regimes = [];
-
 		if ($this->hasColumn('objectifs_id') || $this->hasColumn('objectif_id')) {
 			$column = $this->hasColumn('objectif_id') ? 'objectif_id' : 'objectifs_id';
 
-			$regimes = $this->asArray()
+			return $this->asArray()
 				->where($column, $objectif_id)
 				->orderBy('libelle', 'ASC')
 				->findAll();
 		}
 
-		if (empty($regimes)) {
-			$regimes = $this->getAll();
-		} else {
-			// Charger les offres pour chaque régime
-			foreach ($regimes as &$regime) {
-				if (! empty($regime['offre_id'])) {
-					$regime['offre'] = $this->db->table('offres')
-						->where('id', $regime['offre_id'])
-						->get()
-						->getRowArray();
-				} else {
-					$regime['offre'] = null;
-				}
-			}
-		}
-
-		return $regimes;
+		return $this->getAll();
 	}
 
 	public function getCompositionRegime($regime_id): array
@@ -200,19 +168,9 @@ class RegimeModel extends Model
 		$prix = 0.0;
 		$usedEstimate = false;
 
-		// Try to find a regime with an explicit price column
 		foreach ($liste as $regime) {
 			$p = $this->getPrixAvecDuree($regime['id'], $duree);
 			if ($p > 0) {
-				// Charger l'offre complète pour le régime sélectionné
-				if (! empty($regime['offre_id'])) {
-					$regime['offre'] = $this->db->table('offres')
-						->where('id', $regime['offre_id'])
-						->get()
-						->getRowArray();
-				} else {
-					$regime['offre'] = null;
-				}
 				$selected = $regime;
 				$prix = $p;
 				break;
@@ -222,8 +180,7 @@ class RegimeModel extends Model
 		if ($prix <= 0) {
 			$usedEstimate = true;
 
-			// Determine base rate by objectif label
-			$baseRate = 2.0; // par jour par défaut
+			$baseRate = 2.0;
 			if ($objectif_id !== null) {
 				$row = $this->db->table('objectifs')->select('libelle')->where('id', $objectif_id)->get()->getRowArray();
 				$libelle = isset($row['libelle']) ? strtolower($row['libelle']) : '';
@@ -238,7 +195,7 @@ class RegimeModel extends Model
 
 			$poidsRef = 70.0;
 			$poidsDiff = max(-30, min(50, $poids_kg - $poidsRef));
-			$poidsMultiplier = 1 + ($poidsDiff / 100.0); // entre ~0.7 et 1.5
+			$poidsMultiplier = 1 + ($poidsDiff / 100.0);
 
 			$genreMultiplier = 1.0;
 			if ($genre_id !== null) {
@@ -253,15 +210,6 @@ class RegimeModel extends Model
 
 			if (isset($liste[0])) {
 				$selected = $liste[0];
-				// Charger l'offre pour le régime sélectionné par estimation
-				if (! empty($selected['offre_id'])) {
-					$selected['offre'] = $this->db->table('offres')
-						->where('id', $selected['offre_id'])
-						->get()
-						->getRowArray();
-				} else {
-					$selected['offre'] = null;
-				}
 			} else {
 				$selected = null;
 			}
@@ -324,4 +272,3 @@ class RegimeModel extends Model
 		return $this->countAllResults();
 	}
 }
-
