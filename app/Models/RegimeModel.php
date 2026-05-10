@@ -19,6 +19,10 @@ class RegimeModel extends Model
 		'offre_id' => 'required|numeric',
 	];
 
+	protected $validationRules = [
+		'libelle' => 'required|max_length[100]',
+	];
+
 	public function getAll(): array
 	{
 		$regimes = $this->orderBy('libelle', 'ASC')->findAll();
