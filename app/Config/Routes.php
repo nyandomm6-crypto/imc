@@ -22,6 +22,10 @@ $routes->get('/profil', 'front\ProfilController::index');
 $routes->post('/profil/update', 'front\ProfilController::updateProfil');
 $routes->post('/profil/mesure', 'front\ProfilController::addMesure');
 $routes->get('/profil/objectifs', 'front\ProfilController::objectifs');
+$routes->get('/profil/objectifs/create', 'front\ProfilController::createObjectif');
+$routes->post('/profil/objectifs/store', 'front\ProfilController::storeObjectif');
+$routes->post('/profil/objectifs/achieve/(:num)', 'front\ProfilController::achieveObjectif/$1');
+$routes->post('/profil/objectifs/abandon/(:num)', 'front\ProfilController::abandonObjectif/$1');
 $routes->get('/porte-monnaie', 'front\PorteMonnaieController::index');
 
 // $routes->group('', ['filter' => 'auth'], function($routes) {

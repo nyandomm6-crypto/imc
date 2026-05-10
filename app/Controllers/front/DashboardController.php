@@ -88,10 +88,10 @@ class DashboardController extends BaseController
 			$imcProgression = $this->calculateImcProgression($imc);
 		}
 
-		$objectifs = $this->objectifModel->getObjectifsUtilisateur($utilisateurId);
+		$objectifEnCours = $this->objectifModel->getObjectifEnCoursComplete($utilisateurId);
 		$objectifId = null;
-		if (!empty($objectifs) && isset($objectifs[0]['objectif_id'])) {
-			$objectifId = (int) $objectifs[0]['objectif_id'];
+		if ($objectifEnCours !== null && isset($objectifEnCours['objectif_id'])) {
+			$objectifId = (int) $objectifEnCours['objectif_id'];
 		}
 
 		$regimes = [];
@@ -120,6 +120,12 @@ class DashboardController extends BaseController
 		}
 		if ($compte !== null && isset($compte['id'])) {
 			$transactions = $this->transactionModel->getLatestByCompte((int) $compte['id'], 5);
+		}
+
+		// Formater l'objectif actif pour la vue
+		$objectifs = [];
+		if ($objectifEnCours !== null) {
+			$objectifs[] = $objectifEnCours;
 		}
 
 		return [
