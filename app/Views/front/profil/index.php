@@ -220,8 +220,32 @@ select.code-input {
     font-weight: 500;
     color: var(--text);
 }
-</style>
+<style>
+/* Modern profile redesign: glass cards, gradient header, large avatar */
+.profile-wrap { display: grid; grid-template-columns: 1fr 360px; gap: 22px; align-items: start; }
+.card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius: 16px; padding: 18px; border: 1px solid rgba(255,255,255,0.04); box-shadow: 0 6px 18px rgba(7,6,23,0.6); }
+.card-head { display:flex;align-items:center;gap:10px;margin-bottom:12px }
+.card-title { font-weight:700;color:var(--text);font-size:15px }
+.profile-header { display:flex;align-items:center;gap:16px;padding:18px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#4f46e5);color:white }
+.profile-header .avatar-large { width:84px;height:84px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;box-shadow:0 8px 24px rgba(79,70,229,0.28) }
+.profile-meta { display:flex;flex-direction:column }
+.profile-name { font-size:20px;font-weight:800 }
+.profile-email { font-size:13px;opacity:0.9 }
+.muted { color:var(--muted);font-size:12px }
+.form-grid { display:flex;flex-direction:column;gap:12px }
+.field label { font-size:12px;color:var(--muted);font-weight:600 }
+.code-input { width:100%; padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04); background:rgba(255,255,255,0.02); color:var(--text); }
+.code-input:focus { outline:none; box-shadow:0 6px 18px rgba(0,0,0,0.4); border-color: rgba(124,110,245,0.9); }
+.btn { padding:10px 14px;border-radius:12px;border:none;cursor:pointer }
+.btn-primary { background:linear-gradient(90deg,var(--accent),#6b5fe0); color:white;font-weight:700 }
+.btn-ghost { background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text) }
+.stats { display:flex;flex-direction:column;gap:8px }
+.stat { display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:rgba(0,0,0,0.03) }
+.imc-badge { padding:8px 12px;border-radius:999px;font-weight:700 }
+.small { font-size:12px }
 
+@media (max-width: 900px) { .profile-wrap { grid-template-columns: 1fr; } }
+</style>
 <?php
 $error   = session()->getFlashdata('error');
 $success = session()->getFlashdata('success');
@@ -272,6 +296,7 @@ $imcCat = match (true) {
     ],
 };
 ?>
+?>
 
 <?php if ($error): ?>
 
@@ -289,275 +314,108 @@ $imcCat = match (true) {
 
 <?php endif; ?>
 
-<div class="row2">
+<div class="profile-wrap">
 
-    <!-- COLONNE GAUCHE -->
-    <div class="card">
-
-        <div class="card-head">
-            <span class="card-title">
-                👤 Informations personnelles
-            </span>
-        </div>
-
-        <div class="card-body">
-
-            <div class="avatar-bloc">
-
-                <div class="avatar-big">
-                    <?= esc($initiales) ?>
-                </div>
-
-                <div>
-                    <div class="avatar-info-name">
-                        <?= esc($nom) ?>
-                    </div>
-
-                    <div class="avatar-info-email">
-                        <?= esc($asString($utilisateur['email'] ?? null, '—')) ?>
-                    </div>
-                </div>
-
-            </div>
-
-            <form method="post" action="<?= site_url('profil/update') ?>" class="form-grid">
-
-                <?= csrf_field() ?>
-
-                <div class="section-label">
-                    Identité
-                </div>
-
-                <div class="field">
-                    <label for="nom">Nom complet</label>
-
-                    <input
-                        class="code-input"
-                        id="nom"
-                        name="nom"
-                        type="text"
-                        required
-                        value="<?= esc((string) (old('nom') ?? $utilisateur['nom'] ?? '')) ?>"
-                    >
-                </div>
-
-                <div class="field">
-                    <label for="email">Adresse email</label>
-
-                    <input
-                        class="code-input"
-                        id="email"
-                        name="email"
-                        type="email"
-                        required
-                        value="<?= esc((string) (old('email') ?? $utilisateur['email'] ?? '')) ?>"
-                    >
-                </div>
-
-                <div class="field">
-                    <label for="date_naissance">Date de naissance</label>
-
-                    <input
-                        class="code-input"
-                        id="date_naissance"
-                        name="date_naissance"
-                        type="date"
-                        required
-                        value="<?= esc((string) (old('date_naissance') ?? $utilisateur['date_naissance'] ?? '')) ?>"
-                    >
-                </div>
-
-                <div class="field">
-                    <label for="genre_id">Genre</label>
-
-                    <select class="code-input" id="genre_id" name="genre_id" required>
-
-                        <option value="">— Choisir —</option>
-
-                        <?php foreach ($genres as $genre): ?>
-
-                            <option
-                                value="<?= esc((string) ($genre['id'] ?? '')) ?>"
-                                <?= (string) (old('genre_id') ?? $utilisateur['genre_id'] ?? '') === (string) ($genre['id'] ?? '') ? 'selected' : '' ?>
-                            >
-                                <?= esc($asString($genre['nom'] ?? null)) ?>
-                            </option>
-
-                        <?php endforeach; ?>
-
-                    </select>
-                </div>
-
-                <div class="section-label">
-                    Sécurité
-                </div>
-
-                <div class="field">
-                    <label for="mot_de_passe">Nouveau mot de passe</label>
-
-                    <div class="pw-wrap">
-
-                        <input
-                            class="code-input"
-                            id="mot_de_passe"
-                            name="mot_de_passe"
-                            type="password"
-                            autocomplete="new-password"
-                            placeholder="Laisser vide pour ne pas changer"
-                        >
-
-                        <button
-                            type="button"
-                            class="pw-toggle"
-                            onclick="togglePw('mot_de_passe')"
-                        >
-                            👁
-                        </button>
-
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label for="confirmation_mot_de_passe">
-                        Confirmer le mot de passe
-                    </label>
-
-                    <div class="pw-wrap">
-
-                        <input
-                            class="code-input"
-                            id="confirmation_mot_de_passe"
-                            name="confirmation_mot_de_passe"
-                            type="password"
-                            autocomplete="new-password"
-                        >
-
-                        <button
-                            type="button"
-                            class="pw-toggle"
-                            onclick="togglePw('confirmation_mot_de_passe')"
-                        >
-                            👁
-                        </button>
-
-                    </div>
-                </div>
-
-                <button
-                    class="code-btn"
-                    type="submit"
-                    style="align-self:stretch;text-align:center"
-                >
-                    Enregistrer les modifications
-                </button>
-
-            </form>
-
-        </div>
-    </div>
-
-    <!-- COLONNE DROITE -->
-    <div style="display:flex;flex-direction:column;gap:16px">
+    <div>
 
         <div class="card">
-
-            <div class="card-head">
-                <span class="card-title">
-                    📏 Mesures corporelles
-                </span>
+            <div class="profile-header">
+                <div class="avatar-large"><?= esc($initiales) ?></div>
+                <div class="profile-meta">
+                    <div class="profile-name"><?= esc($nom) ?></div>
+                    <div class="profile-email"><?= esc($asString($utilisateur['email'] ?? null, '—')) ?></div>
+                    <div class="muted small">Membre depuis: <?= esc($asString($utilisateur['date_creation'] ?? '—')) ?></div>
+                </div>
             </div>
 
-            <div class="card-body">
-
-                <?php if ($imcActuel !== null): ?>
-
-                <div class="imc-preview">
-
-                    <div>
-                        <div class="imc-preview-label">
-                            IMC actuel
-                        </div>
-
-                        <div
-                            class="imc-preview-val"
-                            style="color:<?= $imcCat['color'] ?>"
-                        >
-                            <?= number_format($imcActuel, 1) ?>
-                        </div>
-                    </div>
-
-                    <div style="margin-left:auto;text-align:right">
-
-                        <span
-                            class="imc-preview-cat"
-                            style="background:<?= $imcCat['bg'] ?>;color:<?= $imcCat['color'] ?>"
-                        >
-                            <?= $imcCat['label'] ?>
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <?php endif; ?>
-
-                <form method="post" action="<?= site_url('profil/mesure') ?>" class="form-grid">
-
+            <div style="margin-top:16px">
+                <form method="post" action="<?= site_url('profil/update') ?>" class="form-grid">
                     <?= csrf_field() ?>
 
                     <div class="field">
-                        <label for="poids_kg">Poids (kg)</label>
-
-                        <input
-                            class="code-input"
-                            id="poids_kg"
-                            name="poids_kg"
-                            type="number"
-                            step="0.1"
-                            min="1"
-                            max="300"
-                            required
-                            value="<?= esc((string) (old('poids_kg') ?? $mesure['poids_kg'] ?? '')) ?>"
-                        >
+                        <label for="nom">Nom complet</label>
+                        <input class="code-input" id="nom" name="nom" type="text" required value="<?= esc((string) (old('nom') ?? $utilisateur['nom'] ?? '')) ?>">
                     </div>
 
                     <div class="field">
-                        <label for="taille_m">Taille (m)</label>
-
-                        <input
-                            class="code-input"
-                            id="taille_m"
-                            name="taille_m"
-                            type="number"
-                            step="0.01"
-                            min="0.5"
-                            max="2.5"
-                            required
-                            value="<?= esc((string) (old('taille_m') ?? $mesure['taille_m'] ?? '')) ?>"
-                        >
+                        <label for="email">Adresse email</label>
+                        <input class="code-input" id="email" name="email" type="email" required value="<?= esc((string) (old('email') ?? $utilisateur['email'] ?? '')) ?>">
                     </div>
 
-                    <div
-                        id="imc-live"
-                        style="display:none;padding:10px;background:var(--bg3)"
-                    >
-                        IMC calculé :
-                        <strong id="imc-live-val">--</strong>
+                    <div style="display:flex;gap:10px">
+                        <div style="flex:1" class="field">
+                            <label for="date_naissance">Date de naissance</label>
+                            <input class="code-input" id="date_naissance" name="date_naissance" type="date" required value="<?= esc((string) (old('date_naissance') ?? $utilisateur['date_naissance'] ?? '')) ?>">
+                        </div>
+                        <div style="width:140px" class="field">
+                            <label for="genre_id">Genre</label>
+                            <select class="code-input" id="genre_id" name="genre_id" required>
+                                <option value="">—</option>
+                                <?php foreach ($genres as $genre): ?>
+                                    <option value="<?= esc((string) ($genre['id'] ?? '')) ?>" <?= (string) (old('genre_id') ?? $utilisateur['genre_id'] ?? '') === (string) ($genre['id'] ?? '') ? 'selected' : '' ?>><?= esc($asString($genre['nom'] ?? null)) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                     </div>
 
-                    <button
-                        class="code-btn"
-                        type="submit"
-                        style="align-self:stretch;text-align:center"
-                    >
-                        Mettre à jour la mesure
-                    </button>
+                    <div class="field">
+                        <label for="mot_de_passe">Nouveau mot de passe</label>
+                        <div style="position:relative">
+                            <input class="code-input" id="mot_de_passe" name="mot_de_passe" type="password" autocomplete="new-password" placeholder="Laisser vide pour ne pas changer">
+                            <button type="button" class="pw-toggle" onclick="togglePw('mot_de_passe')" style="position:absolute;right:10px;top:8px">👁</button>
+                        </div>
+                    </div>
 
+                    <div class="field">
+                        <label for="confirmation_mot_de_passe">Confirmer le mot de passe</label>
+                        <div style="position:relative">
+                            <input class="code-input" id="confirmation_mot_de_passe" name="confirmation_mot_de_passe" type="password" autocomplete="new-password">
+                            <button type="button" class="pw-toggle" onclick="togglePw('confirmation_mot_de_passe')" style="position:absolute;right:10px;top:8px">👁</button>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;gap:10px;margin-top:6px">
+                        <button class="btn btn-primary" type="submit">Enregistrer</button>
+                        <a class="btn btn-ghost" href="/">Retour</a>
+                    </div>
                 </form>
-
             </div>
         </div>
 
+        <div style="height:18px"></div>
+
+        <div class="card">
+            <div class="card-head"><span class="card-title">🔒 Sécurité</span></div>
+            <div style="margin-top:8px" class="small muted">Modifiez votre mot de passe ici ou utilisez la réinitialisation si besoin.</div>
+        </div>
+
+    </div>
+
+    <div>
+        <div class="card">
+            <div class="card-head"><span class="card-title">📏 Mesures corporelles</span></div>
+            <div style="margin-top:12px">
+                <?php if ($imcActuel !== null): ?>
+                    <div class="stat" style="align-items:center;gap:12px">
+                        <div>
+                            <div class="small muted">IMC actuel</div>
+                            <div style="font-weight:800;font-size:20px;color:<?= $imcCat['color'] ?>"><?= number_format($imcActuel, 1) ?></div>
+                        </div>
+                        <div><span class="imc-badge" style="background:<?= $imcCat['bg'] ?>;color:<?= $imcCat['color'] ?>"><?= $imcCat['label'] ?></span></div>
+                    </div>
+                <?php endif; ?>
+
+                <div style="height:12px"></div>
+
+                <form method="post" action="<?= site_url('profil/mesure') ?>" class="form-grid">
+                    <?= csrf_field() ?>
+                    <div class="field"><label for="poids_kg">Poids (kg)</label><input class="code-input" id="poids_kg" name="poids_kg" type="number" step="0.1" min="1" max="300" required value="<?= esc((string) (old('poids_kg') ?? $mesure['poids_kg'] ?? '')) ?>"></div>
+                    <div class="field"><label for="taille_m">Taille (m)</label><input class="code-input" id="taille_m" name="taille_m" type="number" step="0.01" min="0.5" max="2.5" required value="<?= esc((string) (old('taille_m') ?? $mesure['taille_m'] ?? '')) ?>"></div>
+                    <div id="imc-live" style="display:none;padding:10px;background:rgba(0,0,0,0.03);border-radius:10px">IMC calculé : <strong id="imc-live-val">--</strong></div>
+                    <button class="btn btn-primary" type="submit">Mettre à jour la mesure</button>
+                </form>
+            </div>
+        </div>
     </div>
 
 </div>
