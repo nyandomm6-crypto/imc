@@ -4,9 +4,20 @@ $escape = static function ($value): string {
 	return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 };
 
-$imcTexte = $imc !== null ? number_format((float) $imc, 2, ',', ' ') : 'N/A';
-$taille   = isset($mesure['taille_m'])  ? number_format((float) $mesure['taille_m'],  2, ',', ' ') : 'N/A';
-$poids    = isset($mesure['poids_kg'])  ? number_format((float) $mesure['poids_kg'],  2, ',', ' ') : 'N/A';
+$imcTexte = 'N/A';
+if ($imc !== null) {
+	$imcTexte = number_format((float) $imc, 2, ',', ' ');
+}
+
+$taille = 'N/A';
+if (isset($mesure['taille_m'])) {
+	$taille = number_format((float) $mesure['taille_m'], 2, ',', ' ');
+}
+
+$poids = 'N/A';
+if (isset($mesure['poids_kg'])) {
+	$poids = number_format((float) $mesure['poids_kg'], 2, ',', ' ');
+}
 
 $imcClass = 'chip';
 $imcIcon  = '✦';
@@ -81,7 +92,13 @@ $getRegimeEmoji = static function (string $libelle) use ($regimeEmoji): string {
 		<section class="hero">
 			<div>
 				<p class="eyebrow">Tableau de bord nutrition</p>
-				<h1>Bonjour, <em><?= $escape($utilisateur['nom'] ?? 'utilisateur') ?></em></h1>
+				<?php
+				$utilisateurNom = 'utilisateur';
+				if (isset($utilisateur['nom'])) {
+					$utilisateurNom = $utilisateur['nom'];
+				}
+				?>
+				<h1>Bonjour, <em><?= $escape($utilisateurNom) ?></em></h1>
 				<p class="lead">
 					Voici vos indicateurs de sante, vos objectifs actifs et vos recommandations
 					personnalisees en matière de regime et d'activite physique.
@@ -108,6 +125,48 @@ $getRegimeEmoji = static function (string $libelle) use ($regimeEmoji): string {
 				<a class="button primary"    href="/profil">Mon profil</a>
 			</div>
 		</section>
+
+		<!-- Suggestion personalisee -->
+		<?php if (isset($suggestion) && $suggestion !== null) : ?>
+		<article class="card full" aria-label="Suggestion personnalisee">
+			<div class="section-label">Suggestion personnalisee</div>
+			<div class="list">
+				<div class="item">
+					<div class="item-icon">💡</div>
+					<div class="item-body">
+						<?php
+						if (isset($suggestion['regime']) && $suggestion['regime'] !== null && isset($suggestion['regime']['libelle'])) {
+							echo '<p class="item-title">' . $escape($suggestion['regime']['libelle']) . '</p>';
+						} else {
+							echo '<p class="item-title">Regime recommande</p>';
+						}
+
+						if (isset($suggestion['prix'])) {
+							$prixAff = number_format((float) $suggestion['prix'], 2, ',', ' ');
+							echo '<p class="item-desc">Prix pour la duree proposee&nbsp;: ' . $prixAff . ' FCFA</p>';
+						} else {
+							echo '<p class="item-desc">Prix non disponible</p>';
+						}
+
+						if (isset($suggestion['estimation']) && $suggestion['estimation'] === true) {
+							if (isset($suggestion['raison'])) {
+								echo '<p class="muted">Note&nbsp;: prix estime — ' . $escape($suggestion['raison']) . '</p>';
+							} else {
+								echo '<p class="muted">Note&nbsp;: prix estime</p>';
+							}
+						} else {
+							if (isset($suggestion['raison'])) {
+								echo '<p class="muted">' . $escape($suggestion['raison']) . '</p>';
+							} else {
+								echo '<p class="muted">Information complementaire non disponible</p>';
+							}
+						}
+						?>
+					</div>
+				</div>
+			</div>
+		</article>
+		<?php endif; ?>
 
 		<section class="grid" aria-label="Vue d'ensemble">
 
@@ -144,13 +203,23 @@ $getRegimeEmoji = static function (string $libelle) use ($regimeEmoji): string {
 							<div class="item">
 								<div class="item-icon">🎯</div>
 								<div class="item-body">
-									<p class="item-title"><?= $escape($objectif['libelle'] ?? 'Objectif') ?></p>
+									<p class="item-title">
+										<?php
+										if (isset($objectif['libelle'])) {
+											echo $escape($objectif['libelle']);
+										} else {
+											echo 'Objectif';
+										}
+										?>
+									</p>
 									<p class="item-desc">
-										<?php if (isset($objectif['valeur_cible']) && $objectif['valeur_cible'] !== null) : ?>
-											Cible&nbsp;: <?= $escape($objectif['valeur_cible']) ?>
-										<?php else : ?>
-											Objectif actif — aucune valeur cible precisee.
-										<?php endif; ?>
+										<?php
+										if (isset($objectif['valeur_cible']) && $objectif['valeur_cible'] !== null) {
+											echo 'Cible&nbsp;: ' . $escape($objectif['valeur_cible']);
+										} else {
+											echo 'Objectif actif — aucune valeur cible precisee.';
+										}
+										?>
 									</p>
 								</div>
 							</div>
@@ -174,13 +243,32 @@ $getRegimeEmoji = static function (string $libelle) use ($regimeEmoji): string {
 					<?php if (!empty($regimes)) : ?>
 						<?php foreach ($regimes as $regime) : ?>
 							<div class="item">
-								<div class="item-icon"><?= $getRegimeEmoji($regime['libelle'] ?? '') ?></div>
+								<?php
+								if (isset($regime['libelle'])) {
+									$regimeLibelle = $regime['libelle'];
+								} else {
+									$regimeLibelle = '';
+								}
+								?>
+								<div class="item-icon"><?= $getRegimeEmoji($regimeLibelle) ?></div>
 								<div class="item-body">
-									<p class="item-title"><?= $escape($regime['libelle'] ?? 'Regime') ?></p>
+									<p class="item-title">
+										<?php
+										if (isset($regime['libelle'])) {
+											echo $escape($regime['libelle']);
+										} else {
+											echo 'Regime';
+										}
+										?>
+									</p>
 									<p class="item-desc">
-										<?= isset($regime['description'])
-											? $escape($regime['description'])
-											: 'Suggestion personnalisee basee sur votre profil et votre IMC.' ?>
+										<?php
+										if (isset($regime['description'])) {
+											echo $escape($regime['description']);
+										} else {
+											echo 'Suggestion personnalisee basee sur votre profil et votre IMC.';
+										}
+										?>
 									</p>
 								</div>
 								<?php if (isset($regime['niveau'])) : ?>
@@ -207,17 +295,40 @@ $getRegimeEmoji = static function (string $libelle) use ($regimeEmoji): string {
 					<?php if (!empty($sports)) : ?>
 						<?php foreach ($sports as $sport) : ?>
 							<div class="item">
-								<div class="item-icon"><?= $getSportEmoji($sport['nom'] ?? '') ?></div>
+								<?php
+								if (isset($sport['nom'])) {
+									$sportNom = $sport['nom'];
+								} else {
+									$sportNom = '';
+								}
+								?>
+								<div class="item-icon"><?= $getSportEmoji($sportNom) ?></div>
 								<div class="item-body">
-									<p class="item-title"><?= $escape($sport['nom'] ?? 'Sport') ?></p>
+									<p class="item-title"><?php
+										if (isset($sport['nom'])) {
+											echo $escape($sport['nom']);
+										} else {
+											echo 'Sport';
+										}
+										?></p>
 									<p class="item-desc">
-										<?= isset($sport['description'])
-											? $escape($sport['description'])
-											: 'Activite recommandee en coherence avec vos objectifs.' ?>
+										<?php
+										if (isset($sport['description'])) {
+											echo $escape($sport['description']);
+										} else {
+											echo 'Activite recommandee en coherence avec vos objectifs.';
+										}
+										?>
 									</p>
 								</div>
 								<span class="item-badge">
-									<?= $escape($sport['calories_par_heure'] ?? '—') ?> kcal/h
+									<?php
+									if (isset($sport['calories_par_heure'])) {
+										echo $escape($sport['calories_par_heure']);
+									} else {
+										echo '—';
+									}
+									?> kcal/h
 								</span>
 							</div>
 						<?php endforeach; ?>

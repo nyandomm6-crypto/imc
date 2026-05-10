@@ -40,7 +40,11 @@ class RegimeModel extends Model
 	public function getRegimesParObjectif($objectif_id): array
 	{
 		if ($this->hasColumn('objectifs_id') || $this->hasColumn('objectif_id')) {
-			$column = $this->hasColumn('objectif_id') ? 'objectif_id' : 'objectifs_id';
+			if ($this->hasColumn('objectif_id')) {
+				$column = 'objectif_id';
+			} else {
+				$column = 'objectifs_id';
+			}
 
 			return $this->asArray()
 				->where($column, $objectif_id)
@@ -81,17 +85,29 @@ class RegimeModel extends Model
 			$composition['total_pourcentage'] = 0;
 
 			foreach ($rows as $row) {
-				$pourcentage = (float) ($row['pourcentage'] ?? 0);
+				if (isset($row['pourcentage'])) {
+					$pourcentage = (float) $row['pourcentage'];
+				} else {
+					$pourcentage = 0.0;
+				}
 				$composition['total_pourcentage'] += $pourcentage;
 
-				$categorie = strtolower((string) ($row[$categoryColumn] ?? ''));
+				if (isset($row[$categoryColumn])) {
+					$categorie = strtolower((string) $row[$categoryColumn]);
+				} else {
+					$categorie = '';
+				}
 				if (in_array($categorie, $categories, true)) {
 					$composition[$categorie] += $pourcentage;
 				}
 			}
 		} else {
 			foreach ($rows as $row) {
-				$composition['total_pourcentage'] += (float) ($row['pourcentage'] ?? 0);
+				if (isset($row['pourcentage'])) {
+					$composition['total_pourcentage'] += (float) $row['pourcentage'];
+				} else {
+					$composition['total_pourcentage'] += 0.0;
+				}
 			}
 		}
 
@@ -120,7 +136,11 @@ class RegimeModel extends Model
 		foreach (['prix_jour', 'prix', 'tarif_jour', 'tarif'] as $column) {
 			if ($this->hasColumn($column)) {
 				$row = $this->asArray()->select($column)->find($regime_id);
-				$basePrice = (float) ($row[$column] ?? 0);
+				if (isset($row[$column])) {
+					$basePrice = (float) $row[$column];
+				} else {
+					$basePrice = 0.0;
+				}
 				break;
 			}
 		}
@@ -134,6 +154,86 @@ class RegimeModel extends Model
 		$pourcentage = (float) $pourcentage;
 
 		return round($prix - ($prix * $pourcentage / 100), 2);
+	}
+
+	public function suggestRegimeForUser(?int $genre_id, float $poids_kg, ?int $objectif_id, int $duree_jours = 30): array
+	{
+		$duree = max(1, (int) $duree_jours);
+
+		$liste = [];
+		if ($objectif_id !== null) {
+			$liste = $this->getRegimesParObjectif($objectif_id);
+		}
+
+		if (empty($liste)) {
+			$liste = $this->getAll();
+		}
+
+		$selected = null;
+		$prix = 0.0;
+		$usedEstimate = false;
+
+		// Try to find a regime with an explicit price column
+		foreach ($liste as $regime) {
+			$p = $this->getPrixAvecDuree($regime['id'], $duree);
+			if ($p > 0) {
+				$selected = $regime;
+				$prix = $p;
+				break;
+			}
+		}
+
+		if ($prix <= 0) {
+			$usedEstimate = true;
+
+			// Determine base rate by objectif label
+			$baseRate = 2.0; // par jour par défaut
+			if ($objectif_id !== null) {
+				$row = $this->db->table('objectifs')->select('libelle')->where('id', $objectif_id)->get()->getRowArray();
+				$libelle = isset($row['libelle']) ? strtolower($row['libelle']) : '';
+				if (strpos($libelle, 'perte') !== false) {
+					$baseRate = 2.0;
+				} elseif (strpos($libelle, 'prise') !== false) {
+					$baseRate = 2.5;
+				} elseif (strpos($libelle, 'maint') !== false) {
+					$baseRate = 1.5;
+				}
+			}
+
+			$poidsRef = 70.0;
+			$poidsDiff = max(-30, min(50, $poids_kg - $poidsRef));
+			$poidsMultiplier = 1 + ($poidsDiff / 100.0); // entre ~0.7 et 1.5
+
+			$genreMultiplier = 1.0;
+			if ($genre_id !== null) {
+				$g = $this->db->table('genres')->select('nom')->where('id', $genre_id)->get()->getRowArray();
+				$genreNom = isset($g['nom']) ? strtolower($g['nom']) : '';
+				if ($genreNom === 'homme') {
+					$genreMultiplier = 1.05;
+				}
+			}
+
+			$prix = round($baseRate * max(0.5, $poidsMultiplier) * $genreMultiplier * $duree, 2);
+
+			if (isset($liste[0])) {
+				$selected = $liste[0];
+			} else {
+				$selected = null;
+			}
+		}
+
+		if ($usedEstimate) {
+			$raison = 'Prix estimé (pas de tarif explicite). Calcul basé sur objectif, poids et genre.';
+		} else {
+			$raison = 'Prix issu du tarif du régime pour la durée donnée.';
+		}
+
+		return [
+			'regime' => $selected,
+			'prix' => (float) $prix,
+			'estimation' => (bool) $usedEstimate,
+			'raison' => $raison,
+		];
 	}
 
 	public function ajouterAliment($regime_id, $aliment_id, $pourcentage)
