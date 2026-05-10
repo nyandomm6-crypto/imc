@@ -40,6 +40,14 @@ class CompteModel extends Model
         return $compte ? (float) ($compte['solde'] ?? 0.0) : 0.0;
     }
 
+    public function topUsersBySolde(int $limit = 5): array
+    {
+        return $this->select('comptes.solde, utilisateurs.nom, utilisateurs.id')
+            ->join('utilisateurs', 'utilisateurs.id = comptes.utilisateur_id')
+            ->orderBy('comptes.solde', 'DESC')
+            ->limit($limit)
+            ->findAll();
+    }
     public function crediter(int $utilisateur_id, float $montant): bool
     {
         if ($montant <= 0) {
@@ -55,9 +63,7 @@ class CompteModel extends Model
 
         $this->db->transStart();
 
-        $this->db->table('comptes')
-            ->where('utilisateur_id', $utilisateur_id)
-            ->update(['solde' => $nouveauSolde]);
+        $this->update($compte['id'], ['solde' => $nouveauSolde]);
 
         $this->db->table('transactions')->insert([
             'compte_id' => $compte['id'],
@@ -91,9 +97,7 @@ class CompteModel extends Model
 
         $this->db->transStart();
 
-        $this->db->table('comptes')
-            ->where('utilisateur_id', $utilisateur_id)
-            ->update(['solde' => $nouveauSolde]);
+        $this->update($compte['id'], ['solde' => $nouveauSolde]);
 
         $this->db->table('transactions')->insert([
             'compte_id' => $compte['id'],
@@ -109,17 +113,11 @@ class CompteModel extends Model
 
     public function suspendre(int $utilisateur_id): bool
     {
-        return (bool) $this->db->table('comptes')
-            ->where('utilisateur_id', $utilisateur_id)
-            ->update(['status' => 'suspended']);
-    }
+        $compte = $this->getByUtilisateur($utilisateur_id);
+        if (! $compte) {
+            return false;
+        }
 
-    public function topUsersBySolde($limit = 5)
-    {
-        return $this->select('utilisateurs.nom, comptes.solde')
-            ->join('utilisateurs', 'utilisateurs.id = comptes.utilisateur_id')
-            ->orderBy('comptes.solde', 'DESC')
-            ->limit($limit)
-            ->findAll();
+        return (bool) $this->update($compte['id'], ['status' => 'suspended']);
     }
 }

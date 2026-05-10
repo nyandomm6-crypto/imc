@@ -69,8 +69,7 @@ class ObjectifModel extends Model
 			->where('utilisateur_id', $utilisateur_id)
 			->delete();
 	}
-
-	public function repartitionObjectifs()
+		public function repartitionObjectifs()
 	{
 		return $this->select('objectifs.libelle, COUNT(utilisateur_objectifs.id) as total')
 			->join('utilisateur_objectifs', 'utilisateur_objectifs.objectif_id = objectifs.id')

@@ -3,168 +3,158 @@
 namespace App\Controllers\back;
 
 use App\Controllers\BaseController;
-use App\Models\CompteModel;
-use App\Models\ImcModel;
-use App\Models\MesureModel;
-use App\Models\ObjectifModel;
 use App\Models\RegimeModel;
-use App\Models\SportModel;
-use App\Models\UtilisateurModel;
-use App\Models\CodePromoModel;
+use App\Models\AlimentModel;
+use Config\Database;
 
 class AdminRegimeController extends BaseController
 {
-    private UtilisateurModel $utilisateurModel;
-    private MesureModel $mesureModel;
-    private ImcModel $imcModel;
-    private ObjectifModel $objectifModel;
-    private RegimeModel $regimeModel;
-    private SportModel $sportModel;
-    private CompteModel $compteModel;
-    private CodePromoModel $codePromoModel;
+    protected $regimeModel;
+    protected $alimentModel;
 
     public function __construct()
     {
-        $this->utilisateurModel = new UtilisateurModel();
-        $this->mesureModel = new MesureModel();
-        $this->imcModel = new ImcModel();
-        $this->objectifModel = new ObjectifModel();
         $this->regimeModel = new RegimeModel();
-        $this->sportModel = new SportModel();
-        $this->compteModel = new CompteModel();
-        $this->codePromoModel = new CodePromoModel();
+        $this->alimentModel = new AlimentModel();
     }
-
-    // public function index()
-    // {
-    //     return "OK REGIMES";
-    // }
 
     public function index()
     {
-        $data['regimes'] = $this->regimeModel->getRegimesAvecStats();
-        return view('back/regime/liste', $data);
-    }
+        $regimes = $this->regimeModel->orderBy('libelle', 'ASC')->findAll();
 
-    public function liste()
-    {
-        $regimes = $this->regimeModel->getRegimesAvecStats();
-
-        return view('back/regime/liste', [
+        return view('back/regimes/list', [
             'regimes' => $regimes
         ]);
     }
 
     public function create()
     {
-        $alimentModel = new \App\Models\AlimentModel();
+        $aliments = $this->alimentModel->orderBy('nom', 'ASC')->findAll();
 
-        return view('back/regime/create', [
-            'aliments' => $alimentModel->findAll()
+        return view('back/regimes/form', [
+            'regime' => null,
+            'aliments' => $aliments,
         ]);
     }
 
     public function store()
     {
-        $db = \Config\Database::connect();
+        $rules = [
+            'libelle' => 'required|max_length[100]',
+        ];
 
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $data = $this->request->getPost(['libelle']);
+
+        // Insert regime and its recettes (if any)
+        $db = Database::connect();
         $db->transStart();
 
-        // 1. Regime
-        $regimeId = $this->regimeModel->insert([
-            'libelle' => $this->request->getPost('libelle'),
-            'variation_poids' => $this->request->getPost('variation_poids')
-        ]);
+        $regimeId = $this->regimeModel->insert($data);
+        if ($regimeId === false) {
+            $db->transComplete();
+            return redirect()->back()->withInput()->with('error', 'Erreur lors de la création du régime');
+        }
 
-        // 2. Recettes (composition)
-        $recettes = $this->request->getPost('recettes');
+        $alimentIds = $this->request->getPost('aliment_id') ?? [];
+        $pourcentages = $this->request->getPost('pourcentage') ?? [];
 
-        foreach ($recettes as $r) {
-            if ($r['pourcentage'] > 0) {
-                $this->db->table('recettes')->insert([
-                    'regime_id' => $regimeId,
-                    'aliment_id' => $r['aliment_id'],
-                    'pourcentage' => $r['pourcentage']
-                ]);
+        foreach ($alimentIds as $index => $alimentId) {
+            $p = $pourcentages[$index] ?? null;
+            if ($alimentId && $p !== null && $p !== '') {
+                $this->regimeModel->ajouterAliment((int) $regimeId, (int) $alimentId, (float) $p);
             }
         }
 
-        // 3. Prix
-        $prix = $this->request->getPost('prix');
-
-        foreach ($prix as $p) {
-            $this->db->table('regime_prix')->insert([
-                'regime_id' => $regimeId,
-                'duree_jours' => $p['duree_jours'],
-                'prix' => $p['prix']
-            ]);
-        }
-
         $db->transComplete();
 
-        return redirect()->to('/admin/regimes');
-    }  
+        if (! $db->transStatus()) {
+            return redirect()->back()->withInput()->with('error', 'Erreur lors de la création du régime');
+        }
+
+        return redirect()->to('/admin/regimes')->with('success', 'Régime créé avec succès');
+
+        return redirect()->back()->withInput()->with('error', 'Erreur lors de la création');
+    }
 
     public function edit($id)
     {
-        $alimentModel = new \App\Models\AlimentModel();
+        $regime = $this->regimeModel->find($id);
 
-        $data['regime'] = $this->regimeModel->find($id);
-        $data['aliments'] = $alimentModel->findAll();
-
-        // Recettes groupées
-        $recettes = $this->regimeModel->getRecettesByRegime($id);
-
-        $data['recettes'] = [];
-        foreach ($recettes as $r) {
-            $data['recettes'][$r['aliment_id']] = $r['pourcentage'];
+        if (!$regime) {
+            return redirect()->to('/admin/regimes')->with('error', 'Régime non trouvé');
         }
 
-        // Prix
-        $data['prixList'] = $this->regimeModel->getPrixByRegime($id);
+        $aliments = $this->alimentModel->orderBy('nom', 'ASC')->findAll();
 
-        return view('back/regime/edit', $data);
+        // get aliments already in regime via getById which includes 'aliments'
+        $regimeWithAliments = $this->regimeModel->getById($id);
+
+        return view('back/regimes/form', [
+            'regime' => $regimeWithAliments,
+            'aliments' => $aliments,
+        ]);
     }
-
 
     public function update($id)
     {
-        $db = \Config\Database::connect();
+        $regime = $this->regimeModel->find($id);
 
-        $db->transStart();
-
-        // update regime
-        $this->regimeModel->update($id, [
-            'libelle' => $this->request->getPost('libelle'),
-            'variation_poids' => $this->request->getPost('variation_poids')
-        ]);
-
-        // reset recettes
-        $db->table('recettes')->where('regime_id', $id)->delete();
-
-        $recettes = $this->request->getPost('recettes');
-        foreach ($recettes as $r) {
-            $db->table('recettes')->insert([
-                'regime_id' => $id,
-                'aliment_id' => $r['aliment_id'],
-                'pourcentage' => $r['pourcentage']
-            ]);
+        if (!$regime) {
+            return redirect()->to('/admin/regimes')->with('error', 'Régime non trouvé');
         }
 
-        // reset prix
-        $db->table('regime_prix')->where('regime_id', $id)->delete();
+        $rules = [
+            'libelle' => 'required|max_length[100]',
+        ];
 
-        $prix = $this->request->getPost('prix');
-        foreach ($prix as $p) {
-            $db->table('regime_prix')->insert([
-                'regime_id' => $id,
-                'duree_jours' => $p['duree_jours'],
-                'prix' => $p['prix']
-            ]);
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $data = $this->request->getPost(['libelle']);
+
+        // Update regime and its recettes
+        $db = Database::connect();
+        $db->transStart();
+
+        if (! $this->regimeModel->update($id, $data)) {
+            $db->transComplete();
+            return redirect()->back()->withInput()->with('error', 'Erreur lors de la mise à jour du régime');
+        }
+
+        // Replace recettes: delete existing then insert new ones
+        $db->table('recettes')->where('regime_id', $id)->delete();
+
+        $alimentIds = $this->request->getPost('aliment_id') ?? [];
+        $pourcentages = $this->request->getPost('pourcentage') ?? [];
+
+        foreach ($alimentIds as $index => $alimentId) {
+            $p = $pourcentages[$index] ?? null;
+            if ($alimentId && $p !== null && $p !== '') {
+                $this->regimeModel->ajouterAliment((int) $id, (int) $alimentId, (float) $p);
+            }
         }
 
         $db->transComplete();
 
-        return redirect()->to('/admin/regimes');
+        if (! $db->transStatus()) {
+            return redirect()->back()->withInput()->with('error', 'Erreur lors de la mise à jour du régime');
+        }
+
+        return redirect()->to('/admin/regimes')->with('success', 'Régime mis à jour avec succès');
+    }
+
+    public function delete($id)
+    {
+        try {
+            $this->regimeModel->delete($id);
+            return redirect()->to('/admin/regimes')->with('success', 'Régime supprimé avec succès');
+        } catch (\Exception $e) {
+            return redirect()->to('/admin/regimes')->with('error', 'Erreur lors de la suppression');
+        }
     }
 }

@@ -9,6 +9,7 @@ use App\Models\MesureModel;
 use App\Models\ObjectifModel;
 use App\Models\RegimeModel;
 use App\Models\SportModel;
+use App\Models\TransactionModel;
 use App\Models\UtilisateurModel;
 
 class DashboardController extends BaseController
@@ -20,6 +21,7 @@ class DashboardController extends BaseController
 	private RegimeModel $regimeModel;
 	private SportModel $sportModel;
 	private CompteModel $compteModel;
+	private TransactionModel $transactionModel;
 
 	public function __construct()
 	{
@@ -30,6 +32,7 @@ class DashboardController extends BaseController
 		$this->regimeModel = new RegimeModel();
 		$this->sportModel = new SportModel();
 		$this->compteModel = new CompteModel();
+		$this->transactionModel = new TransactionModel();
 	}
 
 	public function index()
@@ -73,8 +76,17 @@ class DashboardController extends BaseController
 		$imcProgression = 0;
 
 		if ($mesure !== null) {
-			$poids = (float) ($mesure['poids_kg'] ?? 0);
-			$taille = (float) ($mesure['taille_m'] ?? 0);
+			if (isset($mesure['poids_kg'])) {
+				$poids = (float) $mesure['poids_kg'];
+			} else {
+				$poids = 0.0;
+			}
+
+			if (isset($mesure['taille_m'])) {
+				$taille = (float) $mesure['taille_m'];
+			} else {
+				$taille = 0.0;
+			}
 			$imc = $this->imcModel->calculerIMC($poids, $taille);
 			$categorie = $this->imcModel->getCategorie($imc);
 			if ($categorie !== null) {
@@ -111,9 +123,27 @@ class DashboardController extends BaseController
 		$sports = $this->sportModel->getSportsRecommandes($objectifId, $imc);
 		$compte = $this->compteModel->getByUtilisateur($utilisateurId);
 		$statutCompte = 'inactive';
+		$transactions = [];
 		if ($compte !== null && isset($compte['status'])) {
 			$statutCompte = $compte['status'];
 		}
+		if ($compte !== null && isset($compte['id'])) {
+			$transactions = $this->transactionModel->getLatestByCompte((int) $compte['id'], 5);
+		}
+
+		if (isset($mesure['poids_kg'])) {
+			$poidsUtilisateur = (float) $mesure['poids_kg'];
+		} else {
+			$poidsUtilisateur = 0.0;
+		}
+
+		if (isset($utilisateur['genre_id'])) {
+			$genreId = (int) $utilisateur['genre_id'];
+		} else {
+			$genreId = null;
+		}
+
+		$suggestion = $this->regimeModel->suggestRegimeForUser($genreId, (float)$poidsUtilisateur, $objectifId, 30);
 
 		return [
 			'utilisateur' => $utilisateur,
@@ -123,9 +153,11 @@ class DashboardController extends BaseController
 			'mesure' => $mesure,
 			'objectifs' => $objectifs,
 			'regimes' => $regimes,
+			'suggestion' => $suggestion,
 			'sports' => $sports,
 			'soldeCompte' => $this->compteModel->getSolde($utilisateurId),
 			'compteStatut' => $statutCompte,
+			'transactions' => $transactions,
 		];
 	}
 
@@ -151,9 +183,11 @@ class DashboardController extends BaseController
 			'mesure' => null,
 			'objectifs' => [],
 			'regimes' => [],
+			'suggestion' => null,
 			'sports' => [],
 			'soldeCompte' => 0.0,
 			'compteStatut' => 'inactive',
+			'transactions' => [],
 		];
 	}
 }
