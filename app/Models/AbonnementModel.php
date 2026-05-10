@@ -71,4 +71,18 @@ class AbonnementModel extends Model
             ->where('id', $id)
             ->update($data);
     }
+
+    public function makeGold(int $utilisateur_id): bool
+    {
+        $option = $this->db->table('abonnements_options')
+            ->where("LOWER(nom) LIKE '%gold%'")
+            ->get()
+            ->getRowArray();
+
+        if (!$option) {
+            return false;
+        }
+
+        return (bool) $this->souscrire($utilisateur_id, $option['id']);
+    }
 }
