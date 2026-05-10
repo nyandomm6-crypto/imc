@@ -76,6 +76,42 @@
                     <input type="text" name="libelle" class="form-input" value="<?= old('libelle', $regime['libelle'] ?? '') ?>" placeholder="Ex: Régime Kéto, Régime Méditerranéen..." required>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-label">Recettes (composants du régime)</label>
+                    <div id="recettes-container">
+                        <?php if (! empty($regime['aliments'] ?? [])): ?>
+                            <?php foreach ($regime['aliments'] as $r): ?>
+                                <div class="recette-row" style="display:flex;gap:8px;margin-bottom:8px;">
+                                    <select name="aliment_id[]" class="form-input" style="flex:1;">
+                                        <option value="">-- Sélectionner un aliment --</option>
+                                        <?php foreach ($aliments as $a): ?>
+                                            <option value="<?= $a['id'] ?>" <?= $a['id'] == ($r['aliment_id'] ?? '') ? 'selected' : '' ?>><?= esc($a['nom']) ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <input type="number" step="0.1" min="0" max="100" name="pourcentage[]" class="form-input" placeholder="%" style="width:100px;" value="<?= old('pourcentage[]', $r['pourcentage'] ?? '') ?>">
+                                    <button type="button" class="btn btn-secondary remove-recette">Supprimer</button>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="recette-row" style="display:flex;gap:8px;margin-bottom:8px;">
+                                <select name="aliment_id[]" class="form-input" style="flex:1;">
+                                    <option value="">-- Sélectionner un aliment --</option>
+                                    <?php if (! empty($aliments ?? [])): ?>
+                                        <?php foreach ($aliments as $a): ?>
+                                            <option value="<?= $a['id'] ?>"><?= esc($a['nom']) ?></option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                                <input type="number" step="0.1" min="0" max="100" name="pourcentage[]" class="form-input" placeholder="%" style="width:100px;">
+                                <button type="button" class="btn btn-secondary remove-recette">Supprimer</button>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <div style="margin-top:8px;">
+                        <button type="button" id="add-recette" class="btn btn-primary">Ajouter un composant</button>
+                    </div>
+                </div>
+
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary"><?= $regime ? 'Mettre à jour' : 'Créer' ?></button>
                     <a href="/admin/regimes" class="btn btn-secondary">Annuler</a>
@@ -85,6 +121,36 @@
         </div>
 
     </form>
+
+<script>
+// Simple client-side add/remove rows for recettes
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.id === 'add-recette') {
+        const container = document.getElementById('recettes-container');
+        const row = document.createElement('div');
+        row.className = 'recette-row';
+        row.style = 'display:flex;gap:8px;margin-bottom:8px;';
+        row.innerHTML = `
+            <select name="aliment_id[]" class="form-input" style="flex:1;">
+                <option value="">-- Sélectionner un aliment --</option>
+                <?php if (! empty($aliments ?? [])): ?>
+                    <?php foreach ($aliments as $a): ?>
+                        <option value="<?= $a['id'] ?>"><?= esc($a['nom']) ?></option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+            <input type="number" step="0.1" min="0" max="100" name="pourcentage[]" class="form-input" placeholder="%" style="width:100px;">
+            <button type="button" class="btn btn-secondary remove-recette">Supprimer</button>
+        `;
+        container.appendChild(row);
+    }
+
+    if (e.target && e.target.classList && e.target.classList.contains('remove-recette')) {
+        const row = e.target.closest('.recette-row');
+        if (row) row.remove();
+    }
+});
+</script>
 
 </div>
 
