@@ -48,6 +48,25 @@ class UtilisateurModel extends Model
         return $result ?: false;
     }
 
+    public function getAllWithDetails(): array
+    {
+        return $this->select('utilisateurs.*, genres.nom as genre, roles.nom as role')
+            ->join('genres', 'genres.id = utilisateurs.genre_id', 'left')
+            ->join('roles', 'roles.id = utilisateurs.role_id', 'left')
+            ->orderBy('utilisateurs.date_creation', 'DESC')
+            ->findAll();
+    }
+
+    public function getByIdWithDetails(int $id)
+    {
+        return $this->select('utilisateurs.*, genres.nom as genre, roles.nom as role')
+            ->join('genres', 'genres.id = utilisateurs.genre_id', 'left')
+            ->join('roles', 'roles.id = utilisateurs.role_id', 'left')
+            ->where('utilisateurs.id', $id)
+            ->first();
+    }
+
+
     public function updateUtilisateur($id, array $data)
     {
         return parent::update($id, $data);
@@ -60,16 +79,12 @@ class UtilisateurModel extends Model
 
     public function getUsers()
     {
-        return $this->db
-            ->table('utilisateurs')
-            ->where('role_id', 2)
-            ->get()
-            ->getResult();
+        return $this->where('role_id', 2)->findAll();
     }
 
     public function countByRole(int $roleId)
     {
-        return $this->db->table('utilisateurs')->where('role_id', $roleId)->countAllResults();
+        return $this->where('role_id', $roleId)->countAllResults();
     }
 
     public function inscriptionsParMois()

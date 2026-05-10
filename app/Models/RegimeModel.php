@@ -13,6 +13,10 @@ class RegimeModel extends Model
 		'libelle',
 	];
 
+	protected $validationRules = [
+		'libelle' => 'required|max_length[100]',
+	];
+
 	public function getAll(): array
 	{
 		return $this->orderBy('libelle', 'ASC')->findAll();

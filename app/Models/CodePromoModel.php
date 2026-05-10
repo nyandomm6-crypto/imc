@@ -67,9 +67,7 @@ class CodePromoModel extends Model
 
         $this->db->transStart();
 
-        $this->db->table('codes_promo')
-            ->where('id', $row['id'])
-            ->update(['status' => 'used']);
+        $this->update($row['id'], ['status' => 'used']);
 
         $this->db->table('utilisateurs_codes')
             ->insert([
@@ -102,16 +100,16 @@ class CodePromoModel extends Model
 
     public function expirer(int $id): bool
     {
-        return (bool) $this->db->table('codes_promo')->where('id', $id)->update(['status' => 'expired']);
+        return (bool) $this->update($id, ['status' => 'expired']);
     }
 
     public function validerCode(int $id): bool
     {
-        return (bool) $this->db->table('codes_promo')->where('id', $id)->update(['status' => 'active']);
+        return (bool) $this->update($id, ['status' => 'active']);
     }
      public function countByStatus(string $status)
     {
-        return $this->db->table('codes_promo')->where('status', $status)->countAllResults();
+        return $this->where('status', $status)->countAllResults();
     }
 
     public function codesRecemmentUtilises($limit = 10)

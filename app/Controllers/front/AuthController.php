@@ -6,18 +6,21 @@ use App\Controllers\BaseController;
 use App\Models\MesureModel;
 use App\Models\RoleModel;
 use App\Models\UtilisateurModel;
+use App\Models\GenreModel;
 
 class AuthController extends BaseController
 {
     private UtilisateurModel $utilisateurModel;
     private RoleModel $roleModel;
     private MesureModel $mesureModel;
+    private GenreModel $genreModel;
 
     public function __construct()
     {
         $this->utilisateurModel = new UtilisateurModel();
         $this->roleModel = new RoleModel();
         $this->mesureModel = new MesureModel();
+        $this->genreModel = new GenreModel();
     }
 
     public function login()
@@ -181,12 +184,7 @@ class AuthController extends BaseController
 
     private function getInscriptionOptions(): array
     {
-        $db = db_connect();
-
-        $genres = $db->table('genres')
-            ->orderBy('nom', 'ASC')
-            ->get()
-            ->getResultArray();
+        $genres = $this->genreModel->getAll();
 
         return [
             'genres' => $genres

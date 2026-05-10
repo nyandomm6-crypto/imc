@@ -5,16 +5,19 @@ namespace App\Controllers\front;
 use App\Controllers\BaseController;
 use App\Models\MesureModel;
 use App\Models\UtilisateurModel;
+use App\Models\GenreModel;
 
 class ProfilController extends BaseController
 {
     private UtilisateurModel $utilisateurModel;
     private MesureModel $mesureModel;
+    private GenreModel $genreModel;
 
     public function __construct()
     {
         $this->utilisateurModel = new UtilisateurModel();
         $this->mesureModel = new MesureModel();
+        $this->genreModel = new GenreModel();
     }
 
     public function index()
@@ -27,11 +30,7 @@ class ProfilController extends BaseController
         $utilisateur = $this->utilisateurModel->getById($utilisateurId);
         $mesure = $this->mesureModel->getLastMesure($utilisateurId);
 
-        $db = db_connect();
-        $genres = $db->table('genres')
-            ->orderBy('nom', 'ASC')
-            ->get()
-            ->getResultArray();
+        $genres = $this->genreModel->getAll();
 
         return view('front/profil/index', [
             'utilisateur' => $utilisateur,
