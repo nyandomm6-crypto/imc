@@ -9,6 +9,47 @@
             font-family: Arial;
             background: #f4f6f9;
             margin: 0;
+        }
+
+        /* LAYOUT */
+        .layout {
+            display: flex;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 230px;
+            background: #2c3e50;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            background: #34495e;
+        }
+
+        .sidebar a.active {
+            background: #3498db;
+        }
+
+        /* CONTENU */
+        .main-content {
+            flex: 1;
             padding: 20px;
         }
 
@@ -16,6 +57,7 @@
             margin-bottom: 30px;
         }
 
+        /* CARDS */
         .container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -47,6 +89,7 @@
         .regimes { border-left: 5px solid #2ecc71; }
         .codes { border-left: 5px solid #e67e22; }
 
+        /* CHARTS */
         .charts {
             margin-top: 50px;
             display: grid;
@@ -102,110 +145,147 @@
 
 <body>
 
-<h1>📊 Dashboard Admin</h1>
+<div class="layout">
 
-<!-- CARDS -->
-<div class="container">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>⚙ Admin</h2>
 
-    <div class="card users">
-        <h2>👥 Utilisateurs</h2>
-        <div class="value"><?= $total_users ?></div>
+        <a href="<?= base_url('admin/dashboard') ?>" 
+        class="<?= uri_string() == 'admin/dashboard' ? 'active' : '' ?>">
+        📊 Dashboard
+        </a>
+
+        <a href="<?= base_url('admin/regimes') ?>" 
+        class="<?= uri_string() == 'admin/regimes' ? 'active' : '' ?>">
+        🥗 Régimes
+        </a>
+
+        <a href="<?= base_url('admin/codes') ?>">
+        🔑 Codes promo
+        </a>
+
+        <a href="#">
+        📈 Statistiques
+        </a>
+
+        <a href="<?= base_url('admin/utilisateurs') ?>">
+        👥 Utilisateurs
+        </a>
+
+        <hr>
+
+        <a href="<?= base_url('logout') ?>">
+        🚪 Déconnexion
+        </a>
     </div>
 
-    <div class="card regimes">
-        <h2>🥗 Régimes</h2>
-        <div class="value"><?= $total_regimes ?></div>
+    <!-- CONTENU -->
+    <div class="main-content">
+
+        <h1>📊 Dashboard Admin</h1>
+
+        <!-- CARDS -->
+        <div class="container">
+
+            <div class="card users">
+                <h2>👥 Utilisateurs</h2>
+                <div class="value"><?= $total_users ?></div>
+            </div>
+
+            <div class="card regimes">
+                <h2>🥗 Régimes</h2>
+                <div class="value"><?= $total_regimes ?></div>
+            </div>
+
+            <div class="card codes">
+                <h2>🔑 Codes actifs</h2>
+                <div class="value"><?= $total_codes_actifs ?></div>
+            </div>
+
+        </div>
+
+        <!-- CHARTS -->
+        <div class="charts">
+
+            <div>
+                <h3>📈 Inscriptions par mois</h3>
+                <canvas id="inscriptionsChart"></canvas>
+            </div>
+
+            <div>
+                <h3>🎯 Répartition des objectifs</h3>
+                <canvas id="objectifsChart"></canvas>
+            </div>
+
+        </div>
+
+        <!-- TABLE TOP USERS -->
+        <div class="table-container">
+            <h3>💰 Top 5 utilisateurs par solde</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Solde</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php foreach ($top_users as $u): ?>
+                        <tr>
+                            <td><?= esc($u['nom']) ?></td>
+                            <td><?= number_format($u['solde'], 2) ?> €</td>
+                            <td><span class="badge">actif</span></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TABLE CODES -->
+        <div class="table-container">
+            <h3>🔑 Codes promo récemment utilisés</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Utilisateur</th>
+                        <th>Date utilisation</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php foreach ($codes_recents as $c): ?>
+                        <tr>
+                            <td><strong><?= esc($c['code']) ?></strong></td>
+                            <td><?= esc($c['nom']) ?></td>
+                            <td><?= date('d/m/Y H:i', strtotime($c['date_utilisation'])) ?></td>
+                            <td>
+                                <?php if ($c['status'] === 'active'): ?>
+                                    🟢 actif
+                                <?php elseif ($c['status'] === 'used'): ?>
+                                    🔵 utilisé
+                                <?php else: ?>
+                                    🔴 expiré
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
     </div>
-
-    <div class="card codes">
-        <h2>🔑 Codes actifs</h2>
-        <div class="value"><?= $total_codes_actifs ?></div>
-    </div>
-
-</div>
-
-<!-- CHARTS -->
-<div class="charts">
-
-    <!-- LINE CHART -->
-    <div>
-        <h3>📈 Inscriptions par mois</h3>
-        <canvas id="inscriptionsChart"></canvas>
-    </div>
-
-    <!-- PIE CHART -->
-    <div>
-        <h3>🎯 Répartition des objectifs</h3>
-        <canvas id="objectifsChart"></canvas>
-    </div>
-
-</div>
-
-<!-- TABLE TOP USERS -->
-<div class="table-container">
-    <h3>💰 Top 5 utilisateurs par solde</h3>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Utilisateur</th>
-                <th>Solde</th>
-                <th>Statut</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <?php foreach ($top_users as $u): ?>
-                <tr>
-                    <td><?= esc($u['nom']) ?></td>
-                    <td><?= number_format($u['solde'], 2) ?> €</td>
-                    <td><span class="badge">actif</span></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
-
-<div class="table-container" style="margin-top:50px;">
-    <h3>🔑 Codes promo récemment utilisés</h3>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Code</th>
-                <th>Utilisateur</th>
-                <th>Date utilisation</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <?php foreach ($codes_recents as $c): ?>
-                <tr>
-                    <td><strong><?= esc($c['code']) ?></strong></td>
-                    <td><?= esc($c['nom']) ?></td>
-                    <td><?= date('d/m/Y H:i', strtotime($c['date_utilisation'])) ?></td>
-                    <td>
-                        <?php if ($c['status'] === 'active'): ?>
-                            🟢 actif
-                        <?php elseif ($c['status'] === 'used'): ?>
-                            🔵 utilisé
-                        <?php else: ?>
-                            🔴 expiré
-                        <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-/* =========================
-   LINE CHART
-========================= */
 const ctx = document.getElementById('inscriptionsChart');
 
 new Chart(ctx, {
@@ -222,9 +302,6 @@ new Chart(ctx, {
     }
 });
 
-/* =========================
-   PIE CHART
-========================= */
 const ctx2 = document.getElementById('objectifsChart');
 
 new Chart(ctx2, {

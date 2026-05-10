@@ -94,3 +94,32 @@ VALUES
 (3, 6, '2025-05-06 15:00:00'),
 (1, 7, '2025-05-07 16:00:00'),
 (2, 8, '2025-05-08 17:00:00');
+
+
+
+
+// regime
+
+INSERT INTO regimes (libelle)
+VALUES 
+('Régime minceur'),
+('Régime prise de masse'),
+('Régime équilibré');
+
+
+INSERT INTO aliments (nom, calories_100g)
+VALUES 
+('Riz', 130),
+('Poulet', 165),
+('Brocoli', 35);
+
+
+INSERT INTO recettes (regime_id, aliment_id, pourcentage)
+VALUES
+(1, 1, 50),
+(1, 3, 50),
+(2, 2, 70),
+(2, 1, 30),
+(3, 1, 40),
+(3, 2, 30),
+(3, 3, 30);

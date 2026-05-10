@@ -179,5 +179,15 @@ class RegimeModel extends Model
 	{
 		return $this->countAllResults();
 	}
+
+	public function getRegimesAvecStats()
+	{
+		return $this->db->table('regimes r')
+			->select('r.id, r.libelle, COUNT(rec.aliment_id) as nb_aliments, 5000 as prix_base')
+			->join('recettes rec', 'rec.regime_id = r.id', 'left')
+			->groupBy('r.id')
+			->get()
+			->getResultArray();
+	}
 }
 

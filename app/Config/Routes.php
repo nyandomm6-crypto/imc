@@ -23,4 +23,15 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 
 $routes->group('admin', ['filter' => 'admin'], function($routes) {
     $routes->get('dashboard', 'back\AdminDashboardController::index');
+
+     // REGIMES CRUD
+    $routes->get('regimes', 'back\AdminRegimeController::index');       
+    $routes->get('regimes/create', 'back\AdminRegimeController::create'); 
+    $routes->post('regimes', 'back\AdminRegimeController::store');    
+    $routes->get('regimes/edit/(:num)', 'back\AdminRegimeController::edit/$1');
+    $routes->post('regimes/update/(:num)', 'back\AdminRegimeController::update/$1');
+    $routes->get('regimes/delete/(:num)', 'back\AdminRegimeController::delete/$1');
 });
+//     $routes->get('admin/test', function() {
+//     return 'TEST OK';
+// });
