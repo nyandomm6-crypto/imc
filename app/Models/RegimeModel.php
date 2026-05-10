@@ -13,6 +13,10 @@ class RegimeModel extends Model
 		'libelle',
 	];
 
+	protected $validationRules = [
+		'libelle' => 'required|max_length[100]',
+	];
+
 	public function getAll(): array
 	{
 		return $this->orderBy('libelle', 'ASC')->findAll();
@@ -119,14 +123,14 @@ class RegimeModel extends Model
 		return $this->insert($data);
 	}
 
-	public function update($id, $data)
+	public function update($id = null, $row = null): bool
 	{
-		return parent::update($id, $data);
+		return parent::update($id, $row);
 	}
 
-	public function delete($id)
+	public function delete($id = null, bool $purge = false): bool
 	{
-		return parent::delete($id);
+		return parent::delete($id, $purge);
 	}
 
 	public function getPrixAvecDuree($regime_id, $duree_jours): float
@@ -272,6 +276,10 @@ class RegimeModel extends Model
 		}
 
 		return $columns;
+	}
+		public function countAllRegimes()
+	{
+		return $this->countAllResults();
 	}
 }
 

@@ -31,6 +31,14 @@ class TransactionModel extends Model
             ->findAll();
     }
 
+    public function getLatestByCompte(int $compte_id, int $limit = 5): array
+    {
+        return $this->asArray()
+            ->where('compte_id', $compte_id)
+            ->orderBy('date_transaction', 'DESC')
+            ->findAll($limit);
+    }
+
     public function ajouterTransaction(int $compte_id, string $type, float $montant, string $description = ''): int|false
     {
         if ($montant <= 0) {

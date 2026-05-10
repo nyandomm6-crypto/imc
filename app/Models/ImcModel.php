@@ -15,6 +15,14 @@ class ImcModel extends Model
         'date_calcul'
     ];
 
+    public function getHistoriqueUser(int $utilisateur_id, int $limit = 10): array
+    {
+        return $this->where('utilisateur_id', $utilisateur_id)
+            ->orderBy('date_calcul', 'DESC')
+            ->limit($limit)
+            ->findAll();
+    }
+
     public function calculerIMC($poids_kg, $taille_m): float
     {
         if (! $taille_m || $taille_m <= 0) {

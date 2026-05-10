@@ -1,7 +1,21 @@
-<?php
+<?= $this->extend('layouts/main') ?>
 
-$escape = static function ($value): string {
-	return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+<?php
+/** @var array<string, mixed>|null $utilisateur */
+/** @var array<string, mixed>|null $mesure */
+/** @var array<int, array<string, mixed>>|null $objectifs */
+/** @var array<int, array<string, mixed>>|null $regimes */
+/** @var array<int, array<string, mixed>>|null $sports */
+/** @var array<int, array<string, mixed>>|null $transactions */
+/** @var float|int|null $imc */
+/** @var int|float|null $imcProgression */
+/** @var float|int|null $soldeCompte */
+/** @var string|null $categorieImc */
+
+$asString = static function ($value, string $fallback = ''): string {
+    if (is_string($value)) return $value;
+    if (is_int($value) || is_float($value) || is_numeric($value)) return (string) $value;
+    return $fallback;
 };
 
 $imcTexte = 'N/A';
@@ -28,52 +42,30 @@ if ($imc !== null) {
 	else                   { $imcClass = 'chip chip-warn'; $imcIcon = '▲'; }
 }
 
-$sportEmoji = [
-	'natation'   => '🏊',
-	'velo'       => '🚴',
-	'velo'       => '🚴',
-	'course'     => '🏃',
-	'marche'     => '🚶',
-	'yoga'       => '🧘',
-	'fitness'    => '💪',
-	'musculation'=> '🏋️',
-	'football'   => '⚽',
-	'tennis'     => '🎾',
-];
+$nom = $asString($utilisateur['nom'] ?? null, 'Utilisateur');
+$imc = is_numeric($imc ?? null) ? (float) $imc : null;
+$categorieImc = $asString($categorieImc ?? null, 'Inconnue');
+$imcVal = $imc !== null ? number_format($imc, 1) : '--';
+$progression = is_numeric($imcProgression ?? null) ? (int) $imcProgression : 0;
+$poids = $asString($mesure['poids_kg'] ?? null, '--');
+$taille = $asString($mesure['taille_m'] ?? null, '--');
+$solde = number_format((float) ($soldeCompte ?? 0), 2);
+$nbObj = count($objectifs);
 
-$getSportEmoji = static function (string $nom) use ($sportEmoji): string {
-	$nomL = mb_strtolower($nom);
-	foreach ($sportEmoji as $key => $emoji) {
-		if (str_contains($nomL, $key)) return $emoji;
-	}
-	return '🏅';
+$catStyle = match(true) {
+    $imc !== null && $imc < 18.5 => ['color' => 'var(--blue)',  'bg' => 'var(--blue-bg)'],
+    $imc !== null && $imc < 25   => ['color' => 'var(--green)', 'bg' => 'var(--green-bg)'],
+    $imc !== null && $imc < 30   => ['color' => 'var(--amber)', 'bg' => 'var(--amber-bg)'],
+    $imc !== null                 => ['color' => 'var(--red)',   'bg' => 'var(--red-bg)'],
+    default                       => ['color' => 'var(--muted)', 'bg' => 'var(--bg3)'],
 };
 
-$regimeEmoji = [
-	'mediterraneen' => '🫒',
-	'mediterraneen' => '🫒',
-	'vegetarien'    => '🥗',
-	'vegetarien'    => '🥗',
-	'vegan'         => '🌱',
-	'cetogène'      => '🥑',
-	'cetogene'      => '🥑',
-	'hypocalorique' => '🍽️',
-	'hyperproteine' => '🍳',
-	'hyperproteine' => '🍳',
-	'sans gluten'   => '🌾',
-	'paleo'         => '🥩',
-	'detox'         => '🍋',
-	'jeûne'         => '⏱️',
-	'jeune'         => '⏱️',
-];
+$sportIcons = ['🏃','🏊','🚴','🧘','🏋️','⛹️','🤸','🥊'];
+$regimeIcons = ['🥗','🐟','🥦','🍗','🫐','🥑'];
 
-$getRegimeEmoji = static function (string $libelle) use ($regimeEmoji): string {
-	$libL = mb_strtolower($libelle);
-	foreach ($regimeEmoji as $key => $emoji) {
-		if (str_contains($libL, $key)) return $emoji;
-	}
-	return '🥦';
-};
+$pageTitle = 'Tableau de bord';
+$pageSubtitle = 'Bonjour, ' . $nom . ' 👋';
+$activeNav = 'dashboard';
 ?>
 <!doctype html>
 <html lang="fr">

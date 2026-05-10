@@ -127,6 +127,7 @@ CREATE TABLE recettes (
 CREATE TABLE codes_promo (
     id SERIAL PRIMARY KEY,
     code VARCHAR(100) NOT NULL UNIQUE,
+    prix NUMERIC(10, 2) NOT NULL DEFAULT 0,
     status code_status_enum DEFAULT 'active',
     date_expiration TIMESTAMP
 );
@@ -221,3 +222,8 @@ VALUES (0, 18.49, 'maigreur'),
     (18.50, 24.99, 'normal'),
     (25.00, 29.99, 'surpoids'),
     (30.00, 100, 'obesite');
+
+
+
+INSERT INTO utilisateurs (nom, email, date_naissance, genre_id, role_id, mot_de_passe)
+VALUES ('Alice Dupont', 'alice.dupont@example.com', '1990-01-01', 2, 2, '123456789');
