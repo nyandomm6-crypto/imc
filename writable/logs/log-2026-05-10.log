@@ -1,0 +1,108 @@
+CRITICAL - 2026-05-10 22:05:37 --> Error: Call to undefined method CodeIgniter\Database\Postgre\Builder::first()
+[Method: POST, Route: offres/demand/3]
+in APPPATH/Libraries/SuggesterOffre.php on line 27.
+ 1 APPPATH/Libraries/SuggesterOffre.php(94): App\Libraries\SuggesterOffre->suggerRegime()
+ 2 APPPATH/Controllers/front/OffreController.php(135): App\Libraries\SuggesterOffre->suggerRegimeEtSport()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\OffreController->demand()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 9 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-10 22:07:39 --> TypeError: App\Libraries\SuggesterOffre::suggerRegime(): Return value must be of type ?array, stdClass returned
+[Method: POST, Route: offres/demand/3]
+in APPPATH/Libraries/SuggesterOffre.php on line 39.
+ 1 APPPATH/Libraries/SuggesterOffre.php(100): App\Libraries\SuggesterOffre->suggerRegime()
+ 2 APPPATH/Controllers/front/OffreController.php(135): App\Libraries\SuggesterOffre->suggerRegimeEtSport()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\OffreController->demand()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 9 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-10 22:07:42 --> TypeError: App\Libraries\SuggesterOffre::suggerRegime(): Return value must be of type ?array, stdClass returned
+[Method: POST, Route: offres/demand/3]
+in APPPATH/Libraries/SuggesterOffre.php on line 39.
+ 1 APPPATH/Libraries/SuggesterOffre.php(100): App\Libraries\SuggesterOffre->suggerRegime()
+ 2 APPPATH/Controllers/front/OffreController.php(135): App\Libraries\SuggesterOffre->suggerRegimeEtSport()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\OffreController->demand()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 9 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-10 22:07:53 --> TypeError: App\Libraries\SuggesterOffre::suggerRegime(): Return value must be of type ?array, stdClass returned
+[Method: POST, Route: offres/demand/3]
+in APPPATH/Libraries/SuggesterOffre.php on line 39.
+ 1 APPPATH/Libraries/SuggesterOffre.php(100): App\Libraries\SuggesterOffre->suggerRegime()
+ 2 APPPATH/Controllers/front/OffreController.php(135): App\Libraries\SuggesterOffre->suggerRegimeEtSport()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\OffreController->demand()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 9 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-10 22:09:55 --> TypeError: App\Libraries\SuggesterOffre::suggerRegime(): Return value must be of type ?array, stdClass returned
+[Method: POST, Route: offres/demand/3]
+in APPPATH/Libraries/SuggesterOffre.php on line 39.
+ 1 APPPATH/Libraries/SuggesterOffre.php(100): App\Libraries\SuggesterOffre->suggerRegime()
+ 2 APPPATH/Controllers/front/OffreController.php(135): App\Libraries\SuggesterOffre->suggerRegimeEtSport()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\OffreController->demand()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 9 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-10 22:11:14 --> TypeError: App\Libraries\SuggesterOffre::suggerRegime(): Return value must be of type ?array, stdClass returned
+[Method: POST, Route: offres/demand/3]
+in APPPATH/Libraries/SuggesterOffre.php on line 39.
+ 1 APPPATH/Libraries/SuggesterOffre.php(100): App\Libraries\SuggesterOffre->suggerRegime()
+ 2 APPPATH/Controllers/front/OffreController.php(135): App\Libraries\SuggesterOffre->suggerRegimeEtSport()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\OffreController->demand()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 9 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-10 22:11:50 --> TypeError: App\Libraries\SuggesterOffre::suggerRegime(): Return value must be of type ?array, stdClass returned
+[Method: POST, Route: offres/demand/3]
+in APPPATH/Libraries/SuggesterOffre.php on line 39.
+ 1 APPPATH/Libraries/SuggesterOffre.php(100): App\Libraries\SuggesterOffre->suggerRegime()
+ 2 APPPATH/Controllers/front/OffreController.php(135): App\Libraries\SuggesterOffre->suggerRegimeEtSport()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\OffreController->demand()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 9 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-10 22:12:03 --> TypeError: App\Libraries\SuggesterOffre::suggerRegime(): Return value must be of type ?array, stdClass returned
+[Method: POST, Route: offres/demand/2]
+in APPPATH/Libraries/SuggesterOffre.php on line 39.
+ 1 APPPATH/Libraries/SuggesterOffre.php(100): App\Libraries\SuggesterOffre->suggerRegime()
+ 2 APPPATH/Controllers/front/OffreController.php(135): App\Libraries\SuggesterOffre->suggerRegimeEtSport()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\OffreController->demand()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 9 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-10 22:12:06 --> TypeError: App\Libraries\SuggesterOffre::suggerRegime(): Return value must be of type ?array, stdClass returned
+[Method: POST, Route: offres/demand/1]
+in APPPATH/Libraries/SuggesterOffre.php on line 39.
+ 1 APPPATH/Libraries/SuggesterOffre.php(100): App\Libraries\SuggesterOffre->suggerRegime()
+ 2 APPPATH/Controllers/front/OffreController.php(135): App\Libraries\SuggesterOffre->suggerRegimeEtSport()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\OffreController->demand()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 9 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')

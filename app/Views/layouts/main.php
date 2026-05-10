@@ -43,6 +43,8 @@ if ($activeNav === '') {
         str_contains($path, 'profil') => 'profil',
         str_contains($path, 'regimes') => 'regimes',
         str_contains($path, 'sports') => 'sports',
+        str_contains($path, 'offres') => 'offres',
+        str_contains($path, 'suggestions') => 'suggestions',
         str_contains($path, 'porte-monnaie') => 'porte-monnaie',
         str_contains($path, 'gold') => 'gold',
         default => 'dashboard',
@@ -79,11 +81,19 @@ if ($activeNav === '') {
                 <span class="ni">🏃</span> Sports
             </a>
 
+            <div class="nav-section">Offres & Services</div>
+            <a class="nav-item<?= $activeNav === 'offres' ? ' active' : '' ?>" href="/offres">
+                <span class="ni">📦</span> Offres
+            </a>
+            <a class="nav-item<?= $activeNav === 'suggestions' ? ' active' : '' ?>" href="/offres/suggestions">
+                <span class="ni">✨</span> Suggestions
+            </a>
+
             <div class="nav-section">Compte</div>
             <a class="nav-item<?= $activeNav === 'porte-monnaie' ? ' active' : '' ?>" href="/porte-monnaie">
                 <span class="ni">◈</span> Porte-monnaie
             </a>
-            <a class="nav-item<?= $activeNav === 'gold' ? ' active' : '' ?>" href="/gold">
+            <a class="nav-item<?= $activeNav === 'gold' ? ' active' : '' ?>" href="/offres" style="background: rgba(255, 215, 0, 0.15); color: #ffd700;">
                 <span class="ni">★</span> Passer Gold
             </a>
         </nav>
@@ -107,7 +117,7 @@ if ($activeNav === '') {
                 <div class="topbar-title"><?= esc($pageTitle) ?></div>
                 <div class="topbar-sub"><?= esc($pageSubtitle) ?></div>
             </div>
-            <a href="/gold" class="btn-gold">★ Option Gold — 15% de remise</a>
+            <a href="/offres" class="btn-gold">★ Option Gold — 14% de remise</a>
         </div>
 
         <div class="content">

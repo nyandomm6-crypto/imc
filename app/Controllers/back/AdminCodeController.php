@@ -88,7 +88,7 @@ class AdminCodeController extends BaseController
     {
         do {
             $code = strtoupper(substr(md5(uniqid(rand(), true)), 0, 12));
-        } while ($this->codePromoModel->where('code', $code)->first());
+        } while ($this->codePromoModel->where('code', $code)->get()->getRow());
 
         return $code;
     }

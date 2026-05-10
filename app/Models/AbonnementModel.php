@@ -60,6 +60,11 @@ class AbonnementModel extends Model
         return $abo !== null;
     }
 
+    public function hasGoldSubscription(int $utilisateur_id): bool
+    {
+        return $this->hasGold($utilisateur_id);
+    }
+
     public function createOption(array $data): int|false
     {
         return $this->db->table('abonnements_options')->insert($data);

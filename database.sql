@@ -164,15 +164,26 @@ CREATE TABLE abonnements (
 CREATE TABLE offres (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
-    prix NUMERIC(10, 2) NOT NULL
+    type VARCHAR(20) NOT NULL DEFAULT 'regime',
+    description TEXT,
+    prix NUMERIC(10, 2) NOT NULL,
+    prix_gold NUMERIC(10, 2) NOT NULL,
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+COMMENT ON COLUMN offres.type IS 'regime, sport, regime_sport';
 
 CREATE TABLE demandes_offres (
     id SERIAL PRIMARY KEY,
     utilisateur_id INT NOT NULL REFERENCES utilisateurs (id) ON DELETE CASCADE,
     offre_id INT NOT NULL REFERENCES offres (id) ON DELETE CASCADE,
-    date_demande TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    regime_id INT REFERENCES regimes (id) ON DELETE SET NULL,
+    sport_id INT REFERENCES sports (id) ON DELETE SET NULL,
+    statut VARCHAR(20) DEFAULT 'demande',
+    prix_paye NUMERIC(10, 2),
+    date_demande TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_acceptation TIMESTAMP
 );
+COMMENT ON COLUMN demandes_offres.statut IS 'demande, acceptée, rejetée, complétée';
 
 -- =========================================
 -- COMPTE & FINANCE

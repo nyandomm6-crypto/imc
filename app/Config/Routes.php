@@ -28,6 +28,15 @@ $routes->post('/profil/objectifs/achieve/(:num)', 'front\ProfilController::achie
 $routes->post('/profil/objectifs/abandon/(:num)', 'front\ProfilController::abandonObjectif/$1');
 $routes->get('/porte-monnaie', 'front\PorteMonnaieController::index');
 
+// Offres
+$routes->get('/offres', 'front\OffreController::index');
+$routes->get('/offres/suggestions', 'front\OffreController::suggestions');
+$routes->post('/offres/demand/(:num)', 'front\OffreController::demand/$1');
+$routes->get('/offres/detail/(:num)', 'front\OffreController::detailDemande/$1');
+$routes->post('/offres/accept/(:num)', 'front\OffreController::accept/$1');
+$routes->post('/offres/reject/(:num)', 'front\OffreController::reject/$1');
+$routes->post('/offres/subscribe', 'front\OffreController::subscribe');
+
 // $routes->group('', ['filter' => 'auth'], function($routes) {
 //     $routes->get('dashboard', 'front\DashboardController::index');
 // });
@@ -79,4 +88,35 @@ $routes->group('admin', ['filter' => 'admin'], function($routes) {
     $routes->get('codes/create', 'back\AdminCodeController::create');
     $routes->post('codes/store', 'back\AdminCodeController::store');
     $routes->post('codes/delete/(:num)', 'back\AdminCodeController::delete/$1');
+
+    // Offres
+    $routes->get('offres', 'back\AdminOffreController::index');
+    $routes->get('offres/create', 'back\AdminOffreController::create');
+    $routes->post('offres/store', 'back\AdminOffreController::store');
+    $routes->get('offres/edit/(:num)', 'back\AdminOffreController::edit/$1');
+    $routes->post('offres/update/(:num)', 'back\AdminOffreController::update/$1');
+    $routes->post('offres/delete/(:num)', 'back\AdminOffreController::delete/$1');
+
+    // Demandes d'offres
+    $routes->get('offres/demandes/all', 'back\AdminOffreController::demandes');
+    $routes->get('offres/demandes/(:num)', 'back\AdminOffreController::detailDemande/$1');
+    $routes->post('offres/demandes/accept/(:num)', 'back\AdminOffreController::acceptDemande/$1');
+    $routes->post('offres/demandes/reject/(:num)', 'back\AdminOffreController::rejectDemande/$1');
+
+    // Abonnements - Options
+    $routes->get('abonnements/options', 'back\AdminAbonnementController::options');
+    $routes->get('abonnements/options/create', 'back\AdminAbonnementController::createOption');
+    $routes->post('abonnements/options/store', 'back\AdminAbonnementController::storeOption');
+    $routes->get('abonnements/options/edit/(:num)', 'back\AdminAbonnementController::editOption/$1');
+    $routes->post('abonnements/options/update/(:num)', 'back\AdminAbonnementController::updateOption/$1');
+    $routes->post('abonnements/options/delete/(:num)', 'back\AdminAbonnementController::deleteOption/$1');
+
+    // Abonnements - Utilisateurs
+    $routes->get('abonnements/utilisateurs', 'back\AdminAbonnementController::utilisateurs');
+    $routes->get('abonnements/utilisateurs/assign/(:num)', 'back\AdminAbonnementController::assignAbo/$1');
+    $routes->post('abonnements/utilisateurs/store/(:num)', 'back\AdminAbonnementController::storeAbo/$1');
+    $routes->post('abonnements/utilisateurs/cancel/(:num)', 'back\AdminAbonnementController::cancelAbo/$1');
+
+    // Abonnements - Statistiques
+    $routes->get('abonnements/stats', 'back\AdminAbonnementController::stats');
 });
