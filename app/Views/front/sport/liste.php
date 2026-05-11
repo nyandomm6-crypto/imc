@@ -58,7 +58,7 @@
                 <form action="<?= site_url('sports/generate') ?>" method="post" style="margin-top:20px">
                     <?= csrf_field() ?>
                     <button type="submit" class="btn btn-primary">
-                        🎲 Générer une suggestion
+                        🎲 Générer une suggestion (0.50€)
                     </button>
                 </form>
             </div>

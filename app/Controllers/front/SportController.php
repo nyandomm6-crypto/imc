@@ -54,11 +54,27 @@ class SportController extends BaseController
             return redirect()->to('/');
         }
 
+        // Vérifier le solde (0.5€ sans réduction)
+        $prix = $this->suggestionModel->calculerPrixSuggestion();
+
+        $solde = $this->compteModel->getSolde($utilisateurId);
+        if ($solde < $prix) {
+            return redirect()->back()->with('error', 'Solde insuffisant pour générer une suggestion (0.50€ nécessaires).');
+        }
+
+        // Débiter le solde
+        if (! $this->compteModel->debiter($utilisateurId, $prix)) {
+            return redirect()->back()->with('error', 'Erreur lors du paiement de la suggestion.');
+        }
+
         // Récupérer l'objectif principal de l'utilisateur
         $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
 
         // Générer la suggestion basée sur l'objectif
         $suggestion = $this->suggestionModel->getSuggestionSport($objectif);
+
+        $montantDebite = number_format($prix, 2, ',', ' ');
+        session()->setFlashdata('success', 'Suggestion générée et payée : ' . $montantDebite . '€.');
 
         return view('front/sport/suggestion', [
             'suggestion' => $suggestion,

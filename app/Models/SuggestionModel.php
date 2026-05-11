@@ -44,6 +44,11 @@ class SuggestionModel extends Model
         return round($prix * (1 - self::GOLD_DISCOUNT / 100), 2);
     }
 
+    public function calculerPrixSuggestion(): float
+    {
+        return 0.5;
+    }
+
     public function calculerNutritionScore(array $composition): float
     {
         if (isset($composition['total_pourcentage'])) {
