@@ -390,3 +390,30 @@ INSERT INTO sports (nom, calories_par_heure) VALUES
 ('Boxe', 650),
 ('Pilates', 250),
 ('Fitness en salle', 420);
+
+
+
+INSERT INTO utilisateurs (nom, email, date_naissance, genre_id, role_id, mot_de_passe) VALUES
+('Admin Super', 'admin@gmail.com', '1985-03-10', 1, 1, '$2y$10$rfevquzpN.S390chX.I6S.GzArYiJ.6HuTnoFy.nrYswUCcoqcPz2'),
+('Jean Martin', 'user1@gmail.com', '1992-06-15', 1, 2, '$2y$10$6i49v0LHnP0EMPyoQL17OeoieaV4ha8Ba6MM5FwehaG0Wxlo39jQC'),
+('Sophie Leroy', 'user2@gmail.com', '1988-09-02', 2, 2, '$2y$10$6i49v0LHnP0EMPyoQL17OeoieaV4ha8Ba6MM5FwehaG0Wxlo39jQC'),
+('Marc Petit', 'user3@gmail.com', '1995-12-20', 1, 2, '$2y$10$6i49v0LHnP0EMPyoQL17OeoieaV4ha8Ba6MM5FwehaG0Wxlo39jQC'),
+('Claire Dubois', 'user4@gmail.com', '1990-04-11', 2, 2, '$2y$10$6i49v0LHnP0EMPyoQL17OeoieaV4ha8Ba6MM5FwehaG0Wxlo39jQC');
+
+-- Codes promo
+INSERT INTO codes_promo (code, prix, status, date_expiration) VALUES
+('PROMO10', 10.00, 'active', NULL),
+('PROMO5', 5.00, 'active', NULL),
+('WELCOME', 7.50, 'active', NULL),
+('SUMMER21', 15.00, 'active', '2026-09-30'),
+('GOLD50', 50.00, 'active', '2026-12-31'),
+('SPRING', 8.00, 'active', '2026-06-30'),
+('HALLOWEEN', 12.00, 'active', '2026-10-31'),
+('BLACKFRI', 20.00, 'active', '2026-11-27'),
+('NEWUSER', 3.00, 'active', NULL),
+('FREEMONTH', 9.99, 'active', NULL),
+('XMAS', 25.00, 'active', '2026-12-25'),
+('DISCOUNT15', 15.00, 'active', NULL),
+('FLASH5', 5.00, 'active', NULL),
+('LOYALTY', 30.00, 'active', NULL),
+('TRIAL7', 7.00, 'active', NULL);
