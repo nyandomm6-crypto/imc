@@ -33,9 +33,13 @@ class RegimeController extends BaseController
             return redirect()->to('/');
         }
 
+        // Récupérer l'objectif principal de l'utilisateur
+        $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
+
         return view('front/regime/liste', [
             'pageTitle' => 'Régimes',
             'pageSubtitle' => 'Générez une suggestion de régime personnalisée',
+            'objectif' => $objectif
         ]);
     }
 
@@ -45,13 +49,17 @@ class RegimeController extends BaseController
         if ($utilisateurId === null) {
             return redirect()->to('/');
         }
-        $this->compteModel->debiter($utilisateurId, 1);
-        $suggestion = $this->suggestionModel->getSuggestionRegime();
+
+        // Récupérer l'objectif principal de l'utilisateur
+        $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
+
+        // Générer la suggestion basée sur l'objectif
+        $suggestion = $this->suggestionModel->getSuggestionRegime($objectif);
 
         return view('front/regime/suggestion', [
             'suggestion' => $suggestion,
             'pageTitle' => 'Suggestion de Régime',
-            'pageSubtitle' => 'Votre régime personnalisé',
+            'pageSubtitle' => 'Votre régime personnalisé basé sur votre objectif',
         ]);
     }
 

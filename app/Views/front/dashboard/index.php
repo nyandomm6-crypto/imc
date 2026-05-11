@@ -179,6 +179,29 @@ $activeNav = 'dashboard';
 
             </div>
 
+            <!-- SUGGESTION AUTOMATIQUE -->
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-title">
+                        <span class="ct-icon" style="background:linear-gradient(135deg, var(--accent), var(--green))">🤖</span>
+                        Suggestion personnalisée
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="generate-content">
+                        <div class="generate-icon">🎯</div>
+                        <h3>Recommandation intelligente</h3>
+                        <p>Notre algorithme analyse votre objectif principal et vous oriente automatiquement vers la meilleure activité : régime ou sport.</p>
+                        <form action="/suggestion/generate" method="post" style="margin-top:20px">
+                            <?= csrf_field() ?>
+                            <button type="submit" class="btn btn-primary" style="background:linear-gradient(135deg, var(--accent), var(--green));border:none">
+                                🚀 Obtenir ma suggestion
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             <!-- RÉGIMES + SPORTS -->
             <div class="row3">
 
