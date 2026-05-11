@@ -1,0 +1,13 @@
+CRITICAL - 2026-05-11 00:07:57 --> CodeIgniter\Exceptions\RuntimeException: View themes, no current section.
+[Method: GET, Route: options]
+in SYSTEMPATH/View/View.php on line 444.
+ 1 APPPATH/Views/front/option/index.php(488): CodeIgniter\View\View->endSection()
+ 2 SYSTEMPATH/View/View.php(240): include('/home/huhu/Documents/web/imc/app/Views/front/option/index.php')
+ 3 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/front/OptionController.php(37): view()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\OptionController->index()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')

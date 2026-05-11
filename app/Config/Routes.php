@@ -24,6 +24,12 @@ $routes->post('/profil/mesure', 'front\ProfilController::addMesure');
 $routes->get('/profil/objectifs', 'front\ProfilController::objectifs');
 $routes->get('/porte-monnaie', 'front\PorteMonnaieController::index');
 
+// Options / Abonnements
+$routes->get('/options', 'front\OptionController::index');
+$routes->get('/option/detail/(:num)', 'front\OptionController::detail/$1');
+$routes->post('/option/acheter', 'front\OptionController::acheter');
+$routes->get('/mes-options', 'front\OptionController::mesOptions');
+
 // $routes->group('', ['filter' => 'auth'], function($routes) {
 //     $routes->get('dashboard', 'front\DashboardController::index');
 // });

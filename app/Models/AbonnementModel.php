@@ -85,4 +85,29 @@ class AbonnementModel extends Model
 
         return (bool) $this->souscrire($utilisateur_id, $option['id']);
     }
+
+    /**
+     * Récupère une option par son ID
+     */
+    public function getOptionById(int $id)
+    {
+        return $this->db->table('abonnements_options')
+            ->where('id', $id)
+            ->get()
+            ->getRowArray();
+    }
+
+    /**
+     * Récupère tous les abonnements d'un utilisateur
+     */
+    public function getAbonnementsByUser(int $utilisateur_id): array
+    {
+        return $this->db->table('abonnements a')
+            ->select('a.*, ao.nom, ao.prix')
+            ->join('abonnements_options ao', 'ao.id = a.option_id', 'inner')
+            ->where('a.utilisateur_id', $utilisateur_id)
+            ->orderBy('a.date_debut', 'DESC')
+            ->get()
+            ->getResultArray();
+    }
 }
