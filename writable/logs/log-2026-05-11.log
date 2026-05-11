@@ -94,3 +94,72 @@ in SYSTEMPATH/Database/Postgre/Connection.php on line 200.
 12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 14 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+ERROR - 2026-05-11 00:58:23 --> pg_query(): Query failed: ERROR:  column &quot;prix&quot; does not exist
+LINE 1: SELECT &quot;id&quot;, &quot;libelle&quot;, &quot;prix&quot;, &quot;description&quot;
+                                ^
+in SYSTEMPATH/Database/Postgre/Connection.php on line 200.
+ 1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 4 APPPATH/Models/SuggestionModel.php(23): CodeIgniter\Database\BaseBuilder->get()
+ 5 APPPATH/Models/SuggestionModel.php(39): App\Models\SuggestionModel->getRegimesParObjectif()
+ 6 APPPATH/Controllers/front/SuggestionController.php(53): App\Models\SuggestionModel->generateSuggestions()
+ 7 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\SuggestionController->index()
+ 8 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+13 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-11 00:58:23 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  column &quot;prix&quot; does not exist
+LINE 1: SELECT &quot;id&quot;, &quot;libelle&quot;, &quot;prix&quot;, &quot;description&quot;
+                                ^
+[Method: GET, Route: suggestions]
+in SYSTEMPATH/Database/BaseConnection.php on line 865.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 2 APPPATH/Models/SuggestionModel.php(23): CodeIgniter\Database\BaseBuilder->get()
+ 3 APPPATH/Models/SuggestionModel.php(39): App\Models\SuggestionModel->getRegimesParObjectif()
+ 4 APPPATH/Controllers/front/SuggestionController.php(53): App\Models\SuggestionModel->generateSuggestions()
+ 5 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\SuggestionController->index()
+ 6 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 7 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 8 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+11 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-11 00:58:23 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  column &quot;prix&quot; does not exist
+LINE 1: SELECT &quot;id&quot;, &quot;libelle&quot;, &quot;prix&quot;, &quot;description&quot;
+                                ^
+in SYSTEMPATH/Database/Postgre/Connection.php on line 212.
+ 1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 4 APPPATH/Models/SuggestionModel.php(23): CodeIgniter\Database\BaseBuilder->get()
+ 5 APPPATH/Models/SuggestionModel.php(39): App\Models\SuggestionModel->getRegimesParObjectif()
+ 6 APPPATH/Controllers/front/SuggestionController.php(53): App\Models\SuggestionModel->generateSuggestions()
+ 7 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\SuggestionController->index()
+ 8 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+13 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-11 00:58:23 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  column &quot;prix&quot; does not exist
+LINE 1: SELECT &quot;id&quot;, &quot;libelle&quot;, &quot;prix&quot;, &quot;description&quot;
+                                ^
+in SYSTEMPATH/Database/Postgre/Connection.php on line 200.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/Database/Postgre/Connection.php(200): pg_query()
+ 3 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 4 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 5 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 6 APPPATH/Models/SuggestionModel.php(23): CodeIgniter\Database\BaseBuilder->get()
+ 7 APPPATH/Models/SuggestionModel.php(39): App\Models\SuggestionModel->getRegimesParObjectif()
+ 8 APPPATH/Controllers/front/SuggestionController.php(53): App\Models\SuggestionModel->generateSuggestions()
+ 9 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\SuggestionController->index()
+10 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+11 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+12 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+15 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
