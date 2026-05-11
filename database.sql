@@ -225,7 +225,9 @@ VALUES (0, 18.49, 'maigreur'),
     (25.00, 29.99, 'surpoids'),
     (30.00, 100, 'obesite');
 
-
+--data option
+insert into abonnements_options (nom, prix, description) values
+('gold', 9.99, 'option gold avec 15% de réduction sur les regimes');
 
 INSERT INTO utilisateurs (nom, email, date_naissance, genre_id, role_id, mot_de_passe)
 VALUES ('Alice Dupont', 'alice.dupont@example.com', '1990-01-01', 2, 2, '123456789');
