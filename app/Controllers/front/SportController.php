@@ -33,9 +33,13 @@ class SportController extends BaseController
             return redirect()->to('/');
         }
 
+        // Récupérer l'objectif principal de l'utilisateur
+        $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
+
         return view('front/sport/liste', [
             'pageTitle' => 'Sports',
             'pageSubtitle' => 'Générez une suggestion de sport personnalisée',
+            'objectif' => $objectif
         ]);
     }
 
@@ -45,13 +49,17 @@ class SportController extends BaseController
         if ($utilisateurId === null) {
             return redirect()->to('/');
         }
-        $this->compteModel->debiter($utilisateurId, 1);
-        $suggestion = $this->suggestionModel->getSuggestionSport();
+
+        // Récupérer l'objectif principal de l'utilisateur
+        $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
+
+        // Générer la suggestion basée sur l'objectif
+        $suggestion = $this->suggestionModel->getSuggestionSport($objectif);
 
         return view('front/sport/suggestion', [
             'suggestion' => $suggestion,
             'pageTitle' => 'Suggestion de Sport',
-            'pageSubtitle' => 'Votre activité sportive personnalisée',
+            'pageSubtitle' => 'Votre activité sportive personnalisée basée sur votre objectif',
         ]);
     }
 

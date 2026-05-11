@@ -53,72 +53,245 @@ class SuggestionModel extends Model
         return isset($composition['detail']) && is_array($composition['detail']) ? count($composition['detail']) : 0;
     }
 
-    public function getSuggestionRegime(): array
+    public function getSuggestionRegime(?string $objectif = null): array
     {
-        return [
-            'id' => 1,
-            'libelle' => 'Régime Méditerranéen',
-            'description' => 'Un régime équilibré inspiré de la cuisine méditerranéenne, riche en légumes, fruits, poissons et huile d\'olive.',
-            'duree_jours' => 30,
-            'recettes' => [
-                [
-                    'nom' => 'Salade de tomates et concombres',
-                    'ingredients' => [
-                        'Tomates : 200g',
-                        'Concombres : 150g',
-                        'Huile d\'olive : 2 cuillères à soupe',
-                        'Vinaigre balsamique : 1 cuillère à soupe',
-                        'Herbes aromatiques : au goût'
-                    ],
-                    'instructions' => 'Couper les tomates et concombres en morceaux. Mélanger avec l\'huile d\'olive, le vinaigre et les herbes. Servir frais.'
-                ],
-                [
-                    'nom' => 'Poisson grillé aux légumes',
-                    'ingredients' => [
-                        'Saumon : 150g',
-                        'Courgettes : 100g',
-                        'Poivrons : 100g',
-                        'Huile d\'olive : 1 cuillère à soupe',
-                        'Citron : 1/2',
-                        'Herbes de Provence : au goût'
-                    ],
-                    'instructions' => 'Faire griller le saumon avec les légumes coupés. Assaisonner avec huile d\'olive, citron et herbes.'
-                ],
-                [
-                    'nom' => 'Yaourt grec aux fruits',
-                    'ingredients' => [
-                        'Yaourt grec : 200g',
-                        'Fruits frais (fraises, bananes) : 150g',
-                        'Miel : 1 cuillère à soupe',
-                        'Noix concassées : 20g'
-                    ],
-                    'instructions' => 'Mélanger le yaourt avec les fruits coupés. Ajouter miel et noix pour le croquant.'
-                ]
-            ]
+        if ($objectif === null) {
+            // Si pas d'objectif spécifié, retourner un régime par défaut
+            $regime = $this->db->table('regimes')
+                ->select('id, libelle')
+                ->limit(1)
+                ->get()
+                ->getRowArray();
+
+            if ($regime) {
+                $regime['description'] = 'Régime équilibré pour votre bien-être';
+                $regime['duree_jours'] = 30;
+                $regime['recettes'] = $this->getRecettesForRegime($regime['id']);
+                return $regime;
+            }
+
+            return [];
+        }
+
+        // Mapper les objectifs aux IDs de régimes
+        $objectifMapping = [
+            'prise de masse' => 1, // Régime Prise de Masse
+            'perte de poids' => 2, // Régime Perte de Poids
+            'maintien' => 3       // Régime Maintien
         ];
+
+        $regimeId = $objectifMapping[$objectif] ?? 3; // Défaut: Maintien
+
+        $regime = $this->db->table('regimes')
+            ->select('id, libelle')
+            ->where('id', $regimeId)
+            ->get()
+            ->getRowArray();
+
+        if (!$regime) {
+            return [];
+        }
+
+        // Ajouter les informations spécifiques selon l'objectif
+        $descriptions = [
+            'prise de masse' => 'Un régime riche en calories et protéines pour favoriser la prise de masse musculaire.',
+            'perte de poids' => 'Un régime contrôlé en calories pour favoriser la perte de poids de manière saine.',
+            'maintien' => 'Un régime équilibré pour maintenir son poids et sa forme physique.'
+        ];
+
+        $durees = [
+            'prise de masse' => 90,
+            'perte de poids' => 60,
+            'maintien' => 30
+        ];
+
+        $regime['description'] = $descriptions[$objectif] ?? $descriptions['maintien'];
+        $regime['duree_jours'] = $durees[$objectif] ?? $durees['maintien'];
+        $regime['recettes'] = $this->getRecettesForRegime($regime['id']);
+
+        return $regime;
     }
 
-    public function getSuggestionSport(): array
+    private function getRecettesForRegime(int $regimeId): array
     {
-        return [
-            'id' => 1,
-            'nom' => 'Course à pied',
-            'description' => 'Activité cardiovasculaire excellente pour améliorer l\'endurance et brûler des calories.',
-            'calories_par_heure' => 600,
-            'duree_recommandee' => '30-45 minutes',
-            'frequence' => '3-4 fois par semaine',
-            'avantages' => [
-                'Améliore la santé cardiovasculaire',
-                'Aide à la perte de poids',
-                'Renforce les muscles des jambes',
-                'Réduit le stress'
+        $recettes = $this->db->table('recettes r')
+            ->select('r.pourcentage, a.nom, a.calories_100g, a.proteines_100g, a.glucides_100g, a.lipides_100g')
+            ->join('aliments a', 'a.id = r.aliment_id', 'inner')
+            ->where('r.regime_id', $regimeId)
+            ->orderBy('r.pourcentage', 'DESC')
+            ->get()
+            ->getResultArray();
+
+        // Créer des recettes fictives basées sur les aliments disponibles
+        $recettesSuggeres = [];
+
+        if (count($recettes) >= 3) {
+            // Recette 1: Principale (avec les aliments les plus présents)
+            $recette1 = [
+                'nom' => 'Plat principal équilibré',
+                'ingredients' => array_slice(array_map(function($r) {
+                    return $r['nom'] . ' : ' . $r['pourcentage'] . '%';
+                }, $recettes), 0, 4),
+                'instructions' => 'Préparer les ingrédients selon vos préférences culinaires.'
+            ];
+
+            // Recette 2: Accompagnement
+            $recette2 = [
+                'nom' => 'Accompagnement léger',
+                'ingredients' => array_slice(array_map(function($r) {
+                    return $r['nom'] . ' : ' . round($r['pourcentage'] * 0.6) . '%';
+                }, array_slice($recettes, 2, 3)), 0, 3),
+                'instructions' => 'Cuire à la vapeur ou griller pour conserver les nutriments.'
+            ];
+
+            $recettesSuggeres = [$recette1, $recette2];
+        } else {
+            // Recette par défaut si pas assez d'ingrédients
+            $recettesSuggeres = [[
+                'nom' => 'Repas équilibré',
+                'ingredients' => array_map(function($r) {
+                    return $r['nom'] . ' : ' . $r['pourcentage'] . '%';
+                }, $recettes),
+                'instructions' => 'Combiner les ingrédients pour un repas nutritif.'
+            ]];
+        }
+
+        return $recettesSuggeres;
+    }
+
+    public function getSuggestionSport(?string $objectif = null): array
+    {
+        if ($objectif === null) {
+            // Si pas d'objectif spécifié, retourner un sport par défaut
+            $sport = $this->db->table('sports')
+                ->select('id, nom, calories_par_heure')
+                ->limit(1)
+                ->get()
+                ->getRowArray();
+
+            if ($sport) {
+                $sport['description'] = 'Activité physique équilibrée pour votre bien-être';
+                $sport['duree_recommandee'] = '45-60 minutes';
+                $sport['frequence'] = '3-4 fois par semaine';
+                $sport['avantages'] = ['Maintien de la forme', 'Bien-être général'];
+                $sport['conseils'] = ['Adapter l\'intensité à votre niveau', 'Consulter un professionnel si nécessaire'];
+                return $sport;
+            }
+
+            return [];
+        }
+
+        // Mapper les objectifs aux IDs de sports
+        $objectifMapping = [
+            'prise de masse' => 1, // Musculation intensive
+            'perte de poids' => 5, // HIIT (Entraînement par intervalles)
+            'maintien' => 6     // Yoga
+        ];
+
+        $sportId = $objectifMapping[$objectif] ?? 6; // Défaut: Yoga
+
+        $sport = $this->db->table('sports')
+            ->select('id, nom, calories_par_heure')
+            ->where('id', $sportId)
+            ->get()
+            ->getRowArray();
+
+        if (!$sport) {
+            return [];
+        }
+
+        // Ajouter les informations spécifiques selon l'objectif
+        $descriptions = [
+            'prise de masse' => 'Entraînement de musculation axé sur le développement de la masse musculaire avec des charges lourdes.',
+            'perte de poids' => 'Entraînement par intervalles à haute intensité pour maximiser la dépense calorique.',
+            'maintien' => 'Activité douce et équilibrée pour maintenir votre condition physique.'
+        ];
+
+        $durees = [
+            'prise de masse' => '60-90 minutes',
+            'perte de poids' => '45-60 minutes',
+            'maintien' => '45-60 minutes'
+        ];
+
+        $frequences = [
+            'prise de masse' => '4-5 fois par semaine',
+            'perte de poids' => '4-5 fois par semaine',
+            'maintien' => '3-4 fois par semaine'
+        ];
+
+        $avantages = [
+            'prise de masse' => [
+                'Développement de la masse musculaire',
+                'Augmentation de la force',
+                'Amélioration de la densité osseuse',
+                'Boost du métabolisme'
             ],
-            'conseils' => [
-                'Commencer par une marche rapide avant de courir',
-                'Maintenir un rythme régulier',
-                'Bien s\'hydrater avant, pendant et après',
-                'Écouter son corps et ne pas forcer'
+            'perte de poids' => [
+                'Excellente dépense calorique',
+                'Amélioration de l\'endurance cardiovasculaire',
+                'Renforcement musculaire global',
+                'Réduction du stress'
+            ],
+            'maintien' => [
+                'Maintien de la condition physique',
+                'Prévention des blessures',
+                'Équilibre musculaire',
+                'Bien-être général'
             ]
         ];
+
+        $conseils = [
+            'prise de masse' => [
+                'Commencer avec des charges adaptées à votre niveau',
+                'Respecter les temps de récupération entre les séries',
+                'Maintenir une alimentation riche en protéines',
+                'Alterner les groupes musculaires'
+            ],
+            'perte de poids' => [
+                'Commencer progressivement pour éviter les blessures',
+                'Alterner intensité haute et récupération',
+                'Bien s\'hydrater avant, pendant et après',
+                'Écouter son corps et adapter l\'intensité'
+            ],
+            'maintien' => [
+                'Varier les activités pour éviter la routine',
+                'Maintenir une intensité modérée',
+                'Inclure des étirements',
+                'Adapter selon l\'humeur et la météo'
+            ]
+        ];
+
+        $sport['description'] = $descriptions[$objectif] ?? $descriptions['maintien'];
+        $sport['duree_recommandee'] = $durees[$objectif] ?? $durees['maintien'];
+        $sport['frequence'] = $frequences[$objectif] ?? $frequences['maintien'];
+        $sport['avantages'] = $avantages[$objectif] ?? $avantages['maintien'];
+        $sport['conseils'] = $conseils[$objectif] ?? $conseils['maintien'];
+
+        return $sport;
+    }
+
+    public function getTypeSuggestionByObjectif(string $objectif): string
+    {
+        $mapping = [
+            'prise de masse' => 'sport', // Pour prise de masse, privilégier le sport
+            'perte de poids' => 'sport', // Pour perte de poids, privilégier le sport
+            'maintien' => 'regime' // Pour maintien, privilégier le régime
+        ];
+
+        return $mapping[$objectif] ?? 'regime';
+    }
+
+    public function getObjectifPrincipalUtilisateur(int $utilisateurId): ?string
+    {
+        $objectifs = $this->db->table('utilisateur_objectifs uo')
+            ->select('o.libelle')
+            ->join('objectifs o', 'o.id = uo.objectif_id', 'inner')
+            ->where('uo.utilisateur_id', $utilisateurId)
+            ->where('uo.statut', 'en_cours')
+            ->orderBy('uo.date_creation', 'DESC')
+            ->get()
+            ->getResultArray();
+
+        return !empty($objectifs) ? $objectifs[0]['libelle'] : null;
     }
 }

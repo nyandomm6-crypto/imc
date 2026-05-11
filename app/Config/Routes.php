@@ -41,6 +41,10 @@ $routes->get('/sports', 'front\SportController::index');
 $routes->post('/sports/generate', 'front\SportController::generate');
 $routes->post('/sports/suggere', 'front\SportController::suggere');
 
+// Suggestion automatique
+$routes->get('/suggestion', 'front\SuggestionController::index');
+$routes->post('/suggestion/generate', 'front\SuggestionController::generate');
+
 // Exports PDF
 $routes->get('/export/transactions', 'front\PdfController::exportTransactions');
 $routes->get('/export/regime/(:num)', 'front\PdfController::exportRegime/$1');
