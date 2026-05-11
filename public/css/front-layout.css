@@ -84,13 +84,13 @@ html, body {
     letter-spacing: -0.3px;
     color: var(--text);
 }
-.btn-gold {
+.btn-options {
     display: flex;
     align-items: center;
     gap: 6px;
-    background: var(--gold-bg);
-    color: var(--gold);
-    border: 1px solid rgba(232,184,75,0.3);
+    background: var(--accent2-bg);
+    color: var(--accent2);
+    border: 1px solid rgba(124,110,245,0.3);
     font-size: 12px;
     font-weight: 500;
     padding: 7px 14px;
@@ -100,7 +100,7 @@ html, body {
     transition: all 0.2s;
     font-family: 'DM Sans', sans-serif;
 }
-.btn-gold:hover { background: rgba(232,184,75,0.2); }
+.btn-options:hover { background: rgba(124,110,245,0.1); }
 
 /* Badge Admin — différence visuelle vs front */
 .logo-badge {
@@ -663,7 +663,8 @@ html, body {
     align-items: center;
     gap: 8px;
 }
-.alert-amber { background: var(--amber-bg); color: var(--amber); border-color: rgba(245,166,35,0.3); }
+.alert-green { background: var(--green-bg); color: var(--green); border-color: rgba(45,212,160,0.3); }
+.alert-red { background: var(--red-bg); color: var(--red); border-color: rgba(245,96,96,0.3); }
 
 /* Animations */
 @keyframes fadeUp {
@@ -696,6 +697,48 @@ html, body {
     .sidebar { width: 190px; }
     .topbar { padding: 14px 18px; }
     .content { padding: 18px; }
+}
+
+/* Objectif Messages */
+.objectif-message {
+    background: rgba(124,110,245,0.05);
+    border: 1px solid rgba(124,110,245,0.2);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text);
+}
+
+.objectif-message strong {
+    color: var(--accent2);
+    font-weight: 600;
+}
+
+/* Suggestion Preview */
+.suggestion-preview {
+    border-radius: var(--radius-sm);
+    margin: 16px 0;
+    overflow: hidden;
+}
+
+.suggestion-preview .suggestion-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.suggestion-preview .suggestion-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+.suggestion-preview .suggestion-meta {
+    font-size: 11px;
+    color: var(--accent2);
 }
 
 @media (max-width: 768px) {
@@ -740,7 +783,7 @@ html, body {
     .metric { padding: 14px 16px; }
     .metric-val { font-size: 22px; }
     .imc-big { font-size: 36px; }
-    .btn-gold { width: 100%; justify-content: center; }
+    .btn-options { width: 100%; justify-content: center; }
     .card-head { flex-direction: column; align-items: flex-start; gap: 6px; }
     .card-body { padding: 14px 16px; }
 }

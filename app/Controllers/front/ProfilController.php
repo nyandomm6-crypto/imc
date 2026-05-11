@@ -6,18 +6,21 @@ use App\Controllers\BaseController;
 use App\Models\MesureModel;
 use App\Models\UtilisateurModel;
 use App\Models\GenreModel;
+use App\Models\ObjectifModel;
 
 class ProfilController extends BaseController
 {
     private UtilisateurModel $utilisateurModel;
     private MesureModel $mesureModel;
     private GenreModel $genreModel;
+    private ObjectifModel $objectifModel;
 
     public function __construct()
     {
         $this->utilisateurModel = new UtilisateurModel();
         $this->mesureModel = new MesureModel();
         $this->genreModel = new GenreModel();
+        $this->objectifModel = new ObjectifModel();
     }
 
     public function index()
@@ -119,7 +122,20 @@ class ProfilController extends BaseController
 
     public function objectifs()
     {
-        return view('front/profil/objectifs');
+        $utilisateurId = $this->getUtilisateurId();
+        if ($utilisateurId === null) {
+            return redirect()->to('/');
+        }
+
+        $objectifsUtilisateur = $this->objectifModel->getObjectifsUtilisateur($utilisateurId);
+        $tousObjectifs = $this->objectifModel->getAll();
+        $peutCreerObjectif = $this->objectifModel->peutCreerObjectif($utilisateurId);
+
+        return view('front/profil/objectifs', [
+            'objectifsUtilisateur' => $objectifsUtilisateur,
+            'tousObjectifs' => $tousObjectifs,
+            'peutCreerObjectif' => $peutCreerObjectif,
+        ]);
     }
 
     private function getUtilisateurId(): ?int
@@ -162,5 +178,62 @@ class ProfilController extends BaseController
         );
 
         return redirect()->to('/profil')->with('success', 'Nouvelle mesure ajoutee.');
+    }
+
+    public function creerObjectif()
+    {
+        $utilisateurId = $this->getUtilisateurId();
+        if ($utilisateurId === null) {
+            return redirect()->to('/');
+        }
+
+        $objectifId = (int) $this->request->getPost('objectif_id');
+        $valeurCible = $this->request->getPost('valeur_cible');
+
+        if ($objectifId <= 0) {
+            return redirect()->to('/profil/objectifs')
+                ->withInput()
+                ->with('error', 'Veuillez sélectionner un objectif.');
+        }
+
+        // Vérifier si l'utilisateur peut créer un nouvel objectif
+        if (!$this->objectifModel->peutCreerObjectif($utilisateurId)) {
+            return redirect()->to('/profil/objectifs')
+                ->with('error', 'Vous devez terminer votre objectif actuel avant d\'en créer un nouveau.');
+        }
+
+        $result = $this->objectifModel->creerObjectif($utilisateurId, $objectifId, $valeurCible);
+
+        if ($result === false) {
+            return redirect()->to('/profil/objectifs')
+                ->withInput()
+                ->with('error', 'Erreur lors de la création de l\'objectif.');
+        }
+
+        return redirect()->to('/profil/objectifs')->with('success', 'Objectif créé avec succès.');
+    }
+
+    public function terminerObjectif()
+    {
+        $utilisateurId = $this->getUtilisateurId();
+        if ($utilisateurId === null) {
+            return redirect()->to('/');
+        }
+
+        $utilisateurObjectifId = (int) $this->request->getPost('utilisateur_objectif_id');
+
+        if ($utilisateurObjectifId <= 0) {
+            return redirect()->to('/profil/objectifs')
+                ->with('error', 'Objectif invalide.');
+        }
+
+        $result = $this->objectifModel->terminerObjectif($utilisateurObjectifId, $utilisateurId);
+
+        if (!$result) {
+            return redirect()->to('/profil/objectifs')
+                ->with('error', 'Erreur lors de la terminaison de l\'objectif.');
+        }
+
+        return redirect()->to('/profil/objectifs')->with('success', 'Objectif terminé avec succès.');
     }
 }

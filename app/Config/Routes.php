@@ -22,7 +22,37 @@ $routes->get('/profil', 'front\ProfilController::index');
 $routes->post('/profil/update', 'front\ProfilController::updateProfil');
 $routes->post('/profil/mesure', 'front\ProfilController::addMesure');
 $routes->get('/profil/objectifs', 'front\ProfilController::objectifs');
+$routes->post('/profil/creer-objectif', 'front\ProfilController::creerObjectif');
+$routes->post('/profil/terminer-objectif', 'front\ProfilController::terminerObjectif');
 $routes->get('/porte-monnaie', 'front\PorteMonnaieController::index');
+
+// Options / Abonnements
+$routes->get('/options', 'front\OptionController::index');
+$routes->get('/option/detail/(:num)', 'front\OptionController::detail/$1');
+$routes->post('/option/acheter', 'front\OptionController::acheter');
+$routes->get('/mes-options', 'front\OptionController::mesOptions');
+
+
+$routes->get('/regimes', 'front\RegimeController::index');
+$routes->post('/regimes/generate', 'front\RegimeController::generate');
+$routes->post('/regimes/confirmer', 'front\RegimeController::confirmer');
+$routes->post('/regimes/suggere', 'front\RegimeController::suggere');
+
+$routes->get('/sports', 'front\SportController::index');
+$routes->post('/sports/generate', 'front\SportController::generate');
+$routes->post('/sports/confirmer', 'front\SportController::confirmer');
+$routes->post('/sports/suggere', 'front\SportController::suggere');
+
+// Suggestion automatique
+$routes->get('/suggestion', 'front\SuggestionController::index');
+$routes->post('/suggestion/generate', 'front\SuggestionController::generate');
+
+// Exports PDF
+$routes->get('/export/transactions', 'front\PdfController::exportTransactions');
+$routes->get('/export/regime/(:num)', 'front\PdfController::exportRegime/$1');
+$routes->get('/export/regime', 'front\PdfController::exportRegime');
+$routes->get('/export/sport/(:num)', 'front\PdfController::exportSport/$1');
+$routes->get('/export/sport', 'front\PdfController::exportSport');
 
 // $routes->group('', ['filter' => 'auth'], function($routes) {
 //     $routes->get('dashboard', 'front\DashboardController::index');

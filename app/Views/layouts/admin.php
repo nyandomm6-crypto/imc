@@ -106,14 +106,6 @@ if ($activeNav === '') {
                href="<?= base_url('admin/codes') ?>">
                 <span class="ni">🔑</span> Codes promo
             </a>
-            <a class="nav-item<?= $activeNav === 'abonnements'   ? ' active' : '' ?>"
-               href="<?= base_url('admin/abonnements') ?>">
-                <span class="ni">⭐</span> Abonnements
-            </a>
-            <a class="nav-item<?= $activeNav === 'offres'        ? ' active' : '' ?>"
-               href="<?= base_url('admin/offres') ?>">
-                <span class="ni">🏷️</span> Offres
-            </a>
 
         </nav>
 
