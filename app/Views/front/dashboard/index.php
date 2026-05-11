@@ -60,9 +60,10 @@ $activeNav = 'dashboard';
             </div>
             <?php endif; ?>
 
+
             <!-- MÉTRIQUES -->
             <div class="metrics">
-                <div class="metric m-purple">
+                <div class="metric m-purple" id="profil">
                     <div class="metric-icon">📊</div>
                     <div class="metric-val"><?= $imcVal ?></div>
                     <div class="metric-label">IMC actuel</div>
@@ -70,22 +71,85 @@ $activeNav = 'dashboard';
                         <?= esc($categorieImc) ?>
                     </span>
                 </div>
-                <div class="metric m-green">
+                <div class="metric m-green" id="profil">
                     <div class="metric-icon">⚖️</div>
                     <div class="metric-val"><?= esc($poids) ?></div>
                     <div class="metric-label">Poids (kg) · <?= esc($taille) ?> m</div>
                 </div>
-                <div class="metric m-amber">
+                <div class="metric m-amber" id="porte_monnaie">
                     <div class="metric-icon">💰</div>
                     <div class="metric-val"><?= $solde ?> <span style="font-size:16px;font-weight:400">€</span></div>
                     <div class="metric-label">Solde porte-monnaie</div>
                 </div>
-                <div class="metric m-blue">
+                <div class="metric m-blue" id="objectif">
                     <div class="metric-icon">🎯</div>
                     <div class="metric-val"><?= $nbObj ?><span style="font-size:16px;font-weight:400;color:var(--muted)">/3</span></div>
                     <div class="metric-label">Objectifs actifs</div>
                 </div>
             </div>
+
+        <!-- PORTE-MONNAIE -->
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-title">
+                        <span class="ct-icon" style="background:var(--amber-bg)">💰</span>
+                        Créditez 
+                    </span>
+                    <a href="/porte-monnaie" class="card-link">Historique complet →</a>
+                </div>
+                <div class="card-body">
+                    <div class="wallet-grid">
+                        <div>
+                            <div style="font-size:11px;color:var(--muted);margin-bottom:2px">Solde disponible</div>
+                            <div class="wallet-solde"><?= $solde ?> €</div>
+                            <div style="font-size:11px;color:var(--muted);margin-bottom:8px">Entrer un code promo</div>
+                            <div class="code-wrap">
+                                <input type="text" id="codePromotion" placeholder="ex: PROMO10" class="code-input">
+                                <button onclick="validerCode()" class="code-btn">Valider</button>
+                            </div>
+                            <div id="code-msg" style="font-size:11px;margin-top:8px;min-height:16px"></div>
+                        </div>
+                        <div>
+                            <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em">
+                                Dernières transactions
+                            </div>
+                            <div id="tx-list">
+                                <?php if (!empty($transactions)): ?>
+                                    <?php foreach ($transactions as $tx): ?>
+                                        <?php
+                                            $txType = $tx['type'] ?? '';
+                                            $txClass = $txType === 'income' ? 'tx-plus' : 'tx-minus';
+                                            $txSign = $txType === 'income' ? '+' : '-';
+                                            $txDesc = $tx['description'] ?? 'Transaction';
+                                            $txAmount = number_format((float) ($tx['montant'] ?? 0), 2);
+                                            $txDate = $tx['date_transaction'] ?? '';
+                                            $txDateLabel = $txDate ? date('d/m/Y', strtotime($txDate)) : '';
+                                        ?>
+                                        <div class="tx-item" style="font-size:12px">
+                                            <span style="color:var(--text);flex:1">
+                                                <?= esc($asString($txDesc, 'Transaction')) ?>
+                                            </span>
+                                            <?php if ($txDateLabel !== ''): ?>
+                                                <span style="color:var(--muted);font-size:11px">
+                                                    <?= esc($txDateLabel) ?>
+                                                </span>
+                                            <?php endif; ?>
+                                            <span class="tx-amount <?= $txClass ?>">
+                                                <?= $txSign ?><?= $txAmount ?> €
+                                            </span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <div class="tx-item" style="color:var(--muted);font-size:12px">
+                                        Aucune transaction récente.
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- IMC + OBJECTIFS -->
             <div class="row2">
@@ -135,7 +199,7 @@ $activeNav = 'dashboard';
                         <div style="text-align:center;padding:24px 0;color:var(--muted)">
                             <div style="font-size:32px;margin-bottom:8px">📏</div>
                             <div style="font-size:13px;margin-bottom:12px">Aucune mesure enregistrée</div>
-                            <a href="/profil/mesure" style="color:var(--accent2);font-size:12px;text-decoration:none">
+                            <a href="/profil" style="color:var(--accent2);font-size:12px;text-decoration:none">
                                 + Ajouter ma mesure →
                             </a>
                         </div>
@@ -280,67 +344,6 @@ $activeNav = 'dashboard';
 
             </div>
 
-            <!-- PORTE-MONNAIE -->
-            <div class="card">
-                <div class="card-head">
-                    <span class="card-title">
-                        <span class="ct-icon" style="background:var(--amber-bg)">💰</span>
-                        Porte-monnaie
-                    </span>
-                    <a href="/porte-monnaie" class="card-link">Historique complet →</a>
-                </div>
-                <div class="card-body">
-                    <div class="wallet-grid">
-                        <div>
-                            <div style="font-size:11px;color:var(--muted);margin-bottom:2px">Solde disponible</div>
-                            <div class="wallet-solde"><?= $solde ?> €</div>
-                            <div style="font-size:11px;color:var(--muted);margin-bottom:8px">Entrer un code promo</div>
-                            <div class="code-wrap">
-                                <input type="text" id="codePromotion" placeholder="ex: PROMO10" class="code-input">
-                                <button onclick="validerCode()" class="code-btn">Valider</button>
-                            </div>
-                            <div id="code-msg" style="font-size:11px;margin-top:8px;min-height:16px"></div>
-                        </div>
-                        <div>
-                            <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em">
-                                Dernières transactions
-                            </div>
-                            <div id="tx-list">
-                                <?php if (!empty($transactions)): ?>
-                                    <?php foreach ($transactions as $tx): ?>
-                                        <?php
-                                            $txType = $tx['type'] ?? '';
-                                            $txClass = $txType === 'income' ? 'tx-plus' : 'tx-minus';
-                                            $txSign = $txType === 'income' ? '+' : '-';
-                                            $txDesc = $tx['description'] ?? 'Transaction';
-                                            $txAmount = number_format((float) ($tx['montant'] ?? 0), 2);
-                                            $txDate = $tx['date_transaction'] ?? '';
-                                            $txDateLabel = $txDate ? date('d/m/Y', strtotime($txDate)) : '';
-                                        ?>
-                                        <div class="tx-item" style="font-size:12px">
-                                            <span style="color:var(--text);flex:1">
-                                                <?= esc($asString($txDesc, 'Transaction')) ?>
-                                            </span>
-                                            <?php if ($txDateLabel !== ''): ?>
-                                                <span style="color:var(--muted);font-size:11px">
-                                                    <?= esc($txDateLabel) ?>
-                                                </span>
-                                            <?php endif; ?>
-                                            <span class="tx-amount <?= $txClass ?>">
-                                                <?= $txSign ?><?= $txAmount ?> €
-                                            </span>
-                                        </div>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <div class="tx-item" style="color:var(--muted);font-size:12px">
-                                        Aucune transaction récente.
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 <?= $this->endSection() ?>
 
@@ -408,6 +411,24 @@ window.addEventListener('load', () => {
         needle.style.left = '0%';
         setTimeout(() => { needle.style.left = '<?= $progression ?>%'; }, 300);
     }
+});
+
+var getId = document.getElementById('profil');
+getId.addEventListener("click", function() {
+     window.location.href = "/profil";
+    
+});
+
+var getIdPM = document.getElementById('porte_monnaie') ;
+getIdPM.addEventListener("click", function() {
+     window.location.href = "/porte-monnaie";
+    
+});
+
+var getIdObj = document.getElementById('objectif') ;
+getIdObj.addEventListener("click", function() {
+     window.location.href = "/profil/objectifs";
+    
 });
 </script>
 <?= $this->endSection() ?>

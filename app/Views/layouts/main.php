@@ -71,12 +71,15 @@ if ($activeNav === '') {
                 <span class="ni">◈</span> Objectifs
             </a>
 
-            <div class="nav-section">Nutrition</div>
+            <div class="nav-section">Suggestions</div>
             <a class="nav-item<?= $activeNav === 'regimes' ? ' active' : '' ?>" href="/regimes">
                 <span class="ni">🥗</span> Régimes
             </a>
             <a class="nav-item<?= $activeNav === 'sports' ? ' active' : '' ?>" href="/sports">
                 <span class="ni">🏃</span> Sports
+            </a>
+            <a class="nav-item<?= $activeNav === 'sports' ? ' active' : '' ?>" href="/sports">
+                <span class="ni">🔥</span> Régimes avec sports
             </a>
 
             <div class="nav-section">Compte</div>

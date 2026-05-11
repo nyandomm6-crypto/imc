@@ -17,9 +17,12 @@
                     <p>Accedez a vos objectifs, vos mesures et vos programmes personnalises.</p>
                 </div>
                 <div class="auth-points">
-                    <div class="auth-point">📈 <b>IMC</b> et progression en un coup d'oeil.</div>
-                    <div class="auth-point">🥗 Plans adaptes a vos objectifs.</div>
-                    <div class="auth-point">💰 Porte-monnaie et activations rapides.</div>
+                    <div class="auth-point"><b>Liste d'utilisateur</b> </div>
+                    <div class="auth-point">admin@gmail.com    (admin123)</div>
+                    <div class="auth-point">user1@gmail.com    (user123)</div>
+                    <div class="auth-point">user2@gmail.com    (user123)</div>
+                    <div class="auth-point">user3@gmail.com    (user123)</div>
+                    <div class="auth-point">user4@gmail.com    (user123)</div>
                 </div>
             </aside>
 
@@ -41,7 +44,7 @@
 
                     <div class="field">
                         <label for="email">Email</label>
-                        <input
+                        <input value="admin@gmail.com"
                             id="email"
                             name="email"
                             type="email"
@@ -52,7 +55,7 @@
 
                     <div class="field">
                         <label for="mot_de_passe">Mot de passe</label>
-                        <input
+                        <input value="admin123"
                             id="mot_de_passe"
                             name="mot_de_passe"
                             type="password"
