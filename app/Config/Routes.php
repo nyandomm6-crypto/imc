@@ -32,6 +32,15 @@ $routes->get('/option/detail/(:num)', 'front\OptionController::detail/$1');
 $routes->post('/option/acheter', 'front\OptionController::acheter');
 $routes->get('/mes-options', 'front\OptionController::mesOptions');
 
+
+$routes->get('/regimes', 'front\RegimeController::index');
+$routes->post('/regimes/generate', 'front\RegimeController::generate');
+$routes->post('/regimes/suggere', 'front\RegimeController::suggere');
+
+$routes->get('/sports', 'front\SportController::index');
+$routes->post('/sports/generate', 'front\SportController::generate');
+$routes->post('/sports/suggere', 'front\SportController::suggere');
+
 // $routes->group('', ['filter' => 'auth'], function($routes) {
 //     $routes->get('dashboard', 'front\DashboardController::index');
 // });
