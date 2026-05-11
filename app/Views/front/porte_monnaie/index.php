@@ -29,7 +29,12 @@ $activeNav = 'porte-monnaie';
             <span class="ct-icon" style="background:var(--amber-bg)">💰</span>
             Porte-monnaie
         </span>
-        <span style="font-size:11px;color:var(--muted)">Solde actuel</span>
+        <div style="display:flex;gap:8px">
+            <a href="<?= site_url('export/transactions') ?>" class="btn btn-secondary btn-sm" target="_blank" style="font-size:11px;padding:6px 12px">
+                📄 Exporter PDF
+            </a>
+            <span style="font-size:11px;color:var(--muted)">Solde actuel</span>
+        </div>
     </div>
     <div class="card-body">
         <div class="wallet-grid">

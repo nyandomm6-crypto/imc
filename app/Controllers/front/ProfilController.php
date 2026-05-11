@@ -122,118 +122,7 @@ class ProfilController extends BaseController
 
     public function objectifs()
     {
-        $utilisateurId = $this->getUtilisateurId();
-        if ($utilisateurId === null) {
-            return redirect()->to('/');
-        }
-
-        $utilisateur = $this->utilisateurModel->getById($utilisateurId);
-        
-        // Récupérer les objectifs avec les données complètes
-        $objectifs = $this->objectifModel->getObjectifsUtilisateurComplete($utilisateurId);
-        $objectifEnCours = $this->objectifModel->getObjectifEnCoursComplete($utilisateurId);
-        
-        $listeObjectifs = $this->objectifModel->getAll();
-
-        return view('front/profil/objectifs', [
-            'utilisateur' => $utilisateur,
-            'objectifs' => $objectifs,
-            'objectifEnCours' => $objectifEnCours,
-            'listeObjectifs' => $listeObjectifs,
-        ]);
-    }
-
-    public function createObjectif()
-    {
-        $utilisateurId = $this->getUtilisateurId();
-        if ($utilisateurId === null) {
-            return redirect()->to('/');
-        }
-
-        // Vérifier s'il y a déjà un objectif en cours
-        $objectifEnCours = $this->objectifModel->getObjectifEnCoursComplete($utilisateurId);
-        if ($objectifEnCours !== null) {
-            return redirect()->to('/profil/objectifs')
-                ->with('error', 'Vous avez déjà un objectif en cours. Terminez-le avant d\'en créer un nouveau.');
-        }
-
-        $listeObjectifs = $this->objectifModel->getAll();
-
-        return view('front/profil/create_objectif', [
-            'listeObjectifs' => $listeObjectifs,
-        ]);
-    }
-
-    public function storeObjectif()
-    {
-        $utilisateurId = $this->getUtilisateurId();
-        if ($utilisateurId === null) {
-            return redirect()->to('/');
-        }
-
-        // Vérifier s'il y a déjà un objectif en cours
-        $objectifEnCours = $this->objectifModel->getObjectifEnCoursComplete($utilisateurId);
-        if ($objectifEnCours !== null) {
-            return redirect()->to('/profil/objectifs')
-                ->with('error', 'Vous avez déjà un objectif en cours. Terminez-le avant d\'en créer un nouveau.');
-        }
-
-        $objectifId = (int) $this->request->getPost('objectif_id');
-        $valeurCible = $this->request->getPost('valeur_cible');
-        $valeurCible = $valeurCible !== '' ? (float) $valeurCible : null;
-
-        if ($objectifId <= 0) {
-            return redirect()->to('/profil/objectifs/create')
-                ->withInput()
-                ->with('error', 'Veuillez sélectionner un objectif valide.');
-        }
-
-        $this->objectifModel->createObjectifUtilisateur($utilisateurId, $objectifId, $valeurCible);
-
-        return redirect()->to('/profil/objectifs')
-            ->with('success', 'Objectif créé avec succès.');
-    }
-
-    public function achieveObjectif(int $utilisateur_objectif_id)
-    {
-        $utilisateurId = $this->getUtilisateurId();
-        if ($utilisateurId === null) {
-            return redirect()->to('/');
-        }
-
-        // Vérifier que l'objectif appartient à l'utilisateur
-        $objectif = $this->objectifModel->getObjectifUtilisateurById($utilisateur_objectif_id, $utilisateurId);
-
-        if ($objectif === null) {
-            return redirect()->to('/profil/objectifs')
-                ->with('error', 'Objectif non trouvé.');
-        }
-
-        $this->objectifModel->markObjectifAsAchieved($utilisateur_objectif_id);
-
-        return redirect()->to('/profil/objectifs')
-            ->with('success', 'Objectif marqué comme atteint.');
-    }
-
-    public function abandonObjectif(int $utilisateur_objectif_id)
-    {
-        $utilisateurId = $this->getUtilisateurId();
-        if ($utilisateurId === null) {
-            return redirect()->to('/');
-        }
-
-        // Vérifier que l'objectif appartient à l'utilisateur
-        $objectif = $this->objectifModel->getObjectifUtilisateurById($utilisateur_objectif_id, $utilisateurId);
-
-        if ($objectif === null) {
-            return redirect()->to('/profil/objectifs')
-                ->with('error', 'Objectif non trouvé.');
-        }
-
-        $this->objectifModel->markObjectifAsAbandoned($utilisateur_objectif_id);
-
-        return redirect()->to('/profil/objectifs')
-            ->with('success', 'Objectif marqué comme abandonné.');
+        return view('front/profil/objectifs');
     }
 
     private function getUtilisateurId(): ?int
@@ -276,5 +165,62 @@ class ProfilController extends BaseController
         );
 
         return redirect()->to('/profil')->with('success', 'Nouvelle mesure ajoutee.');
+    }
+
+    public function creerObjectif()
+    {
+        $utilisateurId = $this->getUtilisateurId();
+        if ($utilisateurId === null) {
+            return redirect()->to('/');
+        }
+
+        $objectifId = (int) $this->request->getPost('objectif_id');
+        $valeurCible = $this->request->getPost('valeur_cible');
+
+        if ($objectifId <= 0) {
+            return redirect()->to('/profil/objectifs')
+                ->withInput()
+                ->with('error', 'Veuillez sélectionner un objectif.');
+        }
+
+        // Vérifier si l'utilisateur peut créer un nouvel objectif
+        if (!$this->objectifModel->peutCreerObjectif($utilisateurId)) {
+            return redirect()->to('/profil/objectifs')
+                ->with('error', 'Vous devez terminer votre objectif actuel avant d\'en créer un nouveau.');
+        }
+
+        $result = $this->objectifModel->creerObjectif($utilisateurId, $objectifId, $valeurCible);
+
+        if ($result === false) {
+            return redirect()->to('/profil/objectifs')
+                ->withInput()
+                ->with('error', 'Erreur lors de la création de l\'objectif.');
+        }
+
+        return redirect()->to('/profil/objectifs')->with('success', 'Objectif créé avec succès.');
+    }
+
+    public function terminerObjectif()
+    {
+        $utilisateurId = $this->getUtilisateurId();
+        if ($utilisateurId === null) {
+            return redirect()->to('/');
+        }
+
+        $utilisateurObjectifId = (int) $this->request->getPost('utilisateur_objectif_id');
+
+        if ($utilisateurObjectifId <= 0) {
+            return redirect()->to('/profil/objectifs')
+                ->with('error', 'Objectif invalide.');
+        }
+
+        $result = $this->objectifModel->terminerObjectif($utilisateurObjectifId, $utilisateurId);
+
+        if (!$result) {
+            return redirect()->to('/profil/objectifs')
+                ->with('error', 'Erreur lors de la terminaison de l\'objectif.');
+        }
+
+        return redirect()->to('/profil/objectifs')->with('success', 'Objectif terminé avec succès.');
     }
 }

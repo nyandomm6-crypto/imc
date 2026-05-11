@@ -84,13 +84,13 @@ html, body {
     letter-spacing: -0.3px;
     color: var(--text);
 }
-.btn-gold {
+.btn-options {
     display: flex;
     align-items: center;
     gap: 6px;
-    background: var(--gold-bg);
-    color: var(--gold);
-    border: 1px solid rgba(232,184,75,0.3);
+    background: var(--accent2-bg);
+    color: var(--accent2);
+    border: 1px solid rgba(124,110,245,0.3);
     font-size: 12px;
     font-weight: 500;
     padding: 7px 14px;
@@ -100,7 +100,7 @@ html, body {
     transition: all 0.2s;
     font-family: 'DM Sans', sans-serif;
 }
-.btn-gold:hover { background: rgba(232,184,75,0.2); }
+.btn-options:hover { background: rgba(124,110,245,0.1); }
 
 /* Badge Admin — différence visuelle vs front */
 .logo-badge {
@@ -740,7 +740,7 @@ html, body {
     .metric { padding: 14px 16px; }
     .metric-val { font-size: 22px; }
     .imc-big { font-size: 36px; }
-    .btn-gold { width: 100%; justify-content: center; }
+    .btn-options { width: 100%; justify-content: center; }
     .card-head { flex-direction: column; align-items: flex-start; gap: 6px; }
     .card-body { padding: 14px 16px; }
 }

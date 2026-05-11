@@ -44,7 +44,7 @@ if ($activeNav === '') {
         str_contains($path, 'regimes') => 'regimes',
         str_contains($path, 'sports') => 'sports',
         str_contains($path, 'porte-monnaie') => 'porte-monnaie',
-        str_contains($path, 'gold') => 'gold',
+        str_contains($path, 'options') => 'options',
         default => 'dashboard',
     };
 }
@@ -83,8 +83,8 @@ if ($activeNav === '') {
             <a class="nav-item<?= $activeNav === 'porte-monnaie' ? ' active' : '' ?>" href="/porte-monnaie">
                 <span class="ni">◈</span> Porte-monnaie
             </a>
-            <a class="nav-item<?= $activeNav === 'gold' ? ' active' : '' ?>" href="/gold">
-                <span class="ni">★</span> Passer Gold
+            <a class="nav-item<?= $activeNav === 'options' ? ' active' : '' ?>" href="/options">
+                <span class="ni">🛍️</span> Options
             </a>
         </nav>
 
@@ -107,7 +107,7 @@ if ($activeNav === '') {
                 <div class="topbar-title"><?= esc($pageTitle) ?></div>
                 <div class="topbar-sub"><?= esc($pageSubtitle) ?></div>
             </div>
-            <a href="/gold" class="btn-gold">★ Option Gold — 15% de remise</a>
+            <a href="/options" class="btn-options">🛍️ Voir les options disponibles</a>
         </div>
 
         <div class="content">
