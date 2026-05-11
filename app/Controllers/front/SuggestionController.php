@@ -26,17 +26,26 @@ class SuggestionController extends BaseController
 
         if (!$objectif) {
             // Si pas d'objectif défini, rediriger vers la page des objectifs
-            return redirect()->to('/objectifs')->with('info', 'Veuillez définir un objectif pour recevoir des suggestions personnalisées.');
+            return redirect()->to('/profil/objectifs')->with('info', 'Veuillez définir un objectif pour recevoir des suggestions personnalisées.');
         }
 
         // Déterminer automatiquement le type de suggestion selon l'objectif
         $typeSuggestion = $this->suggestionModel->getTypeSuggestionByObjectif($objectif);
 
-        // Rediriger vers la page appropriée
+        // Pré-calculer la suggestion pour afficher le nom
         if ($typeSuggestion === 'sport') {
-            return redirect()->to('/sports/generate');
+            $suggestion = $this->suggestionModel->getSuggestionSport($objectif);
+            $message = 'Suggestion automatique : ' . ($suggestion['nom'] ?? 'Activité sportive');
         } else {
-            return redirect()->to('/regimes/generate');
+            $suggestion = $this->suggestionModel->getSuggestionRegime($objectif);
+            $message = 'Suggestion automatique : ' . ($suggestion['libelle'] ?? 'Régime alimentaire');
+        }
+
+        // Rediriger vers la page appropriée avec un message
+        if ($typeSuggestion === 'sport') {
+            return redirect()->to('/sports/generate')->with('success', $message);
+        } else {
+            return redirect()->to('/regimes/generate')->with('success', $message);
         }
     }
 

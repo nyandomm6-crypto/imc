@@ -36,10 +36,14 @@ class RegimeController extends BaseController
         // Récupérer l'objectif principal de l'utilisateur
         $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
 
+        // Pré-calculer la suggestion pour afficher le nom
+        $suggestion = $this->suggestionModel->getSuggestionRegime($objectif);
+
         return view('front/regime/liste', [
             'pageTitle' => 'Régimes',
             'pageSubtitle' => 'Générez une suggestion de régime personnalisée',
-            'objectif' => $objectif
+            'objectif' => $objectif,
+            'suggestionPreview' => $suggestion
         ]);
     }
 

@@ -26,6 +26,22 @@
             <div class="generate-content">
                 <div class="generate-icon">🏃‍♂️</div>
                 <h3>Découvrez votre activité sportive idéale</h3>
+                <?php if (isset($suggestionPreview) && !empty($suggestionPreview)): ?>
+                    <div class="suggestion-preview" style="background: rgba(124,110,245,0.1); border: 1px solid rgba(124,110,245,0.3); border-radius: 8px; padding: 12px; margin: 16px 0;">
+                        <div style="font-size: 14px; font-weight: 600; color: var(--accent); margin-bottom: 4px;">
+                            🎯 Activité suggérée pour vous :
+                        </div>
+                        <div style="font-size: 16px; font-weight: 700; color: var(--text);">
+                            <?= esc($suggestionPreview['nom'] ?? 'Activité personnalisée') ?>
+                        </div>
+                        <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">
+                            <?= esc($suggestionPreview['description'] ?? '') ?>
+                        </div>
+                        <div style="font-size: 11px; color: var(--accent2); margin-top: 4px;">
+                            🔥 <?= esc($suggestionPreview['calories_par_heure'] ?? 0) ?> kcal/h · ⏱️ <?= esc($suggestionPreview['duree_recommandee'] ?? '') ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
                 <?php if (isset($objectif) && $objectif): ?>
                     <p class="objectif-message">
                         <?php if ($objectif === 'prise_de_masse'): ?>

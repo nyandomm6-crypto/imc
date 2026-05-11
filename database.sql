@@ -257,13 +257,43 @@ INSERT INTO aliments (nom, calories_100g, proteines_100g, glucides_100g, lipides
 ('Légumes variés (salade)', 25, 1.5, 4.5, 0.3),
 ('Vinaigre balsamique', 88, 0.5, 17, 0),
 ('Tomates', 18, 0.9, 3.9, 0.2),
-('Concombre', 16, 0.7, 3.6, 0.1);
+('Concombre', 16, 0.7, 3.6, 0.1),
+('Fromage blanc 0%', 58, 10, 3.5, 0.2),
+('Pomme', 52, 0.2, 14, 0.2),
+('Banane', 89, 1.1, 23, 0.3),
+('Amandes', 579, 21, 22, 50),
+('Oeuf', 155, 13, 1.1, 11),
+('Lait écrémé', 34, 3.4, 5, 0.1),
+('Pain complet', 247, 9, 41, 3.5),
+('Pâtes complètes', 157, 5.8, 30, 0.9),
+('Haricots verts', 31, 1.8, 7, 0.1),
+('Champignons', 22, 3.1, 3.3, 0.3),
+('Lentilles', 116, 9, 20, 0.4),
+('Pois chiches', 164, 7.5, 27, 2.6),
+('Épinards', 23, 2.9, 3.6, 0.4),
+('Aubergines', 25, 1, 6, 0.2),
+('Oignons', 40, 1.1, 9, 0.1),
+('Ail', 149, 6.4, 33, 0.5),
+('Gingembre', 80, 1.8, 18, 0.8),
+('Curcuma', 312, 9.7, 65, 3.2),
+('Noix de cajou', 553, 18, 30, 44),
+('Graines de chia', 486, 17, 42, 31),
+('Flocons d''avoine', 379, 13, 66, 6.9),
+('Miel', 304, 0.3, 82, 0),
+('Fruits rouges', 57, 0.7, 12, 0.3),
+('Kiwi', 61, 1.1, 15, 0.5),
+('Mangue', 60, 0.8, 15, 0.4);
 
 -- Insertion de régimes
 INSERT INTO regimes (libelle) VALUES
 ('Régime Prise de Masse'),
 ('Régime Perte de Poids'),
-('Régime Maintien');
+('Régime Maintien'),
+('Régime Végétarien'),
+('Régime Cétogène'),
+('Régime Méditerranéen'),
+('Régime Paléo'),
+('Régime Flexitarien');
 
 -- Insertion de recettes pour le régime prise de masse (riche en protéines et calories)
 INSERT INTO recettes (regime_id, aliment_id, pourcentage) VALUES
@@ -292,6 +322,57 @@ INSERT INTO recettes (regime_id, aliment_id, pourcentage) VALUES
 (3, 15, 25), -- Cabillaud
 (3, 16, 20); -- Carottes
 
+-- Insertion de recettes pour le régime végétarien
+INSERT INTO recettes (regime_id, aliment_id, pourcentage) VALUES
+(4, 10, 25), -- Quinoa
+(4, 30, 20), -- Lentilles
+(4, 31, 15), -- Pois chiches
+(4, 32, 15), -- Épinards
+(4, 33, 10), -- Aubergines
+(4, 34, 10), -- Oignons
+(4, 35, 5);  -- Ail
+
+-- Insertion de recettes pour le régime cétogène (riche en graisses, pauvre en glucides)
+INSERT INTO recettes (regime_id, aliment_id, pourcentage) VALUES
+(5, 5, 30),  -- Saumon
+(5, 7, 25),  -- Avocat
+(5, 4, 15),  -- Huile d'olive
+(5, 25, 15), -- Oeuf
+(5, 36, 10), -- Noix de cajou
+(5, 37, 5);  -- Graines de chia
+
+-- Insertion de recettes pour le régime méditerranéen
+INSERT INTO recettes (regime_id, aliment_id, pourcentage) VALUES
+(6, 15, 20), -- Cabillaud
+(6, 19, 15), -- Tomates
+(6, 13, 15), -- Poivrons
+(6, 4, 10),  -- Huile d'olive
+(6, 32, 10), -- Épinards
+(6, 38, 10), -- Flocons d'avoine
+(6, 39, 10), -- Miel
+(6, 40, 10); -- Fruits rouges
+
+-- Insertion de recettes pour le régime paléo
+INSERT INTO recettes (regime_id, aliment_id, pourcentage) VALUES
+(7, 1, 25),  -- Blanc de poulet
+(7, 5, 20),  -- Saumon
+(7, 6, 15),  -- Patates douces
+(7, 7, 15),  -- Avocat
+(7, 32, 10), -- Épinards
+(7, 36, 10), -- Noix de cajou
+(7, 41, 5);  -- Kiwi
+
+-- Insertion de recettes pour le régime flexitarien (végétarien flexible)
+INSERT INTO recettes (regime_id, aliment_id, pourcentage) VALUES
+(8, 30, 20), -- Lentilles
+(8, 31, 15), -- Pois chiches
+(8, 10, 15), -- Quinoa
+(8, 11, 15), -- Thon
+(8, 32, 10), -- Épinards
+(8, 38, 10), -- Flocons d'avoine
+(8, 40, 10), -- Fruits rouges
+(8, 42, 5);  -- Mangue
+
 -- Insertion de sports
 INSERT INTO sports (nom, calories_par_heure) VALUES
 ('Musculation intensive', 400),
@@ -301,4 +382,11 @@ INSERT INTO sports (nom, calories_par_heure) VALUES
 ('HIIT (Entraînement par intervalles)', 700),
 ('Yoga', 200),
 ('Marche rapide', 300),
-('Danse', 350);
+('Danse', 350),
+('Escalade', 550),
+('Tennis', 480),
+('Basketball', 520),
+('Football', 580),
+('Boxe', 650),
+('Pilates', 250),
+('Fitness en salle', 420);

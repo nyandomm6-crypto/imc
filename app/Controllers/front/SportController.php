@@ -36,10 +36,14 @@ class SportController extends BaseController
         // Récupérer l'objectif principal de l'utilisateur
         $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
 
+        // Pré-calculer la suggestion pour afficher le nom
+        $suggestion = $this->suggestionModel->getSuggestionSport($objectif);
+
         return view('front/sport/liste', [
             'pageTitle' => 'Sports',
             'pageSubtitle' => 'Générez une suggestion de sport personnalisée',
-            'objectif' => $objectif
+            'objectif' => $objectif,
+            'suggestionPreview' => $suggestion
         ]);
     }
 
