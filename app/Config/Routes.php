@@ -41,6 +41,13 @@ $routes->get('/sports', 'front\SportController::index');
 $routes->post('/sports/generate', 'front\SportController::generate');
 $routes->post('/sports/suggere', 'front\SportController::suggere');
 
+// Exports PDF
+$routes->get('/export/transactions', 'front\PdfController::exportTransactions');
+$routes->get('/export/regime/(:num)', 'front\PdfController::exportRegime/$1');
+$routes->get('/export/regime', 'front\PdfController::exportRegime');
+$routes->get('/export/sport/(:num)', 'front\PdfController::exportSport/$1');
+$routes->get('/export/sport', 'front\PdfController::exportSport');
+
 // $routes->group('', ['filter' => 'auth'], function($routes) {
 //     $routes->get('dashboard', 'front\DashboardController::index');
 // });

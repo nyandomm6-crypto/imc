@@ -73,6 +73,9 @@ $suggestion = is_array($suggestion ?? null) ? $suggestion : [];
             <?php endif; ?>
 
             <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:20px;display:flex;gap:10px">
+                <a href="<?= site_url('export/sport') ?>" class="btn btn-secondary" style="flex:1;text-align:center" target="_blank">
+                    📄 Exporter en PDF
+                </a>
                 <a href="<?= site_url('sports') ?>" class="btn btn-secondary" style="flex:1;text-align:center">
                     🔄 Générer un autre sport
                 </a>

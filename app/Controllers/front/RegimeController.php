@@ -45,7 +45,7 @@ class RegimeController extends BaseController
         if ($utilisateurId === null) {
             return redirect()->to('/');
         }
-
+        $this->compteModel->debiter($utilisateurId, 1);
         $suggestion = $this->suggestionModel->getSuggestionRegime();
 
         return view('front/regime/suggestion', [
@@ -53,40 +53,6 @@ class RegimeController extends BaseController
             'pageTitle' => 'Suggestion de Régime',
             'pageSubtitle' => 'Votre régime personnalisé',
         ]);
-    }
-
-    public function suggere()
-    {
-        $utilisateurId = $this->getUtilisateurId();
-        if ($utilisateurId === null) {
-            return redirect()->to('/');
-        }
-
-        $regimeId = (int) $this->request->getPost('regime_id');
-        if ($regimeId <= 0) {
-            return redirect()->back()->with('error', 'Régime invalide.');
-        }
-
-        $regime = $this->regimeModel->getById($regimeId);
-        if ($regime === null) {
-            return redirect()->back()->with('error', 'Régime introuvable.');
-        }
-
-        $composition = $this->regimeModel->getCompositionRegime($regimeId);
-        $hasGold = $this->abonnementModel->hasGold($utilisateurId);
-        $prix = $this->suggestionModel->calculerPrixRegime($regime, $composition);
-        $prixFinal = $this->suggestionModel->appliquerRemise($prix, $hasGold);
-
-        $solde = $this->compteModel->getSolde($utilisateurId);
-        if ($solde < $prixFinal) {
-            return redirect()->back()->with('error', 'Solde insuffisant pour suggérer ce régime.');
-        }
-
-        if (! $this->compteModel->debiter($utilisateurId, $prixFinal)) {
-            return redirect()->back()->with('error', 'Erreur lors du paiement de la suggestion.');
-        }
-
-        return redirect()->to('/regimes')->with('success', 'Suggestion du régime « ' . esc($regime['libelle']) . ' » achetée pour ' . number_format($prixFinal, 2, ',', ' ') . '€.');
     }
 
     private function getUtilisateurId(): ?int

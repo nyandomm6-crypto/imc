@@ -45,7 +45,7 @@ class SportController extends BaseController
         if ($utilisateurId === null) {
             return redirect()->to('/');
         }
-
+        $this->compteModel->debiter($utilisateurId, 1);
         $suggestion = $this->suggestionModel->getSuggestionSport();
 
         return view('front/sport/suggestion', [
