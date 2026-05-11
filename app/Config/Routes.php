@@ -35,10 +35,12 @@ $routes->get('/mes-options', 'front\OptionController::mesOptions');
 
 $routes->get('/regimes', 'front\RegimeController::index');
 $routes->post('/regimes/generate', 'front\RegimeController::generate');
+$routes->post('/regimes/confirmer', 'front\RegimeController::confirmer');
 $routes->post('/regimes/suggere', 'front\RegimeController::suggere');
 
 $routes->get('/sports', 'front\SportController::index');
 $routes->post('/sports/generate', 'front\SportController::generate');
+$routes->post('/sports/confirmer', 'front\SportController::confirmer');
 $routes->post('/sports/suggere', 'front\SportController::suggere');
 
 // Suggestion automatique

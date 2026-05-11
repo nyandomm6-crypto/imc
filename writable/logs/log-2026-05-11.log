@@ -173,3 +173,16 @@ in APPPATH/Controllers/front/RegimeController.php on line 105.
  5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
  6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
  7 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-11 08:03:46 --> CodeIgniter\Database\Exceptions\DatabaseException: You must set the database table to be used with your query.
+[Method: POST, Route: regimes/confirmer]
+in SYSTEMPATH/Database/BaseConnection.php on line 1125.
+ 1 SYSTEMPATH/Model.php(601): CodeIgniter\Database\BaseConnection->table()
+ 2 SYSTEMPATH/Model.php(751): CodeIgniter\Model->builder()
+ 3 APPPATH/Controllers/front/RegimeController.php(87): CodeIgniter\Model->__call()
+ 4 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\RegimeController->confirmer()
+ 5 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+10 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')

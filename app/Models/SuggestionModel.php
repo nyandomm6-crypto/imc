@@ -112,7 +112,7 @@ class SuggestionModel extends Model
         return $regime;
     }
 
-    private function getRecettesForRegime(int $regimeId): array
+    public function getRecettesForRegime(int $regimeId): array
     {
         $recettes = $this->db->table('recettes r')
             ->select('r.pourcentage, a.nom, a.calories_100g, a.proteines_100g, a.glucides_100g, a.lipides_100g')

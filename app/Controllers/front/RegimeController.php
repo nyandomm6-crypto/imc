@@ -54,6 +54,38 @@ class RegimeController extends BaseController
             return redirect()->to('/');
         }
 
+        // Récupérer l'objectif principal de l'utilisateur
+        $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
+
+        // Générer une nouvelle suggestion basée sur l'objectif
+        $suggestion = $this->suggestionModel->getSuggestionRegime($objectif);
+
+        return redirect()->to('/regimes')->with('info', 'Nouvelle suggestion générée.');
+    }
+
+    public function confirmer()
+    {
+        $utilisateurId = $this->getUtilisateurId();
+        if ($utilisateurId === null) {
+            return redirect()->to('/');
+        }
+
+        $regimeId = (int) $this->request->getPost('regime_id');
+        if ($regimeId <= 0) {
+            return redirect()->back()->with('error', 'ID de régime invalide.');
+        }
+
+        // Récupérer le régime depuis la DB
+        $regime = $this->regimeModel->find($regimeId);
+        if (!$regime) {
+            return redirect()->back()->with('error', 'Régime non trouvé.');
+        }
+
+        // Ajouter les recettes enrichies
+        $regime['description'] = $regime['description'] ?? 'Régime équilibré pour votre bien-être';
+        $regime['duree_jours'] = $regime['duree_jours'] ?? 30;
+        $regime['recettes'] = $this->suggestionModel->getRecettesForRegime($regime['id']);
+
         // Vérifier le solde
         $hasGold = $this->abonnementModel->hasGold($utilisateurId);
         $prix = $this->suggestionModel->calculerPrixSuggestion();
@@ -61,7 +93,7 @@ class RegimeController extends BaseController
 
         $solde = $this->compteModel->getSolde($utilisateurId);
         if ($solde < $prixFinal) {
-            return redirect()->back()->with('error', 'Solde insuffisant pour générer une suggestion (0.50€ nécessaires).');
+            return redirect()->back()->with('error', 'Solde insuffisant pour confirmer cette suggestion (0.50€ nécessaires).');
         }
 
         // Débiter le solde
@@ -69,17 +101,11 @@ class RegimeController extends BaseController
             return redirect()->back()->with('error', 'Erreur lors du paiement de la suggestion.');
         }
 
-        // Récupérer l'objectif principal de l'utilisateur
-        $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
-
-        // Générer la suggestion basée sur l'objectif
-        $suggestion = $this->suggestionModel->getSuggestionRegime($objectif);
-
         $montantDebite = number_format($prixFinal, 2, ',', ' ');
-        session()->setFlashdata('success', 'Suggestion générée et payée : ' . $montantDebite . '€.');
+        session()->setFlashdata('success', 'Régime confirmé et payé : ' . $montantDebite . '€.');
 
         return view('front/regime/suggestion', [
-            'suggestion' => $suggestion,
+            'suggestion' => $regime,
             'pageTitle' => 'Suggestion de Régime',
             'pageSubtitle' => 'Votre régime personnalisé basé sur votre objectif',
         ]);
