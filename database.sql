@@ -99,7 +99,9 @@ CREATE TABLE utilisateur_objectifs (
     id SERIAL PRIMARY KEY,
     utilisateur_id INT NOT NULL REFERENCES utilisateurs (id) ON DELETE CASCADE,
     objectif_id INT NOT NULL REFERENCES objectifs (id) ON DELETE CASCADE,
-    valeur_cible NUMERIC(10, 2)
+    valeur_cible NUMERIC(10, 2),
+    statut VARCHAR(20) DEFAULT 'en_cours' CHECK (statut IN ('en_cours', 'termine')),
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE historique_imc (

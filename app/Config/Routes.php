@@ -22,6 +22,8 @@ $routes->get('/profil', 'front\ProfilController::index');
 $routes->post('/profil/update', 'front\ProfilController::updateProfil');
 $routes->post('/profil/mesure', 'front\ProfilController::addMesure');
 $routes->get('/profil/objectifs', 'front\ProfilController::objectifs');
+$routes->post('/profil/creer-objectif', 'front\ProfilController::creerObjectif');
+$routes->post('/profil/terminer-objectif', 'front\ProfilController::terminerObjectif');
 $routes->get('/porte-monnaie', 'front\PorteMonnaieController::index');
 
 // Options / Abonnements

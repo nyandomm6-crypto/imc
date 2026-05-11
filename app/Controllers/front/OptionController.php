@@ -105,8 +105,9 @@ class OptionController extends Controller
                 ->with('error', 'Erreur lors du paiement de l\'option.');
         }
 
-        // Créer une souscription
-        $result = $this->abonnementModel->souscrire($userId, (int)$optionId);
+        // Créer une souscription avec date d'expiration dans 1 mois
+        $dateFin = date('Y-m-d H:i:s', strtotime('+1 month'));
+        $result = $this->abonnementModel->souscrire($userId, (int)$optionId, $dateFin);
         if ($result === false) {
             // Rembourser si la souscription échoue
             $this->compteModel->crediter($userId, $prixOption);

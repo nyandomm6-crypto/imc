@@ -21,10 +21,10 @@ class ObjectifModel extends Model
 	public function getObjectifsUtilisateur(int $utilisateur_id): array
 	{
 		return $this->db->table('utilisateur_objectifs uo')
-			->select('uo.id as utilisateur_objectif_id, uo.utilisateur_id, uo.objectif_id, uo.valeur_cible, o.libelle')
+			->select('uo.id as utilisateur_objectif_id, uo.utilisateur_id, uo.objectif_id, uo.valeur_cible, uo.statut, uo.date_creation, o.libelle')
 			->join('objectifs o', 'o.id = uo.objectif_id', 'inner')
 			->where('uo.utilisateur_id', $utilisateur_id)
-			->orderBy('o.libelle', 'ASC')
+			->orderBy('uo.date_creation', 'DESC')
 			->get()
 			->getResultArray();
 	}
@@ -75,6 +75,66 @@ class ObjectifModel extends Model
 			->join('utilisateur_objectifs', 'utilisateur_objectifs.objectif_id = objectifs.id')
 			->groupBy('objectifs.libelle')
 			->findAll();
+	}
+
+	/**
+	 * Créer un nouvel objectif pour un utilisateur
+	 */
+	public function creerObjectif(int $utilisateur_id, int $objectif_id, $valeur_cible = null): int|false
+	{
+		// Vérifier si l'utilisateur a déjà un objectif en cours
+		$objectifEnCours = $this->db->table('utilisateur_objectifs')
+			->where('utilisateur_id', $utilisateur_id)
+			->where('statut', 'en_cours')
+			->get()
+			->getRowArray();
+
+		if ($objectifEnCours) {
+			return false; // Ne peut pas créer un nouvel objectif si un est en cours
+		}
+
+		return $this->db->table('utilisateur_objectifs')->insert([
+			'utilisateur_id' => $utilisateur_id,
+			'objectif_id' => $objectif_id,
+			'valeur_cible' => $valeur_cible,
+			'statut' => 'en_cours',
+			'date_creation' => date('Y-m-d H:i:s'),
+		]);
+	}
+
+	/**
+	 * Terminer un objectif
+	 */
+	public function terminerObjectif(int $utilisateur_objectif_id, int $utilisateur_id): bool
+	{
+		return (bool) $this->db->table('utilisateur_objectifs')
+			->where('id', $utilisateur_objectif_id)
+			->where('utilisateur_id', $utilisateur_id)
+			->update(['statut' => 'termine']);
+	}
+
+	/**
+	 * Obtenir le dernier objectif en cours d'un utilisateur
+	 */
+	public function getDernierObjectifEnCours(int $utilisateur_id)
+	{
+		return $this->db->table('utilisateur_objectifs uo')
+			->select('uo.*, o.libelle')
+			->join('objectifs o', 'o.id = uo.objectif_id', 'inner')
+			->where('uo.utilisateur_id', $utilisateur_id)
+			->where('uo.statut', 'en_cours')
+			->orderBy('uo.date_creation', 'DESC')
+			->get()
+			->getRowArray();
+	}
+
+	/**
+	 * Vérifier si l'utilisateur peut créer un nouvel objectif
+	 */
+	public function peutCreerObjectif(int $utilisateur_id): bool
+	{
+		$objectifEnCours = $this->getDernierObjectifEnCours($utilisateur_id);
+		return $objectifEnCours === null;
 	}
 }
 
