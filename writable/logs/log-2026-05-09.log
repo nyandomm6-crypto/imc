@@ -1,0 +1,615 @@
+ERROR - 2026-05-09 07:08:08 --> Error connecting to the database: Error: Call to undefined function CodeIgniter\Database\Postgre\pg_connect() in /home/huhu/Documents/web/imc/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 /home/huhu/Documents/web/imc/system/Database/BaseConnection.php(555): CodeIgniter\Database\Postgre\Connection->connect()
+#1 /home/huhu/Documents/web/imc/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/huhu/Documents/web/imc/system/Database/BaseConnection.php(1706): CodeIgniter\Database\BaseConnection->query()
+#3 /home/huhu/Documents/web/imc/system/Commands/Database/ShowTableInfo.php(121): CodeIgniter\Database\BaseConnection->listTables()
+#4 /home/huhu/Documents/web/imc/system/CLI/Commands.php(74): CodeIgniter\Commands\Database\ShowTableInfo->run()
+#5 /home/huhu/Documents/web/imc/system/CLI/Console.php(47): CodeIgniter\CLI\Commands->run()
+#6 /home/huhu/Documents/web/imc/system/Boot.php(442): CodeIgniter\CLI\Console->run()
+#7 /home/huhu/Documents/web/imc/system/Boot.php(166): CodeIgniter\Boot::runCommand()
+#8 /home/huhu/Documents/web/imc/spark(87): CodeIgniter\Boot::bootSpark()
+#9 {main}
+CRITICAL - 2026-05-09 07:08:08 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [Postgre]: Call to undefined function CodeIgniter\Database\Postgre\pg_connect()
+[Method: CLI, Route: db:table]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseConnection.php(1706): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Commands/Database/ShowTableInfo.php(121): CodeIgniter\Database\BaseConnection->listTables()
+ 4 SYSTEMPATH/CLI/Commands.php(74): CodeIgniter\Commands\Database\ShowTableInfo->run()
+ 5 SYSTEMPATH/CLI/Console.php(47): CodeIgniter\CLI\Commands->run()
+ 6 SYSTEMPATH/Boot.php(442): CodeIgniter\CLI\Console->run()
+ 7 SYSTEMPATH/Boot.php(166): CodeIgniter\Boot::runCommand()
+ 8 ROOTPATH/spark(87): CodeIgniter\Boot::bootSpark()
+ERROR - 2026-05-09 07:11:24 --> Error connecting to the database: Error: Call to undefined function CodeIgniter\Database\Postgre\pg_connect() in /home/huhu/Documents/web/imc/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 /home/huhu/Documents/web/imc/system/Database/BaseConnection.php(555): CodeIgniter\Database\Postgre\Connection->connect()
+#1 /home/huhu/Documents/web/imc/app/Controllers/Home.php(17): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/huhu/Documents/web/imc/system/CodeIgniter.php(951): App\Controllers\Home->dbTest()
+#3 /home/huhu/Documents/web/imc/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#4 /home/huhu/Documents/web/imc/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#5 /home/huhu/Documents/web/imc/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#6 /home/huhu/Documents/web/imc/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#7 /home/huhu/Documents/web/imc/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#8 /home/huhu/Documents/web/imc/system/rewrite.php(44): require_once('...')
+#9 {main}
+CRITICAL - 2026-05-09 14:11:02 --> ErrorException: Declaration of App\Models\RegimeModel::delete($id, bool $purge = false): bool must be compatible with CodeIgniter\BaseModel::delete($id = null, bool $purge = false)
+[Method: GET, Route: dashboard]
+in APPPATH/Models/RegimeModel.php on line 111.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-05-09 14:16:13 --> TypeError: App\Controllers\front\DashboardController::buildDashboardData(): Argument #1 ($utilisateurId) must be of type int, null given, called in /home/huhu/Documents/web/imc/app/Controllers/front/DashboardController.php on line 44
+[Method: GET, Route: dashboard]
+in APPPATH/Controllers/front/DashboardController.php on line 64.
+ 1 APPPATH/Controllers/front/DashboardController.php(44): App\Controllers\front\DashboardController->buildDashboardData()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 14:16:42 --> TypeError: App\Controllers\front\DashboardController::buildDashboardData(): Argument #1 ($utilisateurId) must be of type int, null given, called in /home/huhu/Documents/web/imc/app/Controllers/front/DashboardController.php on line 44
+[Method: GET, Route: dashboard]
+in APPPATH/Controllers/front/DashboardController.php on line 64.
+ 1 APPPATH/Controllers/front/DashboardController.php(44): App\Controllers\front\DashboardController->buildDashboardData()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 14:17:43 --> TypeError: App\Controllers\front\DashboardController::buildDashboardData(): Argument #1 ($utilisateurId) must be of type int, null given, called in /home/huhu/Documents/web/imc/app/Controllers/front/DashboardController.php on line 44
+[Method: GET, Route: dashboard]
+in APPPATH/Controllers/front/DashboardController.php on line 64.
+ 1 APPPATH/Controllers/front/DashboardController.php(44): App\Controllers\front\DashboardController->buildDashboardData()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 15:41:38 --> ParseError: syntax error, unexpected token "=>"
+[Method: GET, Route: dashboard]
+in APPPATH/Views/front/dashboard/index.php on line 108.
+ 1 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 3 APPPATH/Controllers/front/DashboardController.php(44): view()
+ 4 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 5 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+10 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 15:41:39 --> ParseError: syntax error, unexpected token "=>"
+[Method: GET, Route: dashboard]
+in APPPATH/Views/front/dashboard/index.php on line 108.
+ 1 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 3 APPPATH/Controllers/front/DashboardController.php(44): view()
+ 4 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\DashboardController->index()
+ 5 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+10 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+ERROR - 2026-05-09 17:48:56 --> pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+in SYSTEMPATH/Database/Postgre/Connection.php on line 200.
+ 1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 4 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 6 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 7 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+14 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 17:48:56 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+[Method: POST, Route: inscription]
+in SYSTEMPATH/Database/BaseConnection.php on line 865.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 2 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 4 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 5 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 17:48:56 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+in SYSTEMPATH/Database/Postgre/Connection.php on line 212.
+ 1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 4 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 6 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 7 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+14 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 17:48:56 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+in SYSTEMPATH/Database/Postgre/Connection.php on line 200.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/Database/Postgre/Connection.php(200): pg_query()
+ 3 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 4 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 5 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 6 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 7 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 8 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 9 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+10 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+11 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+12 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+13 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+15 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+16 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+ERROR - 2026-05-09 17:53:55 --> pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+in SYSTEMPATH/Database/Postgre/Connection.php on line 200.
+ 1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 4 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 6 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 7 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+14 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 17:53:55 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+[Method: POST, Route: inscription]
+in SYSTEMPATH/Database/BaseConnection.php on line 865.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 2 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 4 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 5 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 17:53:55 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+in SYSTEMPATH/Database/Postgre/Connection.php on line 212.
+ 1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 4 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 6 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 7 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+14 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 17:53:55 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+in SYSTEMPATH/Database/Postgre/Connection.php on line 200.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/Database/Postgre/Connection.php(200): pg_query()
+ 3 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 4 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 5 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 6 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 7 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 8 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 9 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+10 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+11 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+12 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+13 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+15 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+16 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+ERROR - 2026-05-09 17:54:05 --> pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+in SYSTEMPATH/Database/Postgre/Connection.php on line 200.
+ 1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 4 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 6 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 7 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+14 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 17:54:05 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+[Method: POST, Route: inscription]
+in SYSTEMPATH/Database/BaseConnection.php on line 865.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 2 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 4 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 5 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 17:54:05 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+in SYSTEMPATH/Database/Postgre/Connection.php on line 212.
+ 1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 4 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 6 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 7 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+14 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 17:54:05 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  insert or update on table &quot;utilisateurs&quot; violates foreign key constraint &quot;utilisateurs_role_id_fkey&quot;
+DETAIL:  Key (role_id)=(0) is not present in table &quot;roles&quot;.
+in SYSTEMPATH/Database/Postgre/Connection.php on line 200.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/Database/Postgre/Connection.php(200): pg_query()
+ 3 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\Postgre\Connection->execute()
+ 4 SYSTEMPATH/Database/BaseConnection.php(827): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 5 SYSTEMPATH/Database/BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query()
+ 6 SYSTEMPATH/Model.php(355): CodeIgniter\Database\BaseBuilder->insert()
+ 7 SYSTEMPATH/BaseModel.php(899): CodeIgniter\Model->doInsert()
+ 8 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
+ 9 APPPATH/Controllers/front/AuthController.php(58): CodeIgniter\Model->insert()
+10 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->inscriptionEtape1Store()
+11 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+12 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+13 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+15 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+16 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+DEBUG - 2026-05-09 21:31:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:31:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:32:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:32:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:32:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:32:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:32:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:32:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-09 21:32:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-09 21:35:21 --> CodeIgniter\Filters\Exceptions\FilterException: "admin" filter must have a matching alias defined.
+[Method: GET, Route: admin/dashboard]
+in SYSTEMPATH/Filters/Filters.php on line 590.
+ 1 SYSTEMPATH/Filters/Filters.php(590): CodeIgniter\Filters\Exceptions\FilterException::forNoAlias()
+ 2 SYSTEMPATH/Filters/Filters.php(641): CodeIgniter\Filters\Filters->enableFilter()
+ 3 SYSTEMPATH/CodeIgniter.php(453): CodeIgniter\Filters\Filters->enableFilters()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 21:52:06 --> CodeIgniter\Filters\Exceptions\FilterException: "admin" filter must have a matching alias defined.
+[Method: GET, Route: admin/dashboard]
+in SYSTEMPATH/Filters/Filters.php on line 590.
+ 1 SYSTEMPATH/Filters/Filters.php(590): CodeIgniter\Filters\Exceptions\FilterException::forNoAlias()
+ 2 SYSTEMPATH/Filters/Filters.php(641): CodeIgniter\Filters\Filters->enableFilter()
+ 3 SYSTEMPATH/CodeIgniter.php(453): CodeIgniter\Filters\Filters->enableFilters()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 21:52:07 --> CodeIgniter\Filters\Exceptions\FilterException: "admin" filter must have a matching alias defined.
+[Method: GET, Route: admin/dashboard]
+in SYSTEMPATH/Filters/Filters.php on line 590.
+ 1 SYSTEMPATH/Filters/Filters.php(590): CodeIgniter\Filters\Exceptions\FilterException::forNoAlias()
+ 2 SYSTEMPATH/Filters/Filters.php(641): CodeIgniter\Filters\Filters->enableFilter()
+ 3 SYSTEMPATH/CodeIgniter.php(453): CodeIgniter\Filters\Filters->enableFilters()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 21:52:08 --> CodeIgniter\Filters\Exceptions\FilterException: "admin" filter must have a matching alias defined.
+[Method: GET, Route: admin/dashboard]
+in SYSTEMPATH/Filters/Filters.php on line 590.
+ 1 SYSTEMPATH/Filters/Filters.php(590): CodeIgniter\Filters\Exceptions\FilterException::forNoAlias()
+ 2 SYSTEMPATH/Filters/Filters.php(641): CodeIgniter\Filters\Filters->enableFilter()
+ 3 SYSTEMPATH/CodeIgniter.php(453): CodeIgniter\Filters\Filters->enableFilters()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 21:52:10 --> CodeIgniter\Filters\Exceptions\FilterException: "admin" filter must have a matching alias defined.
+[Method: GET, Route: admin/dashboard]
+in SYSTEMPATH/Filters/Filters.php on line 590.
+ 1 SYSTEMPATH/Filters/Filters.php(590): CodeIgniter\Filters\Exceptions\FilterException::forNoAlias()
+ 2 SYSTEMPATH/Filters/Filters.php(641): CodeIgniter\Filters\Filters->enableFilter()
+ 3 SYSTEMPATH/CodeIgniter.php(453): CodeIgniter\Filters\Filters->enableFilters()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 21:52:11 --> CodeIgniter\Filters\Exceptions\FilterException: "admin" filter must have a matching alias defined.
+[Method: GET, Route: admin/dashboard]
+in SYSTEMPATH/Filters/Filters.php on line 590.
+ 1 SYSTEMPATH/Filters/Filters.php(590): CodeIgniter\Filters\Exceptions\FilterException::forNoAlias()
+ 2 SYSTEMPATH/Filters/Filters.php(641): CodeIgniter\Filters\Filters->enableFilter()
+ 3 SYSTEMPATH/CodeIgniter.php(453): CodeIgniter\Filters\Filters->enableFilters()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 21:52:27 --> CodeIgniter\Filters\Exceptions\FilterException: "admin" filter must have a matching alias defined.
+[Method: GET, Route: admin/dashboard]
+in SYSTEMPATH/Filters/Filters.php on line 590.
+ 1 SYSTEMPATH/Filters/Filters.php(590): CodeIgniter\Filters\Exceptions\FilterException::forNoAlias()
+ 2 SYSTEMPATH/Filters/Filters.php(641): CodeIgniter\Filters\Filters->enableFilter()
+ 3 SYSTEMPATH/CodeIgniter.php(453): CodeIgniter\Filters\Filters->enableFilters()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 21:52:47 --> CodeIgniter\Filters\Exceptions\FilterException: "admin" filter must have a matching alias defined.
+[Method: GET, Route: admin/dashboard]
+in SYSTEMPATH/Filters/Filters.php on line 590.
+ 1 SYSTEMPATH/Filters/Filters.php(590): CodeIgniter\Filters\Exceptions\FilterException::forNoAlias()
+ 2 SYSTEMPATH/Filters/Filters.php(641): CodeIgniter\Filters\Filters->enableFilter()
+ 3 SYSTEMPATH/CodeIgniter.php(453): CodeIgniter\Filters\Filters->enableFilters()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 21:53:20 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\UtilisateurModel::countByRole
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/back/AdminDashboardController.php(41): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 21:56:05 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\UtilisateurModel::countByRole
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/back/AdminDashboardController.php(41): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 21:59:19 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\UtilisateurModel::countByRole
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/back/AdminDashboardController.php(43): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 21:59:21 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\UtilisateurModel::countByRole
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/back/AdminDashboardController.php(43): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 22:05:00 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\UtilisateurModel::countByRole
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/back/AdminDashboardController.php(40): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 22:05:01 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\UtilisateurModel::countByRole
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/back/AdminDashboardController.php(40): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 22:06:19 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\UtilisateurModel::countByRole
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/back/AdminDashboardController.php(40): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 22:10:03 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\RegimeModel::countAllRegimes
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/back/AdminDashboardController.php(41): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 22:11:12 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\CodePromoModel::countByStatus
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/back/AdminDashboardController.php(42): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 22:12:16 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\ObjectifModel::repartitionObjectifs
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/back/AdminDashboardController.php(59): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 22:13:11 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\CompteModel::topUsersBySolde
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/back/AdminDashboardController.php(73): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 22:14:53 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "layouts/admin.php"
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Exceptions/FrameworkException.php on line 39.
+ 1 SYSTEMPATH/View/View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile()
+ 2 SYSTEMPATH/View/View.php(256): CodeIgniter\View\View->render()
+ 3 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 4 APPPATH/Controllers/back/AdminDashboardController.php(82): view()
+ 5 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 6 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 7 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 8 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+11 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 22:14:54 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "layouts/admin.php"
+[Method: GET, Route: huhu]
+in SYSTEMPATH/Exceptions/FrameworkException.php on line 39.
+ 1 SYSTEMPATH/View/View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile()
+ 2 SYSTEMPATH/View/View.php(256): CodeIgniter\View\View->render()
+ 3 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 4 APPPATH/Controllers/back/AdminDashboardController.php(82): view()
+ 5 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\back\AdminDashboardController->index()
+ 6 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 7 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 8 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+11 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 22:24:55 --> CodeIgniter\Filters\Exceptions\FilterException: "admin" filter must have a matching alias defined.
+[Method: GET, Route: admin/add]
+in SYSTEMPATH/Filters/Filters.php on line 590.
+ 1 SYSTEMPATH/Filters/Filters.php(590): CodeIgniter\Filters\Exceptions\FilterException::forNoAlias()
+ 2 SYSTEMPATH/Filters/Filters.php(641): CodeIgniter\Filters\Filters->enableFilter()
+ 3 SYSTEMPATH/CodeIgniter.php(453): CodeIgniter\Filters\Filters->enableFilters()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 22:25:13 --> CodeIgniter\Filters\Exceptions\FilterException: "admin" filter must have a matching alias defined.
+[Method: GET, Route: admin/add]
+in SYSTEMPATH/Filters/Filters.php on line 590.
+ 1 SYSTEMPATH/Filters/Filters.php(590): CodeIgniter\Filters\Exceptions\FilterException::forNoAlias()
+ 2 SYSTEMPATH/Filters/Filters.php(641): CodeIgniter\Filters\Filters->enableFilter()
+ 3 SYSTEMPATH/CodeIgniter.php(453): CodeIgniter\Filters\Filters->enableFilters()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
+CRITICAL - 2026-05-09 23:19:05 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\RoleModel::isAdmin
+[Method: POST, Route: login]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/front/AuthController.php(169): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\front\AuthController->authenticate()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Documents/web/imc/public/index.php')
