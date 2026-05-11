@@ -18,6 +18,19 @@ $suggestion = is_array($suggestion ?? null) ? $suggestion : [];
 </div>
 
 <div class="container">
+    <!-- Messages flash -->
+    <?php if (session()->has('success')): ?>
+        <div class="alert alert-green" style="margin-bottom: 20px;">
+            ✅ <?= esc(session('success')) ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (session()->has('error')): ?>
+        <div class="alert alert-red" style="margin-bottom: 20px;">
+            ❌ <?= esc(session('error')) ?>
+        </div>
+    <?php endif; ?>
+
     <div class="card">
         <div class="card-head">
             <span class="card-title">

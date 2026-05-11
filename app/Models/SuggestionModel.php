@@ -44,6 +44,11 @@ class SuggestionModel extends Model
         return round($prix * (1 - self::GOLD_DISCOUNT / 100), 2);
     }
 
+    public function calculerPrixSuggestion(): float
+    {
+        return 0.5;
+    }
+
     public function calculerNutritionScore(array $composition): float
     {
         if (isset($composition['total_pourcentage'])) {
@@ -56,9 +61,10 @@ class SuggestionModel extends Model
     public function getSuggestionRegime(?string $objectif = null): array
     {
         if ($objectif === null) {
-            // Si pas d'objectif spécifié, retourner un régime par défaut
+            // Si pas d'objectif spécifié, retourner un régime aléatoire
             $regime = $this->db->table('regimes')
                 ->select('id, libelle')
+                ->orderBy('RANDOM()')
                 ->limit(1)
                 ->get()
                 ->getRowArray();
@@ -73,18 +79,12 @@ class SuggestionModel extends Model
             return [];
         }
 
-        // Mapper les objectifs aux IDs de régimes
-        $objectifMapping = [
-            'prise de masse' => 1, // Régime Prise de Masse
-            'perte de poids' => 2, // Régime Perte de Poids
-            'maintien' => 3       // Régime Maintien
-        ];
-
-        $regimeId = $objectifMapping[$objectif] ?? 3; // Défaut: Maintien
-
+        // Pour les objectifs spécifiques, on peut soit mapper à des catégories, soit choisir aléatoirement
+        // Ici on choisit aléatoirement parmi tous les régimes disponibles
         $regime = $this->db->table('regimes')
             ->select('id, libelle')
-            ->where('id', $regimeId)
+            ->orderBy('RANDOM()')
+            ->limit(1)
             ->get()
             ->getRowArray();
 
@@ -112,7 +112,7 @@ class SuggestionModel extends Model
         return $regime;
     }
 
-    private function getRecettesForRegime(int $regimeId): array
+    public function getRecettesForRegime(int $regimeId): array
     {
         $recettes = $this->db->table('recettes r')
             ->select('r.pourcentage, a.nom, a.calories_100g, a.proteines_100g, a.glucides_100g, a.lipides_100g')
@@ -162,9 +162,10 @@ class SuggestionModel extends Model
     public function getSuggestionSport(?string $objectif = null): array
     {
         if ($objectif === null) {
-            // Si pas d'objectif spécifié, retourner un sport par défaut
+            // Si pas d'objectif spécifié, retourner un sport aléatoire
             $sport = $this->db->table('sports')
                 ->select('id, nom, calories_par_heure')
+                ->orderBy('RANDOM()')
                 ->limit(1)
                 ->get()
                 ->getRowArray();
@@ -181,18 +182,11 @@ class SuggestionModel extends Model
             return [];
         }
 
-        // Mapper les objectifs aux IDs de sports
-        $objectifMapping = [
-            'prise de masse' => 1, // Musculation intensive
-            'perte de poids' => 5, // HIIT (Entraînement par intervalles)
-            'maintien' => 6     // Yoga
-        ];
-
-        $sportId = $objectifMapping[$objectif] ?? 6; // Défaut: Yoga
-
+        // Choisir aléatoirement parmi tous les sports disponibles
         $sport = $this->db->table('sports')
             ->select('id, nom, calories_par_heure')
-            ->where('id', $sportId)
+            ->orderBy('RANDOM()')
+            ->limit(1)
             ->get()
             ->getRowArray();
 
