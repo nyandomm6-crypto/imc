@@ -26,6 +26,8 @@ class RegimeController extends BaseController
         $this->suggestionModel = new SuggestionModel();
     }
 
+
+    //mandefa makany am vue generation regime 
     public function index()
     {
         $utilisateurId = $this->getUtilisateurId();
@@ -33,11 +35,12 @@ class RegimeController extends BaseController
             return redirect()->to('/');
         }
 
-        // Récupérer l'objectif principal de l'utilisateur
-        $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
+        $dataObjectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
 
-        // Pré-calculer la suggestion pour afficher le nom
-        $suggestion = $this->suggestionModel->getSuggestionRegime($objectif);
+        $objectif = $dataObjectif['libelle'] ?? null;
+        $valeur = (float) ($dataObjectif['valeur_cible'] ?? 0);
+
+        $suggestion = $this->suggestionModel->getSuggestionRegime($objectif, $valeur);
 
         return view('front/regime/liste', [
             'pageTitle' => 'Régimes',
@@ -54,14 +57,31 @@ class RegimeController extends BaseController
             return redirect()->to('/');
         }
 
-        // Récupérer l'objectif principal de l'utilisateur
-        $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
+        $dataObjectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
 
-        // Générer une nouvelle suggestion basée sur l'objectif
-        $suggestion = $this->suggestionModel->getSuggestionRegime($objectif);
+        $objectif = $dataObjectif['libelle'] ?? null;
+        $valeur = (float) ($dataObjectif['valeur_cible'] ?? 0);
+
+        $suggestion = $this->suggestionModel->getSuggestionRegime($objectif, $valeur);
 
         return redirect()->to('/regimes')->with('info', 'Nouvelle suggestion générée.');
     }
+
+    // public function generate()
+    // {
+    //     $utilisateurId = $this->getUtilisateurId();
+    //     if ($utilisateurId === null) {
+    //         return redirect()->to('/');
+    //     }
+
+    //     // Récupérer l'objectif principal de l'utilisateur
+    //     $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
+
+    //     // Générer une nouvelle suggestion basée sur l'objectif
+    //     $suggestion = $this->suggestionModel->getSuggestionRegime($objectif);
+
+    //     return redirect()->to('/regimes')->with('info', 'Nouvelle suggestion générée.');
+    // }
 
     public function confirmer()
     {

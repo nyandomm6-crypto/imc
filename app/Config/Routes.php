@@ -43,6 +43,11 @@ $routes->post('/sports/generate', 'front\SportController::generate');
 $routes->post('/sports/confirmer', 'front\SportController::confirmer');
 $routes->post('/sports/suggere', 'front\SportController::suggere');
 
+$routes->get('/regimes_sports', 'front\RegimeSportController::index');
+$routes->post('/regimes_sports/generate', 'front\RegimeSportController::generate');
+$routes->post('/regimes_sports/confirmer', 'front\RegimeSportController::confirmer');
+$routes->post('/regimes_sports/suggere', 'front\RegimeSportController::suggere');
+
 // Suggestion automatique
 $routes->get('/suggestion', 'front\SuggestionController::index');
 $routes->post('/suggestion/generate', 'front\SuggestionController::generate');

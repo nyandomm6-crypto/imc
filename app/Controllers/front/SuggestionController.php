@@ -49,9 +49,39 @@ class SuggestionController extends BaseController
         }
     }
 
+    private function getUtilisateurId(): ?int
+    {
+        $session = session();
+
+        foreach (['utilisateur_id', 'user_id', 'id'] as $key) {
+            $value = $session->get($key);
+
+            if (is_numeric($value) && (int) $value > 0) {
+                return (int) $value;
+            }
+        }
+
+        return null;
+    }
+
     public function generate()
     {
-        // Alias pour la méthode index pour compatibilité
-        return $this->index();
+        $utilisateurId = $this->getUtilisateurId();
+        if ($utilisateurId === null) {
+            return redirect()->to('/');
+        }
+
+        $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
+
+        if (!$objectif) {
+            return redirect()->to('/profil/objectifs')
+                ->with('info', 'Veuillez définir un objectif.');
+        }
+
+        return view('front/offre/liste', [
+            'pageTitle' => 'Choisissez votre offre',
+            'pageSubtitle' => 'Régime, sport ou les deux selon votre objectif',
+            'objectif' => $objectif
+        ]);
     }
 }

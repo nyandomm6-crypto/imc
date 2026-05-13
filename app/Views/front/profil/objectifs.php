@@ -2,85 +2,103 @@
 <?= $this->section('content') ?>
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-head">
-                    <span class="card-title">
-                        <span class="ct-icon" style="background:rgba(124,110,245,0.12)">🎯</span>
-                        Mes objectifs
-                    </span>
-                    <span class="card-link">Gestion des objectifs</span>
+
+    <!-- ALERT INFO -->
+    <?php if (session()->getFlashdata('info')): ?>
+        <div class="alert alert-blue" style="margin:15px 0;">
+            ℹ️ <?= esc(session()->getFlashdata('info')) ?>
+        </div>
+    <?php endif; ?>
+
+
+    <!-- METRICS -->
+    <div class="card">
+        <div class="card-head">
+            <span class="card-title">
+                <span class="ct-icon" style="background:rgba(124,110,245,0.12)">🎯</span>
+                Mes objectifs
+            </span>
+        </div>
+
+        <div class="card-body">
+            <div class="metrics">
+                <div class="metric m-blue">
+                    <div class="metric-icon">🎯</div>
+                    <div class="metric-val"><?= count($objectifsUtilisateur) ?></div>
+                    <div class="metric-label">Objectifs actifs</div>
                 </div>
-                <div class="card-body">
-                    <div class="metrics">
-                        <div class="metric m-blue">
-                            <div class="metric-icon">🎯</div>
-                            <div class="metric-val"><?= count($objectifsUtilisateur) ?></div>
-                            <div class="metric-label">Objectifs actifs</div>
-                        </div>
-                        <div class="metric m-green">
-                            <div class="metric-icon">✅</div>
-                            <div class="metric-val"><?= count(array_filter($objectifsUtilisateur, fn($obj) => $obj['statut'] !== 'en_cours')) ?></div>
-                            <div class="metric-label">Objectifs terminés</div>
-                        </div>
-                        <div class="metric m-amber">
-                            <div class="metric-icon">⚠️</div>
-                            <div class="metric-val"><?= count(array_filter($objectifsUtilisateur, fn($obj) => $obj['statut'] === 'en_cours')) ?></div>
-                            <div class="metric-label">En cours</div>
-                        </div>
-                        <div class="metric m-purple">
-                            <div class="metric-icon">📝</div>
-                            <div class="metric-val"><?= count($tousObjectifs) ?></div>
-                            <div class="metric-label">Objectifs disponibles</div>
-                        </div>
-                    </div>
+
+                <div class="metric m-green">
+                    <div class="metric-icon">✅</div>
+                    <div class="metric-val"><?= count(array_filter($objectifsUtilisateur, fn($obj) => $obj['statut'] !== 'en_cours')) ?></div>
+                    <div class="metric-label">Terminés</div>
+                </div>
+
+                <div class="metric m-amber">
+                    <div class="metric-icon">⚠️</div>
+                    <div class="metric-val"><?= count(array_filter($objectifsUtilisateur, fn($obj) => $obj['statut'] === 'en_cours')) ?></div>
+                    <div class="metric-label">En cours</div>
+                </div>
+
+                <div class="metric m-purple">
+                    <div class="metric-icon">📝</div>
+                    <div class="metric-val"><?= count($tousObjectifs) ?></div>
+                    <div class="metric-label">Disponibles</div>
                 </div>
             </div>
         </div>
     </div>
 
+
+    <!-- OBJECTIFS LIST -->
     <div class="row2">
+
         <div class="card">
             <div class="card-head">
                 <span class="card-title">
                     <span class="ct-icon" style="background:var(--blue-bg)">📋</span>
                     Objectifs définis
                 </span>
-                <a href="/profil/objectifs" class="card-link">Actualiser</a>
             </div>
+
             <div class="card-body">
+
                 <?php if (!empty($objectifsUtilisateur)): ?>
                     <?php foreach ($objectifsUtilisateur as $objectif): ?>
-                        <div class="obj-item" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border-bottom:1px solid rgba(0,0,0,0.05)">
+                        <div style="display:flex;justify-content:space-between;padding:14px;border-bottom:1px solid rgba(0,0,0,0.05)">
                             <div>
                                 <div style="font-weight:600;"><?= esc($objectif['libelle']) ?></div>
-                                <div style="font-size:13px;color:var(--muted)">Cible: <?= esc($objectif['valeur_cible'] ?? 'N/A') ?></div>
-                                <div style="font-size:12px;color:var(--muted)">Créé le <?= date('d/m/Y H:i', strtotime($objectif['date_creation'])) ?></div>
+                                <div style="font-size:12px;color:var(--muted)">
+                                    Cible: <?= esc($objectif['valeur_cible'] ?? 'N/A') ?>
+                                </div>
                             </div>
+
                             <div style="text-align:right">
                                 <span class="badge badge-<?= $objectif['statut'] === 'en_cours' ? 'primary' : 'success' ?>">
                                     <?= $objectif['statut'] === 'en_cours' ? 'En cours' : 'Terminé' ?>
                                 </span>
+
                                 <?php if ($objectif['statut'] === 'en_cours'): ?>
-                                    <form method="post" action="/profil/terminer-objectif" style="margin-top:8px;">
+                                    <form method="post" action="/profil/terminer-objectif">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="utilisateur_objectif_id" value="<?= $objectif['utilisateur_objectif_id'] ?>">
-                                        <button type="submit" class="btn btn-success btn-sm">Terminer</button>
+                                        <button class="btn btn-success btn-sm" style="margin-top:6px;">Terminer</button>
                                     </form>
                                 <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <div style="text-align:center;padding:24px;color:var(--muted)">
-                        <div style="font-size:24px;margin-bottom:8px;">🎯</div>
-                        <div>Aucun objectif défini pour le moment.</div>
+                    <div style="text-align:center;padding:20px;color:var(--muted)">
+                        🎯 Aucun objectif défini
                     </div>
                 <?php endif; ?>
+
             </div>
         </div>
 
+
+        <!-- AJOUT OBJECTIF -->
         <div class="card">
             <div class="card-head">
                 <span class="card-title">
@@ -88,41 +106,91 @@
                     Ajouter un objectif
                 </span>
             </div>
+
             <div class="card-body">
+
                 <?php if ($peutCreerObjectif): ?>
+
                     <form method="post" action="/profil/creer-objectif">
                         <?= csrf_field() ?>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="objectif_id">Choisissez un objectif</label>
-                                    <select name="objectif_id" id="objectif_id" class="form-control" required>
-                                        <option value="">Sélectionnez un objectif</option>
-                                        <?php foreach ($tousObjectifs as $objectif): ?>
-                                            <option value="<?= $objectif['id'] ?>"><?= esc($objectif['libelle']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="valeur_cible">Valeur cible (optionnel)</label>
-                                    <input type="text" name="valeur_cible" id="valeur_cible" class="form-control" placeholder="Ex: 70kg, 10km">
-                                </div>
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="submit" class="btn btn-primary btn-block">Créer</button>
-                            </div>
+
+                        <div class="form-group" style="margin-bottom:15px;">
+                            <label>Objectif</label>
+                            <select name="objectif_id" class="form-control" required>
+                                <option value="">Choisir un objectif</option>
+                                <?php foreach ($tousObjectifs as $obj): ?>
+                                    <option value="<?= $obj['id'] ?>">
+                                        <?= esc($obj['libelle']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
+
+                        <div class="form-group" style="margin-bottom:15px;">
+                            <label>Valeur cible</label>
+                            <input type="text"
+                                name="valeur_cible"
+                                class="form-control"
+                                placeholder="Ex: 70kg, 10km">
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary"
+                                style="margin-top:10px;">
+                            Créer
+                        </button>
+
                     </form>
+
                 <?php else: ?>
-                    <div class="alert alert-warning" style="margin:0">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        Vous devez terminer votre objectif actuel avant d'en créer un nouveau.
+
+                    <div class="alert alert-warning" style="margin:0;">
+                        Terminez votre objectif actuel avant d’en créer un nouveau.
                     </div>
+
                 <?php endif; ?>
+
             </div>
         </div>
+
+
+ <!-- SUGGESTION AUTOMATIQUE -->
+            <div class="card">
+
+                <div class="card-body">
+
+                    <div class="generate-content" style="text-align:center;padding:10px 5px">
+
+                        <form action="/suggestion/generate" method="post">
+                            <?= csrf_field() ?>
+
+                            <button type="submit"
+                                style="
+                                    background: linear-gradient(135deg, var(--accent), var(--green));
+                                    border: none;
+                                    padding: 14px 28px;
+                                    font-size: 16px;
+                                    font-weight: 700;
+                                    border-radius: 12px;
+                                    color: white;
+                                    cursor: pointer;
+                                    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                                    transform: scale(1);
+                                    transition: all 0.2s ease;
+                                "
+                                onmouseover="this.style.transform='scale(1.05)'"
+                                onmouseout="this.style.transform='scale(1)'"
+                            >
+                                🚀 Obtenir ma suggestion
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+
     </div>
 </div>
 

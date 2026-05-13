@@ -61,21 +61,140 @@ $activeNav = 'dashboard';
             <?php endif; ?>
 
 
+
+            <!-- IMC + OBJECTIFS -->
+            <div class="row2">
+
+                <!-- Jauge IMC -->
+                <div class="card">
+                    <div class="card-head">
+                        <span class="card-title">
+                            <span class="ct-icon" style="background:rgba(124,110,245,0.15)">📈</span>
+                            Indice de masse corporelle
+                        </span>
+                        <span style="font-size:11px;color:var(--muted)">Dernière mesure</span>
+                    </div>
+                    <div class="card-body">
+                        <?php if ($imc !== null): ?>
+                        <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:4px">
+                            <span class="imc-big" style="color:<?= $catStyle['color'] ?>"><?= $imcVal ?></span>
+                            <span class="badge" style="background:<?= $catStyle['bg'] ?>;color:<?= $catStyle['color'] ?>;margin-bottom:8px">
+                                <?= esc($categorieImc) ?>
+                            </span>
+                        </div>
+                        <div class="imc-track">
+                            <div class="imc-fill"></div>
+                            <div class="imc-needle" id="imc-needle" style="left:<?= $progression ?>%"></div>
+                        </div>
+                        <div class="imc-zones">
+                            <span>Maigreur</span>
+                            <span>Normal</span>
+                            <span>Surpoids</span>
+                            <span>Obésité</span>
+                        </div>
+                        <div class="imc-stats">
+                            <div>
+                                <div class="imc-stat-label">Poids actuel</div>
+                                <div class="imc-stat-val"><?= esc($poids) ?> kg</div>
+                            </div>
+                            <div>
+                                <div class="imc-stat-label">Taille</div>
+                                <div class="imc-stat-val"><?= esc($taille) ?> m</div>
+                            </div>
+                            <div>
+                                <div class="imc-stat-label">IMC idéal</div>
+                                <div class="imc-stat-val" style="color:var(--green)">22.0</div>
+                            </div>
+                        </div>
+                        <?php else: ?>
+                        <div style="text-align:center;padding:24px 0;color:var(--muted)">
+                            <div style="font-size:32px;margin-bottom:8px">📏</div>
+                            <div style="font-size:13px;margin-bottom:12px">Aucune mesure enregistrée</div>
+                            <a href="/profil" style="color:var(--accent2);font-size:12px;text-decoration:none">
+                                + Ajouter ma mesure →
+                            </a>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+
+
+
+            <!-- SUGGESTION AUTOMATIQUE -->
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-title">
+                        <span class="ct-icon" style="background:linear-gradient(135deg, var(--accent), var(--green))">
+                            🤖
+                        </span>
+                        Suggestion personnalisée
+                    </span>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="generate-content" style="text-align:center;padding:10px 5px">
+
+                        <h3 style="font-size:20px;margin-bottom:10px;">
+                            Recommandation intelligente
+                        </h3>
+
+                        <p style="color:var(--muted);font-size:14px;max-width:500px;margin:0 auto 25px auto;line-height:1.5">
+                            Notre algorithme analyse votre objectif principal et vous propose automatiquement le meilleur choix entre régime et sport.
+                        </p>
+
+                        <form action="/suggestion/generate" method="post">
+                            <?= csrf_field() ?>
+
+                            <button type="submit"
+                                style="
+                                    background: linear-gradient(135deg, var(--accent), var(--green));
+                                    border: none;
+                                    padding: 14px 28px;
+                                    font-size: 16px;
+                                    font-weight: 700;
+                                    border-radius: 12px;
+                                    color: white;
+                                    cursor: pointer;
+                                    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                                    transform: scale(1);
+                                    transition: all 0.2s ease;
+                                "
+                                onmouseover="this.style.transform='scale(1.05)'"
+                                onmouseout="this.style.transform='scale(1)'"
+                            >
+                                🚀 Obtenir ma suggestion
+                            </button>
+
+                        </form>
+
+                        <div style="margin-top:12px;font-size:12px;color:var(--muted)">
+                            ⚡ Résultat instantané basé sur votre profil
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            
+
+            
             <!-- MÉTRIQUES -->
             <div class="metrics">
-                <div class="metric m-purple" id="profil">
+                <!-- <div class="metric m-purple" id="profil">
                     <div class="metric-icon">📊</div>
                     <div class="metric-val"><?= $imcVal ?></div>
                     <div class="metric-label">IMC actuel</div>
                     <span class="metric-badge" style="background:<?= $catStyle['bg'] ?>;color:<?= $catStyle['color'] ?>">
                         <?= esc($categorieImc) ?>
                     </span>
-                </div>
-                <div class="metric m-green" id="profil">
+                </div> -->
+                <!-- <div class="metric m-green" id="profil">
                     <div class="metric-icon">⚖️</div>
                     <div class="metric-val"><?= esc($poids) ?></div>
                     <div class="metric-label">Poids (kg) · <?= esc($taille) ?> m</div>
-                </div>
+                </div> -->
                 <div class="metric m-amber" id="porte_monnaie">
                     <div class="metric-icon">💰</div>
                     <div class="metric-val"><?= $solde ?> <span style="font-size:16px;font-weight:400">€</span></div>
@@ -151,62 +270,6 @@ $activeNav = 'dashboard';
             </div>
 
 
-            <!-- IMC + OBJECTIFS -->
-            <div class="row2">
-
-                <!-- Jauge IMC -->
-                <div class="card">
-                    <div class="card-head">
-                        <span class="card-title">
-                            <span class="ct-icon" style="background:rgba(124,110,245,0.15)">📈</span>
-                            Indice de masse corporelle
-                        </span>
-                        <span style="font-size:11px;color:var(--muted)">Dernière mesure</span>
-                    </div>
-                    <div class="card-body">
-                        <?php if ($imc !== null): ?>
-                        <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:4px">
-                            <span class="imc-big" style="color:<?= $catStyle['color'] ?>"><?= $imcVal ?></span>
-                            <span class="badge" style="background:<?= $catStyle['bg'] ?>;color:<?= $catStyle['color'] ?>;margin-bottom:8px">
-                                <?= esc($categorieImc) ?>
-                            </span>
-                        </div>
-                        <div class="imc-track">
-                            <div class="imc-fill"></div>
-                            <div class="imc-needle" id="imc-needle" style="left:<?= $progression ?>%"></div>
-                        </div>
-                        <div class="imc-zones">
-                            <span>Maigreur</span>
-                            <span>Normal</span>
-                            <span>Surpoids</span>
-                            <span>Obésité</span>
-                        </div>
-                        <div class="imc-stats">
-                            <div>
-                                <div class="imc-stat-label">Poids actuel</div>
-                                <div class="imc-stat-val"><?= esc($poids) ?> kg</div>
-                            </div>
-                            <div>
-                                <div class="imc-stat-label">Taille</div>
-                                <div class="imc-stat-val"><?= esc($taille) ?> m</div>
-                            </div>
-                            <div>
-                                <div class="imc-stat-label">IMC idéal</div>
-                                <div class="imc-stat-val" style="color:var(--green)">22.0</div>
-                            </div>
-                        </div>
-                        <?php else: ?>
-                        <div style="text-align:center;padding:24px 0;color:var(--muted)">
-                            <div style="font-size:32px;margin-bottom:8px">📏</div>
-                            <div style="font-size:13px;margin-bottom:12px">Aucune mesure enregistrée</div>
-                            <a href="/profil" style="color:var(--accent2);font-size:12px;text-decoration:none">
-                                + Ajouter ma mesure →
-                            </a>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-
                 <!-- Objectifs -->
                 <div class="card">
                     <div class="card-head">
@@ -241,29 +304,6 @@ $activeNav = 'dashboard';
                     </div>
                 </div>
 
-            </div>
-
-            <!-- SUGGESTION AUTOMATIQUE -->
-            <div class="card">
-                <div class="card-head">
-                    <span class="card-title">
-                        <span class="ct-icon" style="background:linear-gradient(135deg, var(--accent), var(--green))">🤖</span>
-                        Suggestion personnalisée
-                    </span>
-                </div>
-                <div class="card-body">
-                    <div class="generate-content">
-                        <div class="generate-icon">🎯</div>
-                        <h3>Recommandation intelligente</h3>
-                        <p>Notre algorithme analyse votre objectif principal et vous oriente automatiquement vers la meilleure activité : régime ou sport.</p>
-                        <form action="/suggestion/generate" method="post" style="margin-top:20px">
-                            <?= csrf_field() ?>
-                            <button type="submit" class="btn btn-primary" style="background:linear-gradient(135deg, var(--accent), var(--green));border:none">
-                                🚀 Obtenir ma suggestion
-                            </button>
-                        </form>
-                    </div>
-                </div>
             </div>
 
             <!-- RÉGIMES + SPORTS -->
@@ -303,9 +343,9 @@ $activeNav = 'dashboard';
                                 Aucun régime disponible
                             </div>
                         <?php endif; ?>
-                        <a href="/regimes/pdf" class="pdf-btn">
+                        <!-- <a href="/regimes/pdf" class="pdf-btn">
                             📄 Exporter mon plan nutritionnel en PDF
-                        </a>
+                        </a> -->
                     </div>
                 </div>
 
@@ -413,11 +453,11 @@ window.addEventListener('load', () => {
     }
 });
 
-var getId = document.getElementById('profil');
-getId.addEventListener("click", function() {
-     window.location.href = "/profil";
+// var getId = document.getElementById('profil');
+// getId.addEventListener("click", function() {
+//      window.location.href = "/profil";
     
-});
+// });
 
 var getIdPM = document.getElementById('porte_monnaie') ;
 getIdPM.addEventListener("click", function() {

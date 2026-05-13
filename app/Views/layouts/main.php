@@ -41,13 +41,17 @@ if ($activeNav === '') {
         $path === '' || $path === 'dashboard' => 'dashboard',
         str_contains($path, 'profil/objectifs') => 'objectifs',
         str_contains($path, 'profil') => 'profil',
+
+        // 🔥 IMPORTANT : plus spécifique d'abord
+        str_contains($path, 'regimes_sports') => 'regimes_sports',
         str_contains($path, 'regimes') => 'regimes',
+
         str_contains($path, 'sports') => 'sports',
         str_contains($path, 'porte-monnaie') => 'porte-monnaie',
         str_contains($path, 'options') => 'options',
         default => 'dashboard',
     };
-}
+    }
 ?>
 
 <div class="layout">
@@ -78,7 +82,7 @@ if ($activeNav === '') {
             <a class="nav-item<?= $activeNav === 'sports' ? ' active' : '' ?>" href="/sports">
                 <span class="ni">🏃</span> Sports
             </a>
-            <a class="nav-item<?= $activeNav === 'sports' ? ' active' : '' ?>" href="/sports">
+            <a class="nav-item<?= $activeNav === 'regimes_sports' ? ' active' : '' ?>" href="/regimes_sports">
                 <span class="ni">🔥</span> Régimes avec sports
             </a>
 

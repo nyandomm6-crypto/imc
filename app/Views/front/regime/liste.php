@@ -25,6 +25,7 @@
         <div class="card-body">
             <div class="generate-content">
                 <?php if (isset($suggestionPreview) && !empty($suggestionPreview)): ?>
+                    
                     <div class="suggestion-preview" style="background: rgba(45,212,160,0.1); border: 1px solid rgba(45,212,160,0.3); border-radius: 8px; padding: 20px; margin: 0 0 20px 0;">
                         <div style="font-size: 14px; font-weight: 600; color: var(--green); margin-bottom: 8px;">
                             🎯 Régime suggéré pour vous :
@@ -41,6 +42,7 @@
                             </div>
                         <?php endif; ?>
                     </div>
+
                     <div style="display: flex; gap: 10px; margin-top: 20px;">
                         <form action="<?= site_url('regimes/confirmer') ?>" method="post" style="flex: 1;">
                             <?= csrf_field() ?>

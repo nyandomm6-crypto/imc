@@ -33,11 +33,12 @@ class SportController extends BaseController
             return redirect()->to('/');
         }
 
-        // Récupérer l'objectif principal de l'utilisateur
-        $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
+        $dataObjectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
 
-        // Pré-calculer la suggestion pour afficher le nom
-        $suggestion = $this->suggestionModel->getSuggestionSport($objectif);
+        $objectif = $dataObjectif['libelle'] ?? null;
+        $valeur = (float) ($dataObjectif['valeur_cible'] ?? 0);
+
+        $suggestion = $this->suggestionModel->getSuggestionRegime($objectif, $valeur);
 
         return view('front/sport/liste', [
             'pageTitle' => 'Sports',
@@ -54,11 +55,12 @@ class SportController extends BaseController
             return redirect()->to('/');
         }
 
-        // Récupérer l'objectif principal de l'utilisateur
-        $objectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
+        $dataObjectif = $this->suggestionModel->getObjectifPrincipalUtilisateur($utilisateurId);
 
-        // Générer une nouvelle suggestion basée sur l'objectif
-        $suggestion = $this->suggestionModel->getSuggestionSport($objectif);
+        $objectif = $dataObjectif['libelle'] ?? null;
+        $valeur = (float) ($dataObjectif['valeur_cible'] ?? 0);
+
+        $suggestion = $this->suggestionModel->getSuggestionRegime($objectif, $valeur);
 
         return redirect()->to('/sports')->with('info', 'Nouvelle suggestion générée.');
     }
